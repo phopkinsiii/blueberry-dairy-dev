@@ -1,0 +1,30 @@
+# Ignore shell scripts with secrets
+*.sh
+
+# Ignore root-level environment files
+.env
+.env.*
+client/.env
+server/.env
+
+# Node modules (if you ever add root-level packages)
+node_modules/
+client/node_modules
+
+dist
+client/dist
+
+
+# Mac system files
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.DS_Store
+
+# Prevent GitHub Copilot & IDE metadata (optional)
+.vscode/
+.idea/

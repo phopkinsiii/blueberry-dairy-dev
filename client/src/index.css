@@ -1,0 +1,195 @@
+/* === Custom global styles (theme, variables) === */
+:root {
+	--bg-color: #d1d5db; /* Tailwind gray-300 */
+	--text-color: #1a1a1a;
+	--input-bg: #e5e7eb; /* Tailwind gray-200 */
+	--border-color: #cbd5e1; /* Tailwind gray-300ish */
+}
+
+[data-theme='dark'] {
+	--bg-color: #1a1a1a;
+	--text-color: #f5f5f5;
+	--input-bg: #2a2a2a;
+	--border-color: #444;
+}
+
+.editor-content {
+	background-color: var(--input-bg);
+	color: var(--text-color);
+	border: 1px solid var(--border-color);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	min-height: 300px;
+}
+
+body {
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tooltip-visible {
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* Tooltip container */
+.tooltip-glass {
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(255, 255, 255, 0.9); /* Light background */
+  color: #1a1a1a; /* Dark text for visibility */
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+ 
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Tooltip triangle (light mode) */
+.tooltip-glass::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 0.75rem;
+  border-width: 10px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+
+
+
+/* Tooltip for dark theme */
+[data-theme='dark'] .tooltip-glass {
+  background-color: rgba(30, 30, 30, 0.95);
+  color: #f5f5f5;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] .tooltip-glass::after {
+  border-color: rgba(30, 30, 30, 0.95) transparent transparent transparent;
+}
+
+
+/* === Import Tailwind (this processes Tailwind's layers) === */
+@import 'tailwindcss';
+
+/* className='w-full border-2 border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-green-400 placeholder-white placeholder:font-semibold placeholder:text-lg' */
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.animate-fade-in {
+	animation: fadeIn 0.75s ease-out forwards;
+}
+@layer utilities {
+	@keyframes scroll {
+		0% {
+			transform: translateX(100%);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
+	@keyframes fadeInUp {
+		0% {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.fade-in-up {
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	@keyframes roll-in-left {
+		0% {
+			transform: translateX(-200%) rotate(-720deg);
+			opacity: 0;
+		}
+		100% {
+			transform: translateX(0) rotate(0deg);
+			opacity: 1;
+		}
+	}
+
+	.roll-in-left {
+		animation: roll-in-left 1.2s ease-out both;
+	}
+}
+
+/* ✅ Define custom font variable here */
+:root {
+	--font-readable: 'Inter', sans-serif;
+}
+
+body {
+	font-family: 'Quicksand', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+input,
+textarea,
+select,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Inter', sans-serif;
+}
+
+/* ✅ Reusable utility class */
+.readable-input {
+	font-family: var(--font-readable);
+	font-size: 1rem;
+	letter-spacing: 0.015em;
+}
+
+@layer utilities {
+	@keyframes float {
+		0% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-8px);
+		}
+		100% {
+			transform: translateY(0);
+		}
+	}
+
+	.animate-float {
+		animation: float 4s ease-in-out infinite;
+	}
+}
+
+.font-playfair {
+	font-family: 'Playfair Display', serif;
+}
+
+.font-lora {
+	font-family: 'Lora', serif;
+}

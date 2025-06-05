@@ -1,0 +1,14 @@
+{
+	"name": "blueberrydairy-root",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev:server": "npm --prefix server run dev",
+		"dev:client": "npm --prefix client run dev",
+		"stripe-listen": "./start-stripe-listener.sh",
+		"dev": "concurrently -n SERVER,CLIENT,STRIPE -c green,cyan,magenta \"npm run dev:server\" \"npm run dev:client\" \"npm run stripe-listen\""
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	}
+}
