@@ -82,10 +82,17 @@ const ProductCard = ({ product }) => {
 						</div>
 					)}
 					<button
-						onClick={handleAddToCart}
-						className='mt-auto w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition'
+						onClick={() => handleAddToCart(product)}
+						disabled={product.stock === 0}
+						className={`mt-2 px-4 py-2 rounded text-white transition 
+    ${
+			product.stock === 0
+				? 'bg-gray-400 cursor-not-allowed'
+				: 'bg-green-600 hover:bg-green-700'
+		}
+  `}
 					>
-						Add to Cart
+						{product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
 					</button>
 				</div>
 			</div>

@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 
 const GoatCard = ({ goat }) => {
-	const image = goat.images?.[0]; // Show only the first image
+	
 
 	return (
 		<div className='bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 border border-stone-200 min-h-[600px] flex flex-col'>
