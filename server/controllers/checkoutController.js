@@ -2,12 +2,15 @@
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import Order from '../models/orderModel.js';
-// import { sendOrderConfirmationEmail } from '../utils/sendOrderEmail.js';
 import { sendOrderConfirmationEmail } from '../utils/email/sendOrderEmail.js';
+
 dotenv.config();
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 const truncate = (str, maxLength = 150) =>
 	str?.length > maxLength ? str.slice(0, maxLength - 3) + '...' : str;
+
 export const createCheckoutSession = async (req, res) => {
 	try {
 		const { form, cartItems } = req.body;
@@ -18,7 +21,7 @@ export const createCheckoutSession = async (req, res) => {
 
 		console.log('💬 Received payload:', { form, cartItems });
 
-		// Build line items for Stripe session (optional: more detail)
+		// Build line items for Stripe session
 		const line_items = cartItems.map((item) => ({
 			price_data: {
 				currency: 'usd',
@@ -42,7 +45,7 @@ export const createCheckoutSession = async (req, res) => {
 			pickupTime: form.pickupTime,
 			cart: JSON.stringify(
 				cartItems.map((item) => ({
-					productId: item._id, // ✅ Required for Order schema
+					productId: item._id,
 					name: item.name,
 					quantity: item.quantity,
 					price: item.price,
@@ -51,13 +54,19 @@ export const createCheckoutSession = async (req, res) => {
 			),
 		};
 
+		const successUrl = `${process.env.FRONTEND_URL}/confirmation?session_id={{CHECKOUT_SESSION_ID}}`;
+		const cancelUrl = `${process.env.FRONTEND_URL}/checkout?canceled=true`;
+
+		console.log('🔁 success_url:', successUrl);
+		console.log('🔁 cancel_url:', cancelUrl);
+
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ['card'],
 			mode: 'payment',
 			line_items,
 			metadata,
-			success_url: `${process.env.FRONTEND_URL}/confirmation?session_id={{CHECKOUT_SESSION_ID}}`,
-			cancel_url: `${process.env.FRONTEND_URL}/checkout?canceled=true`,
+			success_url: successUrl,
+			cancel_url: cancelUrl,
 		});
 
 		console.log('✅ Stripe session created:', session.id);
