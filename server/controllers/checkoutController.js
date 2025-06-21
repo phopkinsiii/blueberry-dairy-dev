@@ -54,7 +54,8 @@ export const createCheckoutSession = async (req, res) => {
 			),
 		};
 
-		const successUrl = `${process.env.FRONTEND_URL}/confirmation?session_id={{CHECKOUT_SESSION_ID}}`;
+		const successUrl = `${process.env.FRONTEND_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`;
+
 		const cancelUrl = `${process.env.FRONTEND_URL}/checkout?canceled=true`;
 
 		console.log('🔁 success_url:', successUrl);
