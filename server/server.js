@@ -4,12 +4,6 @@
 
 import dotenv from 'dotenv-flow';
 dotenv.config({ node_env: process.env.NODE_ENV }); // 👈 force load
-// console.log('🧪 NODE_ENV:', process.env.NODE_ENV);
-// console.log('🔐 STRIPE_SECRET_KEY starts with:', process.env.STRIPE_SECRET_KEY?.slice(0, 10));
-// console.log('📬 STRIPE_WEBHOOK_SECRET starts with:', process.env.STRIPE_WEBHOOK_SECRET?.slice(0, 10));
-
-// Debug check
-// console.log('🔑 STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY);
 
 import { validateEnv } from './config/validateEnv.js';
 validateEnv(); // ✅ Ensure all env variables are defined
