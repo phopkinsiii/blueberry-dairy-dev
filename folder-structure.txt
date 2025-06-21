@@ -1,0 +1,226 @@
+.
+├── client
+│   ├── dist
+│   │   ├── _redirects
+│   │   ├── assets
+│   │   │   ├── index-BL3eIzzj.js
+│   │   │   └── index-CQg1kVbG.css
+│   │   ├── images
+│   │   │   ├── ace_ready.jpeg
+│   │   │   ├── apple1.jpg
+│   │   │   ├── big_dairy.jpg
+│   │   │   ├── BlueberriesInHand.jpg
+│   │   │   ├── blueberrieslg.jpg
+│   │   │   ├── blueberriesxl.jpg
+│   │   │   ├── cow.jpg
+│   │   │   ├── creek_barn.jpg
+│   │   │   ├── creek1.jpg
+│   │   │   ├── deer_and_apples.webp
+│   │   │   ├── farm-banner.jpg
+│   │   │   ├── Final Banner.png
+│   │   │   ├── goat_logo_3.png
+│   │   │   ├── goat_logo1.png
+│   │   │   ├── goat_logo2.png
+│   │   │   ├── Goats 2025
+│   │   │   ├── house.jpg
+│   │   │   ├── house2.jpg
+│   │   │   ├── isaac_banner.jpg
+│   │   │   ├── Judy_and_ball.jpeg
+│   │   │   ├── judy.jpeg
+│   │   │   ├── milk1.jpg
+│   │   │   ├── mountain_in_clouds.jpeg
+│   │   │   ├── myLogo.png
+│   │   │   ├── navbar-bg.png
+│   │   │   ├── pasture_scene.jpg
+│   │   │   ├── piggyback.png
+│   │   │   ├── Pond.jpg
+│   │   │   ├── Pond2.jpg
+│   │   │   ├── pond3.jpg
+│   │   │   ├── rolling_hills.jpg
+│   │   │   ├── rolling_hills2.jpg
+│   │   │   ├── smoothie.jpg
+│   │   │   ├── snow_scene.zip
+│   │   │   └── thumbnails
+│   │   ├── index.html
+│   │   └── videos
+│   │       ├── Albert1.mov
+│   │       ├── Albert2.mov
+│   │       ├── Amanda1.mov
+│   │       ├── Coco and Patsys Kids 2025.mov
+│   │       ├── Cocoa and her Babies 2025.mov
+│   │       ├── Piggy Back 2025.mov
+│   │       ├── The whole gang 2025.mov
+│   │       └── thewholegang.psd
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── _redirects
+│   │   └── images
+│   │       ├── blog_images
+│   │       ├── goat_images
+│   │       ├── page_images
+│   │       ├── product_images
+│   │       └── thumbnails
+│   ├── README.md
+│   ├── src
+│   │   ├── api
+│   │   │   └── axios.js
+│   │   ├── App.jsx
+│   │   ├── components
+│   │   │   ├── AccessDenied.jsx
+│   │   │   ├── AdminDropdown.jsx
+│   │   │   ├── AuthButton.jsx
+│   │   │   ├── blog
+│   │   │   ├── ConfirmRoleChangeModal.jsx
+│   │   │   ├── FarmMap.jsx
+│   │   │   ├── ForgotPassword.jsx
+│   │   │   ├── forum
+│   │   │   ├── goats
+│   │   │   ├── HomeLinksSection.jsx
+│   │   │   ├── ImageUploadWithPreview.jsx
+│   │   │   ├── layouts
+│   │   │   ├── Logo.jsx
+│   │   │   ├── MenuBar.jsx
+│   │   │   ├── NavbarLayout.jsx
+│   │   │   ├── PasswordStrengthMeter.jsx
+│   │   │   ├── PayNowButton.jsx
+│   │   │   ├── PopoverMessage.jsx
+│   │   │   ├── ResetPassword.jsx
+│   │   │   ├── ScrollingBanner.jsx
+│   │   │   ├── SeoHead.jsx
+│   │   │   ├── SlideShow.jsx
+│   │   │   ├── Spinner.jsx
+│   │   │   ├── StickyNavbar.jsx
+│   │   │   ├── ThemeToggleButton.jsx
+│   │   │   └── UserGreeting.jsx
+│   │   ├── config
+│   │   │   └── navigation.js
+│   │   ├── content
+│   │   │   ├── rawMilkContent.js
+│   │   │   └── simpleBlogTemplate.js
+│   │   ├── contexts
+│   │   │   ├── BlogContext.jsx
+│   │   │   ├── CartContext.jsx
+│   │   │   ├── ContactContext.jsx
+│   │   │   ├── ForumContext.jsx
+│   │   │   ├── GoatContext.jsx
+│   │   │   ├── NavbarContext.jsx
+│   │   │   ├── ProductContext.jsx
+│   │   │   ├── ThemeContext.jsx
+│   │   │   └── UserContext.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages
+│   │   │   ├── Accessibility.jsx
+│   │   │   ├── admin
+│   │   │   ├── blog
+│   │   │   ├── Contact.jsx
+│   │   │   ├── forum
+│   │   │   ├── goats
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── OurFarm.jsx
+│   │   │   ├── products
+│   │   │   └── Register.jsx
+│   │   ├── reducers
+│   │   │   └── forumReducer.js
+│   │   ├── services
+│   │   │   ├── authService.js
+│   │   │   ├── forumService.js
+│   │   │   ├── goatService.js
+│   │   │   ├── productService.js
+│   │   │   └── uploadService.js
+│   │   └── utils
+│   │       ├── seo.js
+│   │       └── validators.js
+│   └── vite.config.js
+├── Codesnippets.md
+├── folder-structure.txt
+├── package-lock.json
+├── package.json
+├── Readme.md
+├── server
+│   ├── config
+│   │   ├── corsOptions.js
+│   │   ├── db.js
+│   │   └── stripe.js
+│   ├── controllers
+│   │   ├── blogController.js
+│   │   ├── checkoutController.js
+│   │   ├── contactController.js
+│   │   ├── forumController.js
+│   │   ├── goatController.js
+│   │   ├── orderController.js
+│   │   ├── productController.js
+│   │   ├── uploadController.js
+│   │   ├── userController.js
+│   │   └── webhookController.js
+│   ├── middleware
+│   │   ├── authMiddleware.js
+│   │   ├── errorHandler.js
+│   │   ├── uploadsMiddleware.js
+│   │   ├── validateRequest.js
+│   │   ├── validationResultHandler.js
+│   │   └── validators
+│   │       ├── checkoutValidator.js
+│   │       └── userValidators.js
+│   ├── models
+│   │   ├── blogModel.js
+│   │   ├── contactModel.js
+│   │   ├── forumPostModel.js
+│   │   ├── goatModel.js
+│   │   ├── orderModel.js
+│   │   ├── productModel.js
+│   │   └── userModel.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes
+│   │   ├── blogRoutes.js
+│   │   ├── checkoutRoutes.js
+│   │   ├── contactRoutes.js
+│   │   ├── forumRoutes.js
+│   │   ├── goatRoutes.js
+│   │   ├── orderRoutes.js
+│   │   ├── productRoutes.js
+│   │   ├── uploadRoutes.js
+│   │   ├── userRoutes.js
+│   │   └── webhookRoutes.js
+│   ├── scripts
+│   │   └── batchUploadToCloudinary.js
+│   ├── server.js
+│   ├── uploads
+│   │   ├── 1746617396860-Ad Picture.jpg
+│   │   ├── 1746621698015-Banner 4 Best.png
+│   │   ├── 1746635146582-Banner 5 Best of all.png
+│   │   ├── 1746635391871-Banner 6 shifted right.png
+│   │   ├── 1747346296310-creek_barn.jpg
+│   │   ├── 1747478336756-judy.jpeg
+│   │   ├── 1747480708441-Ada.jpg
+│   │   ├── 1747481038611-Ada.jpg
+│   │   ├── 1747481997061-Ada.jpg
+│   │   ├── 1747762550567-Robert.jpg
+│   │   ├── 1747772500446-blueberriesinhand.jpg
+│   │   ├── 1747772968521-blueberriesinhand.jpg
+│   │   ├── 1747774302148-blueberriesinhand.jpg
+│   │   ├── 1747774327954-blueberriesinhand.jpg
+│   │   ├── 1747774841322-blueberrieslg.jpg
+│   │   ├── 1747775344033-blueberrieslg.jpg
+│   │   ├── 1747775530838-blueberrieslg.jpg
+│   │   ├── 1747775600780-blueberrieslg.jpg
+│   │   ├── 1747775763967-blueberrieslg.jpg
+│   │   ├── 1747776699782-ace_ready.jpeg
+│   │   ├── 1747823468822-milk1.jpg
+│   │   ├── 1748032115846-BlueberriesInHand.jpg
+│   │   ├── 1748032285527-milk1.jpg
+│   │   └── 1748433405848-albert.jpg
+│   └── utils
+│       ├── createUserResponse.js
+│       ├── generateToken.js
+│       ├── sendEmail.js
+│       └── validators.js
+├── start-stripe-listener.sh
+└── stripe-testing-readme.md
+
+44 directories, 180 files
