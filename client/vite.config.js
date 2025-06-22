@@ -1,3 +1,5 @@
+console.log('✅ vite.config.js is running — Tailwind v4 + static copy active');
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -12,7 +14,7 @@ export default defineConfig({
 			targets: [
 				{
 					src: 'public/_redirects',
-					dest: '.', // will copy to dist/_redirects
+					dest: '.', // → dist/_redirects
 				},
 			],
 		}),
