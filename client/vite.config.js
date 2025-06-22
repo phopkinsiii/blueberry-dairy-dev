@@ -16,12 +16,12 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [
 				{
-					src: 'public/_redirects', // ✅ this file should exist
-					dest: '.', // ✅ goes to dist/_redirects
+					src: 'public/_redirects',
+					dest: '.',
 				},
 				{
-					src: 'public/200.html', // ✅ fallback page
-					dest: '.', // ✅ goes to dist/200.html
+					src: 'public/200.html',
+					dest: '.',
 				},
 			],
 		}),
