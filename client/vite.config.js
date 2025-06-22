@@ -15,8 +15,13 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [
 				{
-					src: 'public/_redirects',
-					dest: '.', // → dist/_redirects
+					src: 'public/__redirects',
+					dest: '.',
+					rename: '_redirects',
+				},
+				{
+					src: 'public/200.html',
+					dest: '.', // fallback for SPA routing
 				},
 			],
 		}),
