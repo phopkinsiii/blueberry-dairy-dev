@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { resolve } from 'path';
+
 console.log('✅ Output dir:', resolve('dist'));
 
 export default defineConfig({
@@ -15,13 +16,12 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [
 				{
-					src: 'public/__redirects',
-					dest: '.',
-					rename: '_redirects',
+					src: 'public/_redirects', // ✅ this file should exist
+					dest: '.', // ✅ goes to dist/_redirects
 				},
 				{
-					src: 'public/200.html',
-					dest: '.', // fallback for SPA routing
+					src: 'public/200.html', // ✅ fallback page
+					dest: '.', // ✅ goes to dist/200.html
 				},
 			],
 		}),
