@@ -47,6 +47,7 @@ import ScrollToTop from './components/ScrollToTop.jsx';
 import ForSaleGoats from './pages/goats/ForSaleGoats';
 import DoesGoats from './pages/goats/DoesGoats';
 import BuckGoats from './pages/goats/BuckGoats.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 function App() {
 	return (
@@ -68,6 +69,7 @@ function App() {
 			<div className='flex-grow'>
 				<NavbarLayout>
 					<Routes>
+						<Route path='*' element=<NotFound /> />
 						<Route path='/' element={<Home />} />
 						<Route path='/products' element={<ProductList />} />
 						<Route path='/products/:id' element={<ProductDetails />} />
