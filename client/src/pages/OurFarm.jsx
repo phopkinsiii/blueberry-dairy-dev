@@ -41,12 +41,12 @@ export default function OurFarm() {
 	return (
 		<>
 			{/* SEO Metadata */}
-<SeoHead
-  title='About Our Farm | Blueberry Dairy'
-  description="Discover Blueberry Dairy's regenerative farming practices, Nigerian Dwarf dairy goats, and commitment to healthy food and a cleaner planet."
-  image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750275064/seo_soil_in_hand_zg3sew.jpg'
-  url='https://www.blueberrydairy.com/our-farm'
-/>
+			<SeoHead
+				title='About Our Farm | Blueberry Dairy'
+				description="Discover Blueberry Dairy's regenerative farming practices, Nigerian Dwarf dairy goats, and commitment to healthy food and a cleaner planet."
+				image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750275064/seo_soil_in_hand_zg3sew.jpg'
+				url='https://www.blueberrydairy.com/our-farm'
+			/>
 
 			<JsonLd data={getOrganizationSchema()} />
 
@@ -103,8 +103,8 @@ export default function OurFarm() {
 											</div>
 											<div className='relative'>
 												<img
-													alt='Pond and Farm Gate'
-													src='https://res.cloudinary.com/dzhweqopn/image/upload/v1749290453/pond_and_gate_qqmtbu.jpg'
+													alt='Healthy Soil in Hand'
+													src='https://res.cloudinary.com/dzhweqopn/image/upload/v1750272279/soil_in_hand_hqbdnb.jpg'
 													className='aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
 												/>
 												<div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset' />

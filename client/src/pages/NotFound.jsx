@@ -1,35 +1,34 @@
-// @ts-nocheck
+// src/pages/NotFound.jsx
 import { Link } from 'react-router-dom';
-import SeoHead from '../components/SeoHead';
 
 const NotFound = () => {
 	return (
-		<div className='min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-neutral-900 px-4 text-center font-lora fade-in-focus'>
-			<SeoHead
-				title='404 - Page Not Found | Blueberry Dairy'
-				description='Oops! The page you’re looking for doesn’t exist.'
-			/>
-
+		<div className='relative w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden'>
+			{/* Background Image */}
 			<img
 				src='https://res.cloudinary.com/dzhweqopn/image/upload/v1750641018/404_error_img_yfommz.jpg'
-				alt='Lost goat — 404 not found'
-				className='max-w-md w-full mb-8 rounded-lg shadow-lg fade-in-grow'
+				alt='404 not found'
+				className='absolute inset-0 w-full h-full object-cover z-0 animate-zoom-in-once'
 			/>
 
-			<h1 className='text-4xl font-bold text-gray-800 dark:text-white mb-4 fade-in-grow'>
-				Page Not Found
-			</h1>
+			{/* Overlay */}
+			<div className='absolute inset-0 bg-black/60 z-10' />
 
-			<p className='text-lg text-gray-600 dark:text-gray-300 mb-6 fade-in-grow'>
-				Sorry, the page you're looking for doesn’t exist or was moved.
-			</p>
-
-			<Link
-				to='/'
-				className='inline-block bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition duration-300 transform hover:scale-105 fade-in-grow'
-			>
-				Return to Home
-			</Link>
+			{/* Content */}
+			<div className='relative z-20 text-center text-white px-6'>
+				<h1 className='text-6xl md:text-7xl font-bold fade-in-grow drop-shadow-lg mb-4'>
+					404
+				</h1>
+				<p className='text-xl md:text-2xl mb-8 animate-float-in'>
+					Oops! The page you're looking for doesn't exist.
+				</p>
+				<Link
+					to='/'
+					className='inline-block bg-white text-black font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-200 transition'
+				>
+					Go Back Home
+				</Link>
+			</div>
 		</div>
 	);
 };
