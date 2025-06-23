@@ -1,4 +1,5 @@
 // @ts-nocheck
+// src/pages/forum/ForumReplyForm.jsx
 import { useState } from 'react';
 import { useForumContext } from '../../contexts/ForumContext';
 import { toast } from 'react-toastify';
@@ -8,7 +9,34 @@ const ForumReplyForm = ({ postId }) => {
 	const { addReply } = useForumContext();
 	const [content, setContent] = useState('');
 	const [author, setAuthor] = useState('');
+	const [uploading, setUploading] = useState(false);
 	const navigate = useNavigate();
+
+	const handleImageUpload = async (file) => {
+		if (!file) return;
+		setUploading(true);
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append(
+			'upload_preset',
+			import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+		);
+		formData.append('folder', 'forum');
+
+		try {
+			const res = await fetch(import.meta.env.VITE_CLOUDINARY_UPLOAD_URL, {
+				method: 'POST',
+				body: formData,
+			});
+			const data = await res.json();
+			setContent((prev) => `${prev}\n\n![uploaded image](${data.secure_url})`);
+		} catch (err) {
+			console.error('Image upload error:', err);
+			toast.error('Image upload failed');
+		} finally {
+			setUploading(false);
+		}
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -37,6 +65,38 @@ const ForumReplyForm = ({ postId }) => {
 			className='space-y-4 mt-8 p-6 rounded-lg bg-white/10 backdrop-blur-md text-white shadow-lg max-w-3xl mx-auto'
 		>
 			<h3 className='text-2xl font-bold'>Post a Reply</h3>
+
+			<div className='flex flex-col gap-2'>
+				<label className='font-semibold'>Attach an image</label>
+
+				<label
+					htmlFor='upload-image-reply'
+					className='w-fit inline-block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-200 shadow-md'
+				>
+					Choose Image
+				</label>
+				<input
+					id='upload-image-reply'
+					type='file'
+					accept='image/*'
+					disabled={uploading}
+					onChange={(e) => handleImageUpload(e.target.files[0])}
+					className='hidden'
+				/>
+
+				<input
+					type='text'
+					placeholder='Or paste image URL...'
+					className='w-full border p-2 rounded bg-white text-black'
+					onBlur={(e) => {
+						if (e.target.value)
+							setContent(
+								(prev) => `${prev}\n\n![linked image](${e.target.value})`
+							);
+						e.target.value = '';
+					}}
+				/>
+			</div>
 
 			<textarea
 				value={content}

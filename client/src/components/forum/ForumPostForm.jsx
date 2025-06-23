@@ -10,7 +10,34 @@ const ForumPostForm = ({ onPostSuccess }) => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [author, setAuthor] = useState('');
+	const [uploading, setUploading] = useState(false);
 	const navigate = useNavigate();
+
+	const handleImageUpload = async (file) => {
+		if (!file) return;
+		setUploading(true);
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append(
+			'upload_preset',
+			import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+		);
+		formData.append('folder', 'forum');
+
+		try {
+			const res = await fetch(import.meta.env.VITE_CLOUDINARY_UPLOAD_URL, {
+				method: 'POST',
+				body: formData,
+			});
+			const data = await res.json();
+			setContent((prev) => `${prev}\n\n![uploaded image](${data.secure_url})`);
+		} catch (err) {
+			console.error('Image upload error:', err);
+			toast.error('Image upload failed');
+		} finally {
+			setUploading(false);
+		}
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -24,8 +51,8 @@ const ForumPostForm = ({ onPostSuccess }) => {
 
 		try {
 			await addPost(postData);
-			 toast.success('Post created successfully!');
-      setTimeout(() => navigate('/forum'), 500); // brief delay to allow toast
+			toast.success('Post created successfully!');
+			setTimeout(() => navigate('/forum'), 500);
 			setTitle('');
 			setContent('');
 			setAuthor('');
@@ -34,7 +61,7 @@ const ForumPostForm = ({ onPostSuccess }) => {
 			console.error('Post creation failed:', err.message);
 		}
 	};
-
+const inputClass='w-full border-2 border-gray-100 p-3 rounded focus:outline-none focus:bg-gray-200 focus:text-black focus:font-bold placeholder-white placeholder:font-semibold placeholder:text-lg'
 	return (
 		<>
 			<Title>Start a New Forum Post | Blueberry Dairy</Title>
@@ -47,7 +74,7 @@ const ForumPostForm = ({ onPostSuccess }) => {
 			<div
 				className='bg-cover bg-center min-h-screen flex items-center justify-center px-6 py-20'
 				style={{
-					backgroundImage: `url('/images/blueberriesxl.jpg')`, // Or use another farm-themed image
+					backgroundImage: `url('/images/blueberriesxl.jpg')`,
 					fontFamily: `'Lora', serif`,
 				}}
 			>
@@ -62,15 +89,49 @@ const ForumPostForm = ({ onPostSuccess }) => {
 							placeholder='Post Title'
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							className='w-full border-2 border-gray-100 p-3 rounded focus:outline-none focus:bg-gray-200 placeholder-white placeholder:font-semibold placeholder:text-lg'
+							className={inputClass}
 						/>
+
+						<div className='flex flex-col gap-2'>
+							<label className='font-semibold text-white'>
+								Attach an image
+							</label>
+
+							<label
+								htmlFor='upload-image-post'
+								className='w-fit inline-block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-200 shadow-md'
+							>
+								Choose Image
+							</label>
+							<input
+								id='upload-image-post'
+								type='file'
+								accept='image/*'
+								disabled={uploading}
+								onChange={(e) => handleImageUpload(e.target.files[0])}
+								className='hidden'
+							/>
+
+							<input
+								type='text'
+								placeholder='Or paste image URL...'
+								className='w-full border p-2 rounded bg-white text-black'
+								onBlur={(e) => {
+									if (e.target.value)
+										setContent(
+											(prev) => `${prev}\n\n![linked image](${e.target.value})`
+										);
+									e.target.value = '';
+								}}
+							/>
+						</div>
 
 						<textarea
 							placeholder="What's on your mind?"
 							value={content}
 							onChange={(e) => setContent(e.target.value)}
 							rows={5}
-							className='w-full border-2 border-gray-200 p-3 rounded focus:outline-none focus:ring-2 focus:ring-green-400 placeholder-white placeholder:font-semibold placeholder:text-lg'
+							className={inputClass}
 						/>
 
 						<input
@@ -78,7 +139,7 @@ const ForumPostForm = ({ onPostSuccess }) => {
 							placeholder='Your name (optional)'
 							value={author}
 							onChange={(e) => setAuthor(e.target.value)}
-							className='w-full border-2 border-gray-200 p-3 rounded focus:outline-none focus:ring-2 focus:ring-green-400 placeholder-white placeholder:font-semibold placeholder:text-lg'
+							className={inputClass}
 						/>
 
 						<div className='flex justify-between items-center'>
