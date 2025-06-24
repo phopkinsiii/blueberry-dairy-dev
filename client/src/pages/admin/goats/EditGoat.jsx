@@ -30,7 +30,6 @@ const EditGoat = () => {
 
 				setGoat(fetchedGoat);
 				console.log('🐐 Loaded goat:', fetchedGoat);
-
 			} catch (err) {
 				console.error(err);
 				setError('Failed to load goat data');
@@ -125,16 +124,20 @@ const EditGoat = () => {
 		<div className='max-w-2xl mx-auto p-6 bg-white shadow-md'>
 			<h2 className='text-2xl font-bold mb-4 text-gray-800'>Edit Goat</h2>
 			{error && <p className='text-red-500 mb-4'>{error}</p>}
-			<GoatForm
-				goat={goat}
-				handleChange={handleChange}
-				handleAwardsChange={handleAwardsChange}
-				addAward={addAward}
-				handleImageUpload={handleImageUpload}
-				removeImage={removeImage}
-				onSubmit={handleSubmit}
-				isEdit
-			/>
+			{goat && goat.dob ? (
+				<GoatForm
+					goat={goat}
+					handleChange={handleChange}
+					handleAwardsChange={handleAwardsChange}
+					addAward={addAward}
+					handleImageUpload={handleImageUpload}
+					removeImage={removeImage}
+					onSubmit={handleSubmit}
+					isEdit
+				/>
+			) : (
+				<p>Loading goat data...</p>
+			)}
 		</div>
 	);
 };
