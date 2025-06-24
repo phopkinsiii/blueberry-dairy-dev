@@ -12,6 +12,20 @@ export const sendOrderConfirmationEmail = async ({
 	isAdminCopy = false,
 }) => {
 	const resend = new Resend(process.env.RESEND_API_KEY);
+
+	// 🔍 Log key inputs before sending
+	console.log('📧 Preparing email with Resend...');
+	console.log('📧 To:', to);
+	console.log('📧 Subject:', subject);
+	console.log('📧 From: Blueberry Dairy <orders@blueberrydairy.com>');
+	console.log('📧 Pickup:', { pickupName, pickupLocation, pickupTime });
+	console.log('📧 Cart Items:', cartItems);
+	console.log(
+		'📧 Using Resend API key:',
+		process.env.RESEND_API_KEY?.slice(0, 6) + '...'
+	);
+	console.log('📧 Sending admin copy:', isAdminCopy);
+
 	try {
 		const html = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px;">
@@ -54,7 +68,8 @@ export const sendOrderConfirmationEmail = async ({
 			html,
 		});
 
-		console.log(`📧 Order email sent to ${to}`);
+		console.log(`✅ Order email sent to ${to}`);
+		console.log('📬 Resend response:', response);
 		return response;
 	} catch (error) {
 		console.error(`❌ Failed to send order email:`, error);

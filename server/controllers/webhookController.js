@@ -2,7 +2,6 @@
 // @ts-nocheck
 import Stripe from 'stripe';
 import Order from '../models/orderModel.js';
-//import { sendOrderConfirmationEmail } from '../utils/sendOrderEmail.js';
 import { sendOrderConfirmationEmail } from '../utils/email/sendOrderEmail.js';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -11,7 +10,11 @@ export const handleStripeWebhook = async (req, res) => {
 	let event;
 
 	try {
-		event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+		event = stripe.webhooks.constructEvent(
+			req.body,
+			sig,
+			process.env.STRIPE_WEBHOOK_SECRET
+		);
 		console.log('⚡ Webhook received:', event.type);
 	} catch (err) {
 		console.error('❌ Webhook signature verification failed.', err.message);

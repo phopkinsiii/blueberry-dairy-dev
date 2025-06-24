@@ -52,18 +52,24 @@ export const createCheckoutSession = async (req, res) => {
 		};
 
 		const session = await stripe.checkout.sessions.create({
-			payment_method_types: ['card'],
 			mode: 'payment',
+			payment_method_types: ['card'],
 			line_items,
-			metadata,
-			success_url: `${process.env.FRONTEND_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-			cancel_url: `${process.env.FRONTEND_URL}/checkout?canceled=true`,
+			metadata, // ✅ This adds metadata to the *session*
+			payment_intent_data: {
+				metadata, // ✅ This adds metadata to the *PaymentIntent*
+			},
+			success_url: `${process.env.CLIENT_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+			cancel_url: `${process.env.CLIENT_URL}/checkout?canceled=true`,
 		});
 
 		console.log('✅ Stripe session created:', session.id);
 		res.status(200).json({ id: session.id });
 	} catch (error) {
-		console.error('❌ Error creating checkout session:', error);
-		res.status(500).json({ message: 'Failed to create checkout session' });
+		console.error('🔥 Stripe error:', error);
+		res.status(500).json({
+			message: 'Failed to create checkout session',
+			error: error.message,
+		});
 	}
 };

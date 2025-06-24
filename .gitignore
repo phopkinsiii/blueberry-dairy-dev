@@ -1,0 +1,20 @@
+# Ignore node modules
+node_modules/
+
+# Ignore logs
+*.log
+
+# Ignore dotenv files (protect secrets!)
+.env
+.env.local
+.env.*.local
+
+# Optional: OS-specific
+.DS_Store
+Thumbs.db
+
+# Ignore Vite/Next/React build output (if any)
+dist/
+build/
+
+start-dev.js
