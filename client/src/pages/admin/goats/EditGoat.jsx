@@ -7,6 +7,7 @@ import imageCompression from 'browser-image-compression';
 import { useUserContext } from '../../../contexts/UserContext';
 import GoatForm from '../../../components/goats/GoatForm';
 import { toast } from 'react-toastify';
+import { toInputDateFormat } from '../../../utils/dateHelpers';
 
 const EditGoat = () => {
 	const { id } = useParams();
@@ -20,8 +21,16 @@ const EditGoat = () => {
 		const fetchGoat = async () => {
 			try {
 				const res = await axiosInstance.get(`/goats/${id}`);
-				setGoat(res.data);
+				const fetchedGoat = res.data;
+
+				if (fetchedGoat.dob) {
+					fetchedGoat.dob = toInputDateFormat(fetchedGoat.dob);
+				}
+
+				setGoat(fetchedGoat);
+				console.log('🐐 Loaded goat:', fetchedGoat);
 			} catch (err) {
+				console.error(err);
 				setError('Failed to load goat data');
 			}
 		};

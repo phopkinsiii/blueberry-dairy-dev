@@ -1,0 +1,1 @@
+stripe listen --forward-to localhost:5050/api/webhook

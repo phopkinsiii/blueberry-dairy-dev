@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../../contexts/CartContext';
 import axiosInstance from '../../api/axios';
@@ -19,7 +19,7 @@ const Checkout = () => {
 		pickupLocation: 'Farm',
 		pickupTime: '',
 	});
-
+	const dateInputRef = useRef();
 	const [loading, setLoading] = useState(false);
 	const inputClass =
 		'w-full border-3 border-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400';
@@ -105,13 +105,24 @@ const Checkout = () => {
 								<option value='Market Stand'>Market Stand</option>
 								<option value='Local Delivery'>Local Delivery</option>
 							</select>
+							<label htmlFor='pickupTime' className='text-sm text-stone-700'>
+								Select pickup date and time
+							</label>
 
 							<input
 								type='datetime-local'
 								name='pickupTime'
 								value={form.pickupTime}
-								onChange={handleChange}
+								onChange={(e) => {
+									handleChange(e);
+
+									// Auto-close the picker if full datetime is selected
+									if (e.target.value) {
+										dateInputRef.current?.blur();
+									}
+								}}
 								className={inputClass}
+								ref={dateInputRef}
 							/>
 
 							<div className='flex justify-end mt-4'>

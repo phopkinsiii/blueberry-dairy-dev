@@ -4,8 +4,10 @@
 	"description": "root directory package.json",
 	"main": "start-dev.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"startDevFull": "node start-dev.js"
+		"client": "npm --prefix client run dev",
+		"server": "npm --prefix server run dev",
+		"stripe:listen": "stripe listen --forward-to localhost:5050/api/stripe/webhook",
+		"dev": "concurrently \"npm run server\" \"npm run client\" \"npm run stripe:listen\""
 	},
 	"repository": {
 		"type": "git",
@@ -16,5 +18,8 @@
 	"bugs": {
 		"url": "https://github.com/phopkinsiii/blueberry-dairy-dev/issues"
 	},
-	"homepage": "https://github.com/phopkinsiii/blueberry-dairy-dev#readme"
+	"homepage": "https://github.com/phopkinsiii/blueberry-dairy-dev#readme",
+	"devDependencies": {
+		"concurrently": "^9.2.0"
+	}
 }
