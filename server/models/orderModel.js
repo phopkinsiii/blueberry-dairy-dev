@@ -40,6 +40,7 @@ const orderSchema = new mongoose.Schema(
 		pickupTime: { type: Date },
 		stripeSessionId: { type: String, required: true },
 		isFulfilled: { type: Boolean, default: false },
+		inventoryAdjusted: { type: Boolean, default: false },
 	},
 	{ timestamps: true }
 );

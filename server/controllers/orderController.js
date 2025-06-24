@@ -2,6 +2,7 @@
 // server/controllers/orderController.js
 
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
 import asyncHandler from 'express-async-handler';
 import { sendOrderConfirmationEmail } from '../utils/email/sendOrderEmail.js';
 
@@ -88,6 +89,7 @@ export const getOrderBySessionId = async (req, res) => {
 		res.json(order);
 	} catch (error) {
 		console.error('❌ Error in getOrderBySessionId:', error.message);
+		res.status(500).json({ message: 'Server error' });
 	}
 };
 
@@ -102,21 +104,29 @@ export const getAllOrders = async (req, res) => {
 	}
 };
 
-// Update fulfillment status
-export const updateOrderStatus = async (req, res) => {
-	try {
-		const { id } = req.params;
-		const { fulfilled } = req.body;
+// Update fulfillment status and adjust inventory
+export const updateOrderStatus = asyncHandler(async (req, res) => {
+	const { fulfilled } = req.body;
+	const order = await Order.findById(req.params.id);
 
-		const order = await Order.findById(id);
-		if (!order) return res.status(404).json({ message: 'Order not found' });
-
-		order.fulfilled = fulfilled;
-		await order.save();
-
-		res.json({ fulfilled: order.fulfilled });
-	} catch (error) {
-		console.error('❌ Error updating order status:', error.message);
-		res.status(500).json({ message: 'Server error' });
+	if (!order) {
+		res.status(404);
+		throw new Error('Order not found');
 	}
-};
+
+	order.isFulfilled = fulfilled;
+
+	if (fulfilled && !order.inventoryAdjusted) {
+		for (const item of order.cartItems) {
+			const product = await Product.findById(item.productId);
+			if (product) {
+				product.stock = Math.max(product.stock - item.quantity, 0);
+				await product.save();
+			}
+		}
+		order.inventoryAdjusted = true;
+	}
+
+	await order.save();
+	res.json(order);
+});
