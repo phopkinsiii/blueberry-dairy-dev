@@ -16,7 +16,7 @@ export const formatDate = (input, options = {}) => {
 			...options,
 		});
 	} catch (error) {
-    console.error(error)
+		console.error(error);
 		console.warn('⚠️ Invalid date input:', input);
 		return 'Invalid date';
 	}
@@ -46,12 +46,11 @@ export const getAgeInYearsAndMonths = (dob) => {
 
 		return parts.length > 0 ? parts.join(', ') : 'Less than 1 month';
 	} catch (error) {
-    console.error(error)
+		console.error(error);
 		console.warn('⚠️ Invalid DOB:', dob);
 		return 'Invalid age';
 	}
 };
-
 
 export const toInputDateFormat = (input) => {
 	if (!input) return '';

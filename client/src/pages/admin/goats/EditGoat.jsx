@@ -6,9 +6,8 @@ import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { useUserContext } from '../../../contexts/UserContext';
 import GoatForm from '../../../components/goats/GoatForm';
-import { toInputDateFormat } from '../../../utils/dateHelpers';
-
 import { toast } from 'react-toastify';
+import { toInputDateFormat } from '../../../utils/dateHelpers';
 
 const EditGoat = () => {
 	const { id } = useParams();
@@ -124,20 +123,16 @@ const EditGoat = () => {
 		<div className='max-w-2xl mx-auto p-6 bg-white shadow-md'>
 			<h2 className='text-2xl font-bold mb-4 text-gray-800'>Edit Goat</h2>
 			{error && <p className='text-red-500 mb-4'>{error}</p>}
-			{goat && goat.dob ? (
-				<GoatForm
-					goat={goat}
-					handleChange={handleChange}
-					handleAwardsChange={handleAwardsChange}
-					addAward={addAward}
-					handleImageUpload={handleImageUpload}
-					removeImage={removeImage}
-					onSubmit={handleSubmit}
-					isEdit
-				/>
-			) : (
-				<p>Loading goat data...</p>
-			)}
+			<GoatForm
+				goat={goat}
+				handleChange={handleChange}
+				handleAwardsChange={handleAwardsChange}
+				addAward={addAward}
+				handleImageUpload={handleImageUpload}
+				removeImage={removeImage}
+				onSubmit={handleSubmit}
+				isEdit
+			/>
 		</div>
 	);
 };
