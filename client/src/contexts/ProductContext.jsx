@@ -87,24 +87,27 @@ export const ProductProvider = ({ children }) => {
 		}
 	}, []);
 
-	// inside ProductContext.jsx
-	const updateProductStock = useCallback(async (id, stock) => {
-		try {
-			console.log('Sending update:', { id, amount: stock });
-			const res = await axiosInstance.patch(`/products/${id}/stock`, {
-				amount: stock, // 🔄 Correct field name
-			});
-			dispatch({
-				type: 'UPDATE_PRODUCT_STOCK_SUCCESS',
-				payload: res.data.product,
-			});
+	const updateProductStock = useCallback(
+		async (id, { amountToAdd, newStock }) => {
+			try {
+				const res = await axiosInstance.patch(`/products/${id}/stock`, {
+					amountToAdd,
+					newStock,
+				});
 
-			toast.success('Stock updated successfully');
-		} catch (error) {
-			console.error('Update stock error:', error.message);
-			toast.error('Failed to update stock');
-		}
-	}, []);
+				dispatch({
+					type: 'UPDATE_PRODUCT_STOCK_SUCCESS',
+					payload: res.data.product,
+				});
+
+				toast.success('Stock updated successfully');
+			} catch (error) {
+				console.error('Update stock error:', error.message);
+				toast.error('Failed to update stock');
+			}
+		},
+		[]
+	);
 
 	return (
 		<ProductContext.Provider

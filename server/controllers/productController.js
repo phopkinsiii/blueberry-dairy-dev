@@ -142,19 +142,29 @@ export const deleteProduct = async (req, res, next) => {
 
 //Update product stock
 export const updateProductStock = async (req, res) => {
-  const { id } = req.params;
-  const { amount } = req.body;
+	const { id } = req.params;
+	const { amountToAdd, newStock } = req.body;
 
-  try {
-    const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+	try {
+		const product = await Product.findById(id);
+		if (!product) {
+			return res.status(404).json({ message: 'Product not found' });
+		}
 
-    product.stock += amount;
-    await product.save();
+		if (typeof newStock === 'number' && !isNaN(newStock)) {
+			product.stock = newStock;
+		} else if (typeof amountToAdd === 'number' && !isNaN(amountToAdd)) {
+			product.stock += amountToAdd;
+		} else {
+			return res
+				.status(400)
+				.json({ message: 'No valid stock update value provided' });
+		}
 
-    res.status(200).json({ message: 'Stock updated', product });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+		await product.save();
+		res.status(200).json({ message: 'Stock updated', product });
+	} catch (err) {
+		console.error('Stock update error:', err.message);
+		res.status(500).json({ message: err.message });
+	}
 };
-
