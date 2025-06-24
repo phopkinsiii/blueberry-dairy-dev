@@ -51,3 +51,21 @@ export const getAgeInYearsAndMonths = (dob) => {
 		return 'Invalid age';
 	}
 };
+
+
+export const toInputDateFormat = (input) => {
+	if (!input) return '';
+
+	try {
+		const date =
+			typeof input === 'string'
+				? new Date(input)
+				: new Date(input?.$date || input);
+
+		return date.toISOString().split('T')[0]; // ✅ YYYY-MM-DD
+	} catch (error) {
+		console.error(error);
+		console.warn('⚠️ Invalid date input for form:', input);
+		return '';
+	}
+};
