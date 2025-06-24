@@ -29,6 +29,8 @@ const EditGoat = () => {
 				}
 
 				setGoat(fetchedGoat);
+				console.log('🐐 Loaded goat:', fetchedGoat);
+
 			} catch (err) {
 				console.error(err);
 				setError('Failed to load goat data');
