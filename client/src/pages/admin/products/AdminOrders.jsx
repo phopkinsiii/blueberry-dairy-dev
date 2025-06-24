@@ -17,6 +17,7 @@ export default function AdminOrders() {
 				const res = await axiosInstance.get('/orders');
 				setOrders(res.data);
 			} catch (err) {
+				console.log(err);
 				setError('Failed to load orders.');
 			} finally {
 				setLoading(false);
@@ -33,7 +34,12 @@ export default function AdminOrders() {
 			});
 			setOrders((prev) =>
 				prev.map((o) =>
-					o._id === orderId ? { ...o, fulfilled: res.data.fulfilled } : o
+					o._id === orderId
+						? {
+								...o,
+								fulfilled: res.data.isFulfilled, // map backend field to UI field
+						  }
+						: o
 				)
 			);
 		} catch (err) {
