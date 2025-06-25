@@ -41,12 +41,12 @@ export default function OurFarm() {
 	return (
 		<>
 			{/* SEO Metadata */}
-<SeoHead
-  title='About Our Farm | Blueberry Dairy'
-  description="Discover Blueberry Dairy's regenerative farming practices, Nigerian Dwarf dairy goats, and commitment to healthy food and a cleaner planet."
-  image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750275064/seo_soil_in_hand_zg3sew.jpg'
-  url='https://www.blueberrydairy.com/our-farm'
-/>
+			<SeoHead
+				title='About Our Farm | Blueberry Dairy'
+				description="Discover Blueberry Dairy's regenerative farming practices, Nigerian Dwarf dairy goats, and commitment to healthy food and a cleaner planet."
+				image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750275064/seo_soil_in_hand_zg3sew.jpg'
+				url='https://www.blueberrydairy.com/our-farm'
+			/>
 
 			<JsonLd data={getOrganizationSchema()} />
 
@@ -231,19 +231,18 @@ export default function OurFarm() {
 								/>
 								<span className='sr-only'>Click to view full-size image</span>
 							</a>
-							The deer in the photo at the bottom of the page are beautiful,
-							frequent visitors on our farm, but when they chewed all the
-							branches from our two-year-old apple trees, we had to add the wire
-							cages to keep them off. A year or two later, when the trees were
-							large enough to survive the deer browsing, and finally produce
-							their first crop, bears broke several large branches to get the
-							few half-ripe apples. Because they had no respect whatsoever for
-							the wire cages, we installed an electric fence around the orchard.
-							That worked well until a storm blew a tree down across the
-							fence-line and flattened a whole row of fence. Any farmer knows
-							that stories like this are common and just part of the business.
-							It's been a wild, fascinating learning experience, which is part
-							of the fun!
+							The deer in the photo to the right are beautiful, frequent
+							visitors on our farm, but when they chewed all the branches from
+							our two-year-old apple trees, we had to add the wire cages to keep
+							them off. A year or two later, when the trees were large enough to
+							survive the deer browsing, and finally produce their first crop,
+							bears broke several large branches to get the few half-ripe
+							apples. Because they had no respect whatsoever for the wire cages,
+							we installed an electric fence around the orchard. That worked
+							well until a storm blew a tree down across the fence-line and
+							flattened a whole row of fence. Any farmer knows that stories like
+							this are common and just part of the business. It's been a wild,
+							fascinating learning experience, which is part of the fun!
 						</p>
 
 						<p className='text-white text-xl leading-relaxed mb-6'>
