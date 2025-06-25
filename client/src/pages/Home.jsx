@@ -5,34 +5,42 @@ import HomeLinksSection from '../components/HomeLinksSection.jsx';
 import { Link as RouterLink } from 'react-router-dom';
 import SeoHead from '../components/SeoHead.jsx';
 import JsonLd from '../components/JsonLd';
-import { getWebSiteSchema, getOrganizationSchema } from '../utils/schemaGenerators';
+import {
+	getWebSiteSchema,
+	getOrganizationSchema,
+} from '../utils/schemaGenerators';
 
-import { stripHtml, truncate, extractKeywords, getDefaultImage, getSeoTimestamps } from '../utils/seoUtils.js';
+import {
+	stripHtml,
+	truncate,
+	extractKeywords,
+	getSeoTimestamps,
+} from '../utils/seoUtils.js';
 import FarmMap from '../components/FarmMap.jsx';
 import Footer from '../components/Footer.jsx';
+import PurchaseOptionsCard from './PurchaseOptionsCard.jsx';
 
 const Home = () => {
 	return (
 		<>
-<SeoHead
-  title='Welcome to Blueberry Dairy | Regenerative Farm in Tennessee'
-  description={truncate(
-    stripHtml(
-      'Welcome to Blueberry Dairy at Hickory Cove Orchards, a regenerative farm in Tennessee producing raw goat milk, organic fruits, and healthy, nourishing food.'
-    ),
-    160
-  )}
-  image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750282815/home_seo_image2_tp43iq.jpg'
-  url='https://www.blueberrydairy.com/'
-  keywords={extractKeywords(
-    'regenerative farm raw goat milk organic blueberries apples nourishing food Tennessee family farm'
-  )}
-  {...getSeoTimestamps([])}
-/>
+			<SeoHead
+				title='Welcome to Blueberry Dairy | Regenerative Farm in Tennessee'
+				description={truncate(
+					stripHtml(
+						'Welcome to Blueberry Dairy at Hickory Cove Orchards, a regenerative farm in Tennessee producing raw goat milk, organic fruits, and healthy, nourishing food.'
+					),
+					160
+				)}
+				image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750282815/home_seo_image2_tp43iq.jpg'
+				url='https://www.blueberrydairy.com/'
+				keywords={extractKeywords(
+					'regenerative farm raw goat milk organic blueberries apples nourishing food Tennessee family farm'
+				)}
+				{...getSeoTimestamps([])}
+			/>
 
-<JsonLd data={getWebSiteSchema()} />
-<JsonLd data={getOrganizationSchema()} />
-
+			<JsonLd data={getWebSiteSchema()} />
+			<JsonLd data={getOrganizationSchema()} />
 
 			{/* Hidden on small screens */}
 			<ScrollingBanner />
@@ -75,6 +83,7 @@ const Home = () => {
 
 			<div className='bg-white min-h-screen flex flex-col items-center'>
 				<SlideShow />
+				<PurchaseOptionsCard />
 				<FarmMap />
 			</div>
 		</>
