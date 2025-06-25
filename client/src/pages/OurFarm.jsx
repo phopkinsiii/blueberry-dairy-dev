@@ -285,7 +285,7 @@ export default function OurFarm() {
 						<p className='mt-4 text-gray-400 text-base italic'>
 							— Native American Proverbs
 						</p>
-						<p className='mt-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto'>
+						<p className='mt-6 pb-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto'>
 							At Blueberry Dairy and Hickory Cove Orchards, we believe farming
 							is an act of hope — a way to leave the world better than we found
 							it.
