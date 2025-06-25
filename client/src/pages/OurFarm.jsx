@@ -72,10 +72,10 @@ export default function OurFarm() {
 										<p className='mt-8 text-3xl font-medium  text-white sm:max-w-md sm:text-xl/8 lg:max-w-none'>
 											Health-conscious consumers often struggle to find fresh,
 											organic food. Blueberry Dairy provides fresh, organic
-											fruits and raw dairy products. so you can enjoy
-											nutritious, chemical-free foods that boost your immune
-											system. We believe in producing wholesome food the way
-											nature intended. From our organically grown apples and
+											fruits and raw dairy products so you can enjoy nutritious,
+											chemical-free foods that boost your immune system. We
+											believe in producing wholesome food the way nature
+											intended. From our organically grown apples and
 											blueberries to our pasture-raised Nigerian Dwarf dairy
 											goats, everything we do is centered on sustainability,
 											integrity, and your family's health.

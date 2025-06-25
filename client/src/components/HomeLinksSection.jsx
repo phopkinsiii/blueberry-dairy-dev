@@ -11,7 +11,8 @@ const HomeLinksSection = () => {
 		{
 			title: 'Shop Our Products',
 			image:
-				'https://res.cloudinary.com/dzhweqopn/image/upload/v1749237563/blueberrydairy/product_images/evuu6tqm8kxtwm6a4cwb.jpg',
+				'https://res.cloudinary.com/dzhweqopn/image/upload/v1750844822/milk_cinnamon_jkhasv.jpg',
+			to: '/products',
 			to: '/products',
 		},
 		{
