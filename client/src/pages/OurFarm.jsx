@@ -272,15 +272,19 @@ export default function OurFarm() {
 
 					{/* Inspiration Section */}
 					{/* Inspiration Section */}
-					<div className='mx-auto mt-32 max-w-4xl px-6 sm:mt-40 lg:px-8 text-center relative z-10'>
+					<div className='mx-auto mt-32 max-w-4xl px-6 pb-6 sm:mt-40 lg:px-8 text-center relative z-10'>
 						<blockquote className='text-2xl sm:text-3xl md:text-4xl italic font-light leading-relaxed text-white'>
 							“&nbsp;We don’t inherit the earth from our ancestors — we borrow
 							it from our children.&nbsp;”
+							<hr />
+							“&nbsp;Only when the last tree has been cut down, the last fish
+							been caught, and the last stream poisoned, will we realize we
+							cannot eat money.&nbsp;”
 						</blockquote>
 						<p className='mt-4 text-gray-400 text-base italic'>
-							— Native American Proverb
+							— Native American Proverbs
 						</p>
-						<p className='mt-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto'>
+						<p className='mt-6 pt-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto'>
 							At Blueberry Dairy and Hickory Cove Orchards, we believe farming
 							is an act of hope — a way to leave the world better than we found
 							it.
@@ -288,41 +292,6 @@ export default function OurFarm() {
 					</div>
 				</main>
 
-				{/* Footer */}
-				{/* <footer className='relative z-10'>
-					<div className='mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8'>
-						<nav
-							aria-label='Footer'
-							className='-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6'
-						>
-							{footerNavigation.main.map((item) => (
-								<a
-									key={item.name}
-									href={item.href}
-									className='text-white hover:text-white'
-								>
-									{item.name}
-								</a>
-							))}
-						</nav>
-						<div className='mt-16 flex justify-center gap-x-10'>
-							{footerNavigation.social.map((item) => (
-								<a
-									key={item.name}
-									href={item.href}
-									className='text-white hover:text-gray-800'
-								>
-									<span className='sr-only'>{item.name}</span>
-									<item.icon aria-hidden='true' className='size-6' />
-								</a>
-							))}
-						</div>
-						<p className='mt-10 text-center text-sm/6 text-white'>
-							&copy; 2024 Blueberry Dairy and Hickory Cove Orchards, Inc. All
-							rights reserved.
-						</p>
-					</div>
-				</footer> */}
 			</div>
 		</>
 	);
