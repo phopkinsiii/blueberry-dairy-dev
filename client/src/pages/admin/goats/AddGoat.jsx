@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../api/axios';
 import axios from 'axios';
@@ -34,7 +34,9 @@ const AddGoat = () => {
 		price: '',
 		additionalInfo: '',
 	});
+
 	const [imageFiles, setImageFiles] = useState([]);
+	const [imageUrls, setImageUrls] = useState(['']); // 🆕 Allow multiple URLs
 	const [error, setError] = useState(null);
 
 	const handleChange = (e) => {
@@ -77,6 +79,16 @@ const AddGoat = () => {
 		}
 	};
 
+	const handleImageUrlChange = (index, value) => {
+		const updated = [...imageUrls];
+		updated[index] = value;
+		setImageUrls(updated);
+	};
+
+	const addImageUrlField = () => {
+		setImageUrls([...imageUrls, '']);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError(null);
@@ -85,8 +97,11 @@ const AddGoat = () => {
 			Object.values(errors).forEach((msg) => toast.error(msg));
 			return;
 		}
+
 		try {
 			const token = state.user?.token;
+
+			// Upload all image files to Cloudinary
 			const uploaded = await Promise.all(
 				imageFiles.map((file) => {
 					const formData = new FormData();
@@ -101,11 +116,19 @@ const AddGoat = () => {
 					);
 				})
 			);
+
+			const uploadedUrls = uploaded.map((res) => res.data.secure_url);
+			const validManualUrls = imageUrls
+				.map((url) => url.trim())
+				.filter(Boolean);
+			const allImageUrls = [...uploadedUrls, ...validManualUrls];
+
 			const goatData = {
 				...goat,
 				price: goat.forSale ? Number(goat.price) : null,
-				images: uploaded.map((r) => r.data.secure_url),
+				images: allImageUrls,
 			};
+
 			const res = await axiosInstance.post('/goats', goatData, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
@@ -127,6 +150,9 @@ const AddGoat = () => {
 				handleAwardsChange={handleAwardsChange}
 				addAward={addAward}
 				handleImageUpload={handleImageUpload}
+				imageUrls={imageUrls}
+				handleImageUrlChange={handleImageUrlChange}
+				addImageUrlField={addImageUrlField}
 				onSubmit={handleSubmit}
 			/>
 		</div>

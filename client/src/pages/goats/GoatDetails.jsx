@@ -99,7 +99,7 @@ const GoatDetails = () => {
 							onClick={() => setOpenLightbox(true)}
 						>
 							<img
-								src={goat.images?.[1] || '/images/goat_logo1.png'}
+								src={goat.images?.[0] || '/images/goat_logo1.png'}
 								alt={goat.nickname}
 								className='w-full h-220 object-cover rounded-lg shadow-md'
 								loading='lazy'
