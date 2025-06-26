@@ -13,7 +13,6 @@ const HomeLinksSection = () => {
 			image:
 				'https://res.cloudinary.com/dzhweqopn/image/upload/v1750844822/milk_cinnamon_jkhasv.jpg',
 			to: '/products',
-			to: '/products',
 		},
 		{
 			title: 'See Our Goats',
