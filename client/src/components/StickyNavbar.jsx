@@ -6,7 +6,7 @@ import AuthButton from './AuthButton';
 import UserGreeting from './UserGreeting';
 import AdminDropdown from './AdminDropdown';
 import GoatDropdown from './goats/GoatDropdown';
-import MobileMenu from './MobileMenu';
+import MobileGoatDropdown from './goats/MobileGoatDropdown';
 import { useUserContext } from '../contexts/UserContext';
 import { useCartContext } from '../contexts/CartContext';
 import Logo from './Logo';
@@ -96,39 +96,42 @@ const StickyNavbar = () => {
 					</div>
 
 					{/* Center: Nav Links */}
-					<>
-						<MobileMenu
-							menuOpen={menuOpen}
-							closeMenu={() => setMenuOpen(false)}
-							navigation={navigation}
-						/>
+					<ul
+						className={`${
+							menuOpen ? 'flex animate-slide-down' : 'hidden'
+						} flex-col md:flex md:flex-row md:gap-10 gap-4 absolute md:static top-full left-0 w-full md:w-auto 
+              bg-white md:bg-transparent p-6 md:p-0 z-40 text-center md:text-left text-2xl font-semibold`}
+					>
+						{navigation.map((item) =>
+							item.name !== 'Our Goats' ? (
+								<li key={item.name}>
+									<NavLink
+										to={item.href}
+										onClick={() => setMenuOpen(false)}
+										className={({ isActive }) =>
+											`transition duration-300 ${
+												isActive
+													? 'text-green-600 text-3xl underline'
+													: 'text-gray-800 md:text-white hover:text-amber-600'
+											}`
+										}
+									>
+										{item.name}
+									</NavLink>
+								</li>
+							) : null
+						)}
 
-						<ul className='hidden md:flex md:flex-row md:gap-10 text-2xl font-semibold'>
-							{navigation.map((item) =>
-								item.name !== 'Our Goats' ? (
-									<li key={item.name}>
-										<NavLink
-											to={item.href}
-											className={({ isActive }) =>
-												`transition duration-300 ${
-													isActive
-														? 'text-green-600 underline'
-														: 'text-white hover:text-amber-600'
-												}`
-											}
-										>
-											{item.name}
-										</NavLink>
-									</li>
-								) : null
-							)}
-							<li>
-								<GoatDropdown scrolled={scrolled} />
-							</li>
-						</ul>
-					</>
+						{/* Mobile Goat Dropdown */}
+						<MobileGoatDropdown closeMenu={() => setMenuOpen(false)} />
 
-					{/* Right: Auth + Cart */}
+						{/* Desktop Goat Dropdown */}
+						<li className='hidden md:block'>
+							<GoatDropdown scrolled={scrolled} />
+						</li>
+					</ul>
+
+					{/* Right: Auth controls and cart */}
 					<div className='flex items-center space-x-4'>
 						{isAdmin && (
 							<div className='hidden md:block'>

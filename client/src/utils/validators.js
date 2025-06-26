@@ -149,17 +149,27 @@ export const validateGoatForm = (formData) => {
 
 	if (!formData.gender?.trim()) {
 		errors.gender = 'Gender is required.';
+	} else if (!['Doe', 'Buck', 'Wether'].includes(formData.gender)) {
+		errors.gender = 'Gender must be either Doe, Buck, or Wether.';
 	}
 
 	if (!formData.adgaId?.trim()) {
 		errors.adgaId = 'ADGA ID is required.';
+	} else if (!/^[A-Za-z0-9-]+$/.test(formData.adgaId)) {
+		errors.adgaId = 'ADGA ID may only contain letters, numbers, and dashes.';
 	}
 
-	// Optional: validate price if forSale is true
-	if (formData.forSale && (formData.price === undefined || formData.price < 0)) {
-		errors.price = 'Valid price is required if the goat is for sale.';
+	if (formData.forSale) {
+		if (
+			formData.price === undefined ||
+			formData.price === null ||
+			isNaN(formData.price)
+		) {
+			errors.price = 'Valid price is required if the goat is for sale.';
+		} else if (Number(formData.price) < 0) {
+			errors.price = 'Price must be a positive number.';
+		}
 	}
 
 	return errors;
 };
-
