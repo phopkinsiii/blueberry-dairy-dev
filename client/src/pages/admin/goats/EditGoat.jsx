@@ -8,26 +8,40 @@ import { useUserContext } from '../../../contexts/UserContext';
 import GoatForm from '../../../components/goats/GoatForm';
 import { toast } from 'react-toastify';
 import { toInputDateFormat } from '../../../utils/dateHelpers';
+import Spinner from '../../../components/Spinner';
 
 const EditGoat = () => {
 	const { id } = useParams();
 	const { state } = useUserContext();
 	const navigate = useNavigate();
+
 	const [goat, setGoat] = useState(null);
 	const [imageFiles, setImageFiles] = useState([]);
+	const [imageUrls, setImageUrls] = useState(['']);
 	const [error, setError] = useState(null);
 
+	// Fetch goat on mount
 	useEffect(() => {
 		const fetchGoat = async () => {
 			try {
 				const res = await axiosInstance.get(`/goats/${id}`);
 				const fetchedGoat = res.data;
 
-				if (fetchedGoat.dob) {
-					fetchedGoat.dob = toInputDateFormat(fetchedGoat.dob);
-				}
-
-				setGoat(fetchedGoat);
+				setGoat({
+					...fetchedGoat,
+					dob: fetchedGoat.dob ? toInputDateFormat(fetchedGoat.dob) : '',
+					awards: fetchedGoat.awards || [''],
+					images: fetchedGoat.images || [],
+					pedigree: {
+						sire: '',
+						dam: '',
+						siresSire: '',
+						siresDam: '',
+						damsSire: '',
+						damsDam: '',
+						...fetchedGoat.pedigree,
+					},
+				});
 				console.log('🐐 Loaded goat:', fetchedGoat);
 			} catch (err) {
 				console.error(err);
@@ -37,9 +51,13 @@ const EditGoat = () => {
 		fetchGoat();
 	}, [id]);
 
+	useEffect(() => {
+		if (goat) window.scrollTo(0, 0);
+	}, [goat]);
+
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-		if (name in goat.pedigree) {
+		if (name in (goat.pedigree || {})) {
 			setGoat({ ...goat, pedigree: { ...goat.pedigree, [name]: value } });
 		} else if (type === 'checkbox') {
 			setGoat({ ...goat, [name]: checked });
@@ -59,13 +77,22 @@ const EditGoat = () => {
 	};
 
 	const removeImage = async (index) => {
+		const imageUrl = goat.images[index];
+
+		// Warn if it's the last image
+		if (goat.images.length === 1) {
+			const confirmed = window.confirm(
+				'⚠️ This is the last image. Are you sure you want to remove it?'
+			);
+			if (!confirmed) return;
+		}
+
 		try {
-			const imageUrl = goat.images[index];
 			const token = state.user?.token;
 
 			await axiosInstance.delete(`/goats/${id}/images`, {
 				headers: { Authorization: `Bearer ${token}` },
-				data: { imageUrl }, // Axios requires `data` key for DELETE body
+				data: { imageUrl },
 			});
 
 			setGoat((prev) => ({
@@ -99,11 +126,23 @@ const EditGoat = () => {
 		}
 	};
 
+	const handleImageUrlChange = (index, value) => {
+		const updated = [...imageUrls];
+		updated[index] = value;
+		setImageUrls(updated);
+	};
+
+	const addImageUrlField = () => {
+		setImageUrls([...imageUrls, '']);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const token = state.user?.token;
 			let newImageUrls = [];
+
+			// Upload new files to Cloudinary
 			if (imageFiles.length > 0) {
 				const uploads = await Promise.all(
 					imageFiles.map((file) => {
@@ -121,11 +160,15 @@ const EditGoat = () => {
 				);
 				newImageUrls = uploads.map((r) => r.data.secure_url);
 			}
+
+			const manualUrls = imageUrls.map((url) => url.trim()).filter(Boolean);
+
 			const updatedGoat = {
 				...goat,
 				price: goat.forSale ? Number(goat.price) : null,
-				images: [...(goat.images || []), ...newImageUrls],
+				images: [...(goat.images || []), ...newImageUrls, ...manualUrls],
 			};
+
 			await axiosInstance.put(`/goats/${id}`, updatedGoat, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
@@ -141,16 +184,24 @@ const EditGoat = () => {
 		<div className='max-w-2xl mx-auto p-6 bg-white shadow-md'>
 			<h2 className='text-2xl font-bold mb-4 text-gray-800'>Edit Goat</h2>
 			{error && <p className='text-red-500 mb-4'>{error}</p>}
-			<GoatForm
-				goat={goat}
-				handleChange={handleChange}
-				handleAwardsChange={handleAwardsChange}
-				addAward={addAward}
-				handleImageUpload={handleImageUpload}
-				removeImage={removeImage}
-				onSubmit={handleSubmit}
-				isEdit
-			/>
+
+			{goat ? (
+				<GoatForm
+					goat={goat}
+					handleChange={handleChange}
+					handleAwardsChange={handleAwardsChange}
+					addAward={addAward}
+					handleImageUpload={handleImageUpload}
+					removeImage={removeImage}
+					onSubmit={handleSubmit}
+					isEdit
+					imageUrls={imageUrls}
+					handleImageUrlChange={handleImageUrlChange}
+					addImageUrlField={addImageUrlField}
+				/>
+			) : (
+				<Spinner />
+			)}
 		</div>
 	);
 };
