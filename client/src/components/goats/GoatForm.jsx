@@ -7,15 +7,17 @@ const GoatForm = ({
 	handleAwardsChange,
 	addAward,
 	handleImageUpload,
-	imageFiles = [],
 	imageUrls,
 	handleImageUrlChange,
 	addImageUrlField,
+	removeImage,
 	onSubmit,
+	isEdit = false,
+	imageFiles = [],
 }) => {
 	return (
 		<form onSubmit={onSubmit} className='space-y-4'>
-			{/* Basic Fields */}
+			{/* Basic Info */}
 			<InputField
 				label='Nickname'
 				name='nickname'
@@ -94,7 +96,7 @@ const GoatForm = ({
 				)
 			)}
 
-			{/* Checkboxes */}
+			{/* Flags */}
 			<CheckboxField
 				label='DNA Confirmed'
 				name='dnaConfirmed'
@@ -114,6 +116,7 @@ const GoatForm = ({
 				onChange={handleChange}
 			/>
 
+			{/* Price */}
 			{goat.forSale && (
 				<InputField
 					label='Price ($)'
@@ -136,6 +139,31 @@ const GoatForm = ({
 				/>
 			</div>
 
+			{/* Existing Images with Delete */}
+			{isEdit && goat.images?.length > 0 && (
+				<div>
+					<label className='block font-medium mb-2'>Current Images</label>
+					<div className='grid grid-cols-3 gap-2'>
+						{goat.images.map((url, index) => (
+							<div key={index} className='relative group'>
+								<img
+									src={url}
+									alt={`Goat image ${index + 1}`}
+									className='h-24 w-24 object-cover rounded shadow'
+								/>
+								<button
+									type='button'
+									onClick={() => removeImage(index)}
+									className='absolute top-0 right-0 bg-red-600 text-white text-xs px-1 rounded-bl opacity-80 group-hover:opacity-100'
+								>
+									✕
+								</button>
+							</div>
+						))}
+					</div>
+				</div>
+			)}
+
 			{/* File Upload */}
 			<div>
 				<label className='block font-medium mb-1'>Upload Images</label>
@@ -149,8 +177,9 @@ const GoatForm = ({
 						className='hidden'
 					/>
 				</label>
-				{/* File Previews */}
-				{imageFiles.length > 0 && (
+
+				{/* New File Previews */}
+				{imageFiles?.length > 0 && (
 					<div className='grid grid-cols-3 gap-2 mt-3'>
 						{imageFiles.map((file, index) => (
 							<img
@@ -164,7 +193,7 @@ const GoatForm = ({
 				)}
 			</div>
 
-			{/* Manual URL Input */}
+			{/* Manual Image URLs */}
 			<div>
 				<label className='block font-medium mb-2'>Or Enter Image URLs</label>
 				{imageUrls.map((url, index) => (
@@ -173,7 +202,7 @@ const GoatForm = ({
 							type='text'
 							value={url}
 							onChange={(e) => handleImageUrlChange(index, e.target.value)}
-							className='w-full border px-3 py-2 rounded mb-1'
+							className='w-full border px-3 py-2 mb-1 rounded'
 							placeholder={`Image URL ${index + 1}`}
 						/>
 						{url.trim().startsWith('http') && (
@@ -199,7 +228,7 @@ const GoatForm = ({
 				type='submit'
 				className='w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700'
 			>
-				Add Goat
+				{isEdit ? 'Update Goat' : 'Add Goat'}
 			</button>
 		</form>
 	);

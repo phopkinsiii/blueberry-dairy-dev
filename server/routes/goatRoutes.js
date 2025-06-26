@@ -8,6 +8,7 @@ import {
 	getSaleGoats,
 	getDoes,
 	getBucks,
+	removeGoatImage,
 } from '../controllers/goatController.js';
 import { protect, adminProtect } from '../middleware/authMiddleware.js';
 import { authLimiter } from '../middleware/rateLimiter.js'; // ✅ Import limiter
@@ -29,5 +30,7 @@ router.get('/for-sale', getSaleGoats);
 router.post('/', protect, adminProtect, authLimiter, createGoat);
 router.put('/:id', protect, adminProtect, authLimiter, updateGoat);
 router.delete('/:id', protect, adminProtect, authLimiter, deleteGoat);
+
+router.delete('/:id/images', protect, adminProtect, removeGoatImage);
 
 export default router;

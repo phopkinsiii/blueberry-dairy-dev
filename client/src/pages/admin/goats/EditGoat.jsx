@@ -58,8 +58,26 @@ const EditGoat = () => {
 		setGoat({ ...goat, awards: [...goat.awards, ''] });
 	};
 
-	const removeImage = (index) => {
-		setGoat({ ...goat, images: goat.images.filter((_, i) => i !== index) });
+	const removeImage = async (index) => {
+		try {
+			const imageUrl = goat.images[index];
+			const token = state.user?.token;
+
+			await axiosInstance.delete(`/goats/${id}/images`, {
+				headers: { Authorization: `Bearer ${token}` },
+				data: { imageUrl }, // Axios requires `data` key for DELETE body
+			});
+
+			setGoat((prev) => ({
+				...prev,
+				images: prev.images.filter((_, i) => i !== index),
+			}));
+
+			toast.success('Image removed');
+		} catch (err) {
+			console.error('Error removing image:', err);
+			toast.error('Failed to remove image');
+		}
 	};
 
 	const handleImageUpload = async (e) => {
