@@ -20,7 +20,6 @@ const EditGoat = () => {
 	const [imageUrls, setImageUrls] = useState(['']);
 	const [error, setError] = useState(null);
 
-	// Fetch goat on mount
 	useEffect(() => {
 		const fetchGoat = async () => {
 			try {
@@ -42,7 +41,6 @@ const EditGoat = () => {
 						...fetchedGoat.pedigree,
 					},
 				});
-				console.log('🐐 Loaded goat:', fetchedGoat);
 			} catch (err) {
 				console.error(err);
 				setError('Failed to load goat data');
@@ -79,11 +77,8 @@ const EditGoat = () => {
 	const removeImage = async (index) => {
 		const imageUrl = goat.images[index];
 
-		// Warn if it's the last image
 		if (goat.images.length === 1) {
-			const confirmed = window.confirm(
-				'⚠️ This is the last image. Are you sure you want to remove it?'
-			);
+			const confirmed = window.confirm('⚠️ This is the last image. Are you sure you want to remove it?');
 			if (!confirmed) return;
 		}
 
@@ -111,14 +106,8 @@ const EditGoat = () => {
 		const files = Array.from(e.target.files);
 		if (!files.length) return;
 		try {
-			const options = {
-				maxSizeMB: 1,
-				maxWidthOrHeight: 1200,
-				useWebWorker: true,
-			};
-			const compressed = await Promise.all(
-				files.map((f) => imageCompression(f, options))
-			);
+			const options = { maxSizeMB: 1, maxWidthOrHeight: 1200, useWebWorker: true };
+			const compressed = await Promise.all(files.map((f) => imageCompression(f, options)));
 			setImageFiles(compressed);
 		} catch (err) {
 			console.error(err);
@@ -142,20 +131,13 @@ const EditGoat = () => {
 			const token = state.user?.token;
 			let newImageUrls = [];
 
-			// Upload new files to Cloudinary
 			if (imageFiles.length > 0) {
 				const uploads = await Promise.all(
 					imageFiles.map((file) => {
 						const formData = new FormData();
 						formData.append('file', file);
-						formData.append(
-							'upload_preset',
-							import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-						);
-						return axios.post(
-							import.meta.env.VITE_CLOUDINARY_UPLOAD_URL,
-							formData
-						);
+						formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+						return axios.post(import.meta.env.VITE_CLOUDINARY_UPLOAD_URL, formData);
 					})
 				);
 				newImageUrls = uploads.map((r) => r.data.secure_url);
@@ -184,7 +166,6 @@ const EditGoat = () => {
 		<div className='max-w-2xl mx-auto p-6 bg-white shadow-md'>
 			<h2 className='text-2xl font-bold mb-4 text-gray-800'>Edit Goat</h2>
 			{error && <p className='text-red-500 mb-4'>{error}</p>}
-
 			{goat ? (
 				<GoatForm
 					goat={goat}
@@ -198,6 +179,7 @@ const EditGoat = () => {
 					imageUrls={imageUrls}
 					handleImageUrlChange={handleImageUrlChange}
 					addImageUrlField={addImageUrlField}
+					imageFiles={imageFiles}
 				/>
 			) : (
 				<Spinner />
