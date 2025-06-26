@@ -104,3 +104,25 @@ export const deleteGoat = async (req, res) => {
 		res.status(500).json({ message: 'Failed to delete goat' });
 	}
 };
+
+export const removeGoatImage = async (req, res) => {
+	const { id } = req.params;
+	const { imageUrl } = req.body;
+
+	if (!imageUrl) {
+		return res.status(400).json({ message: 'Image URL is required' });
+	}
+
+	try {
+		const goat = await Goat.findById(id);
+		if (!goat) return res.status(404).json({ message: 'Goat not found' });
+
+		goat.images = goat.images.filter((url) => url !== imageUrl);
+		await goat.save();
+
+		res.json({ message: 'Image removed', images: goat.images });
+	} catch (error) {
+		console.error('❌ Error removing goat image:', error.message);
+		res.status(500).json({ message: 'Failed to remove image' });
+	}
+};
