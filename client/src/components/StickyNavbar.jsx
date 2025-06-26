@@ -58,52 +58,8 @@ const StickyNavbar = () => {
 				/>
 
 				<div className='flex items-center justify-between max-w-8xl mx-auto px-6 pt-6 pb-4 text-xl'>
-					{/* Left: Logo + NavLinks */}
-					<div className='flex items-center gap-x-8 pl-5'>
-						{/* Logo (only visible on lg+) */}
-						<div className='hidden lg:flex items-center'>
-							<Logo />
-						</div>
-
-						{/* Nav Links */}
-						<ul
-							className={`${
-								menuOpen ? 'flex animate-slide-down' : 'hidden'
-							} flex-col md:flex md:flex-row md:gap-10 gap-4 absolute md:static top-full left-0 w-full md:w-auto 
-              bg-white md:bg-transparent p-6 md:p-0 z-40 text-center md:text-left text-2xl font-semibold`}
-						>
-							{navigation.map((item) =>
-								item.name !== 'Our Goats' ? (
-									<li key={item.name}>
-										<NavLink
-											to={item.href}
-											onClick={() => setMenuOpen(false)}
-											className={({ isActive }) =>
-												`transition duration-300 ${
-													isActive
-														? 'text-green-600 text-3xl underline'
-														: 'text-gray-800 md:text-white hover:text-amber-600'
-												}`
-											}
-										>
-											{item.name}
-										</NavLink>
-									</li>
-								) : null
-							)}
-
-							{/* Mobile: Goat Dropdown */}
-							<MobileGoatDropdown closeMenu={() => setMenuOpen(false)} />
-
-							{/* Desktop: Goat Dropdown */}
-							<li className='hidden md:block'>
-								<GoatDropdown scrolled={scrolled} />
-							</li>
-						</ul>
-					</div>
-
-					{/* Right: Hamburger on mobile, actions on md+ */}
-					<div className='flex items-center space-x-6'>
+					{/* Left: Hamburger + Logo */}
+					<div className='flex items-center gap-4'>
 						{/* Hamburger (mobile only) */}
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}
@@ -135,20 +91,69 @@ const StickyNavbar = () => {
 							</svg>
 						</button>
 
-						{/* Right-side controls (desktop only) */}
-						<div className='hidden md:flex items-center space-x-6'>
-							{isAdmin && <AdminDropdown scrolled={scrolled} />}
+						{/* Logo */}
+						<Logo />
+					</div>
+
+					{/* Center: Nav Links */}
+					<ul
+						className={`${
+							menuOpen ? 'flex animate-slide-down' : 'hidden'
+						} flex-col md:flex md:flex-row md:gap-10 gap-4 absolute md:static top-full left-0 w-full md:w-auto 
+              bg-white md:bg-transparent p-6 md:p-0 z-40 text-center md:text-left text-2xl font-semibold`}
+					>
+						{navigation.map((item) =>
+							item.name !== 'Our Goats' ? (
+								<li key={item.name}>
+									<NavLink
+										to={item.href}
+										onClick={() => setMenuOpen(false)}
+										className={({ isActive }) =>
+											`transition duration-300 ${
+												isActive
+													? 'text-green-600 text-3xl underline'
+													: 'text-gray-800 md:text-white hover:text-amber-600'
+											}`
+										}
+									>
+										{item.name}
+									</NavLink>
+								</li>
+							) : null
+						)}
+
+						{/* Mobile Goat Dropdown */}
+						<MobileGoatDropdown closeMenu={() => setMenuOpen(false)} />
+
+						{/* Desktop Goat Dropdown */}
+						<li className='hidden md:block'>
+							<GoatDropdown scrolled={scrolled} />
+						</li>
+					</ul>
+
+					{/* Right: Auth controls and cart */}
+					<div className='flex items-center space-x-4'>
+						{isAdmin && (
+							<div className='hidden md:block'>
+								<AdminDropdown scrolled={scrolled} />
+							</div>
+						)}
+						<div className='hidden md:block'>
 							<UserGreeting />
-							<AuthButton />
-							<Link to='/cart' className='relative'>
-								<ShoppingCartIcon className='h-8 w-8 text-white hover:text-yellow-300 transition' />
-								{cartItemCount > 0 && (
-									<span className='absolute -top-2 -right-2 text-sm bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center font-bold'>
-										{cartItemCount}
-									</span>
-								)}
-							</Link>
 						</div>
+						<div className='hidden md:block'>
+							<AuthButton />
+						</div>
+
+						{/* Cart icon - always visible */}
+						<Link to='/cart' className='relative'>
+							<ShoppingCartIcon className='h-8 w-8 text-white hover:text-yellow-300 transition' />
+							{cartItemCount > 0 && (
+								<span className='absolute -top-2 -right-2 text-sm bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center font-bold'>
+									{cartItemCount}
+								</span>
+							)}
+						</Link>
 					</div>
 				</div>
 			</div>
