@@ -14,21 +14,34 @@ const EditGoat = () => {
 	const { id } = useParams();
 	const { state } = useUserContext();
 	const navigate = useNavigate();
+
 	const [goat, setGoat] = useState(null);
 	const [imageFiles, setImageFiles] = useState([]);
+	const [imageUrls, setImageUrls] = useState(['']);
 	const [error, setError] = useState(null);
 
+	// Fetch goat on mount
 	useEffect(() => {
 		const fetchGoat = async () => {
 			try {
 				const res = await axiosInstance.get(`/goats/${id}`);
 				const fetchedGoat = res.data;
 
-				if (fetchedGoat.dob) {
-					fetchedGoat.dob = toInputDateFormat(fetchedGoat.dob);
-				}
-
-				setGoat(fetchedGoat);
+				setGoat({
+					...fetchedGoat,
+					dob: fetchedGoat.dob ? toInputDateFormat(fetchedGoat.dob) : '',
+					awards: fetchedGoat.awards || [''],
+					images: fetchedGoat.images || [],
+					pedigree: {
+						sire: '',
+						dam: '',
+						siresSire: '',
+						siresDam: '',
+						damsSire: '',
+						damsDam: '',
+						...fetchedGoat.pedigree,
+					},
+				});
 				console.log('🐐 Loaded goat:', fetchedGoat);
 			} catch (err) {
 				console.error(err);
@@ -38,9 +51,13 @@ const EditGoat = () => {
 		fetchGoat();
 	}, [id]);
 
+	useEffect(() => {
+		if (goat) window.scrollTo(0, 0);
+	}, [goat]);
+
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-		if (name in goat.pedigree) {
+		if (name in (goat.pedigree || {})) {
 			setGoat({ ...goat, pedigree: { ...goat.pedigree, [name]: value } });
 		} else if (type === 'checkbox') {
 			setGoat({ ...goat, [name]: checked });
@@ -82,11 +99,23 @@ const EditGoat = () => {
 		}
 	};
 
+	const handleImageUrlChange = (index, value) => {
+		const updated = [...imageUrls];
+		updated[index] = value;
+		setImageUrls(updated);
+	};
+
+	const addImageUrlField = () => {
+		setImageUrls([...imageUrls, '']);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const token = state.user?.token;
 			let newImageUrls = [];
+
+			// Upload new files to Cloudinary
 			if (imageFiles.length > 0) {
 				const uploads = await Promise.all(
 					imageFiles.map((file) => {
@@ -104,11 +133,15 @@ const EditGoat = () => {
 				);
 				newImageUrls = uploads.map((r) => r.data.secure_url);
 			}
+
+			const manualUrls = imageUrls.map((url) => url.trim()).filter(Boolean);
+
 			const updatedGoat = {
 				...goat,
 				price: goat.forSale ? Number(goat.price) : null,
-				images: [...(goat.images || []), ...newImageUrls],
+				images: [...(goat.images || []), ...newImageUrls, ...manualUrls],
 			};
+
 			await axiosInstance.put(`/goats/${id}`, updatedGoat, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
@@ -135,6 +168,9 @@ const EditGoat = () => {
 					removeImage={removeImage}
 					onSubmit={handleSubmit}
 					isEdit
+					imageUrls={imageUrls}
+					handleImageUrlChange={handleImageUrlChange}
+					addImageUrlField={addImageUrlField}
 				/>
 			) : (
 				<Spinner />
