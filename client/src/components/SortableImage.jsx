@@ -1,54 +1,32 @@
-// @ts-nocheck
-import React from 'react';
+// src/components/goats/SortableImage.jsx
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, X } from 'lucide-react';
 
 const SortableImage = ({ id, url, onRemove }) => {
-	const {
-		setNodeRef,
-		attributes,
-		listeners,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({ id });
+	const { attributes, listeners, setNodeRef, transform, transition } =
+		useSortable({ id });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
-		opacity: isDragging ? 0.5 : 1,
 	};
 
 	return (
 		<div
 			ref={setNodeRef}
 			style={style}
-			className='relative border rounded shadow-sm overflow-hidden group bg-white'
+			{...attributes}
+			{...listeners}
+			className='relative w-24 h-24 group overflow-hidden rounded shadow bg-gray-100 dark:bg-zinc-800'
 		>
-			<img src={url} alt='Goat' className='w-full h-24 object-cover' />
-
+			<img src={url} alt='Goat' className='w-full h-full object-cover' />
 			<button
 				type='button'
-				onClick={(e) => {
-					e.stopPropagation(); // Prevent drag conflict
-					console.log('🗑️ Removing image:', id);
-					onRemove();
-				}}
-				className='absolute top-1 right-1 p-1 bg-white/80 rounded-full text-red-600 hover:bg-white shadow-md z-10'
-				title='Remove image'
+				onClick={onRemove}
+				className='absolute top-0 right-0 m-0.5 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-bl opacity-90 group-hover:opacity-100 transition'
 			>
-				<X size={16} />
+				✕
 			</button>
-
-			<div
-				className='absolute bottom-1 left-1 p-1 cursor-grab text-gray-600 hover:text-gray-900'
-				title='Drag to reorder'
-				{...attributes}
-				{...listeners}
-			>
-				<GripVertical size={16} />
-			</div>
 		</div>
 	);
 };
