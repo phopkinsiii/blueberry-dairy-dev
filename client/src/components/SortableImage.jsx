@@ -22,7 +22,9 @@ const SortableImage = ({ id, url, onRemove }) => {
 			<button type="button" onClick={onRemove} className="delete-btn">
 				✕
 			</button>
+			<p>Test paragraph</p>
 		</div>
+		
 	);
 };
 
