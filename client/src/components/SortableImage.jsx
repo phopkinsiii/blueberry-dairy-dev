@@ -3,6 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 const SortableImage = ({ id, url, onRemove }) => {
+	console.log('🧩 Rendering SortableImage:', id, url);
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id });
 
@@ -23,6 +24,7 @@ const SortableImage = ({ id, url, onRemove }) => {
 			<button type='button' onClick={onRemove} className='delete-btn'>
 				✕
 			</button>
+			<p>Test paragraph</p>
 		</div>
 	);
 };
