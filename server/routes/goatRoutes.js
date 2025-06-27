@@ -31,6 +31,6 @@ router.post('/', protect, adminProtect, authLimiter, createGoat);
 router.put('/:id', protect, adminProtect, authLimiter, updateGoat);
 router.delete('/:id', protect, adminProtect, authLimiter, deleteGoat);
 
-router.delete('/:id/images', protect, adminProtect, removeGoatImage);
+router.post('/:id/images/remove', protect, adminProtect, removeGoatImage);
 
 export default router;
