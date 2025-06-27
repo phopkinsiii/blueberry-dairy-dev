@@ -4,15 +4,8 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, X } from 'lucide-react';
 
-const SortableImage = ({ id, url, onRemove }) => {
-	const {
-		attributes,
-		listeners,
-		setNodeRef,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({ id });
+const SortableImage = ({ id, url, onRemove, listeners, attributes }) => {
+	const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
@@ -24,8 +17,6 @@ const SortableImage = ({ id, url, onRemove }) => {
 		<div
 			ref={setNodeRef}
 			style={style}
-			{...attributes}
-			{...listeners}
 			className='relative border rounded shadow-sm overflow-hidden group bg-white'
 		>
 			<img src={url} alt='Goat' className='w-full h-24 object-cover' />
@@ -42,6 +33,8 @@ const SortableImage = ({ id, url, onRemove }) => {
 			<div
 				className='absolute bottom-1 left-1 p-1 cursor-grab text-gray-600 hover:text-gray-900'
 				title='Drag to reorder'
+				{...attributes}
+				{...listeners}
 			>
 				<GripVertical size={16} />
 			</div>

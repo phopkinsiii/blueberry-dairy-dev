@@ -32,7 +32,6 @@ const EditGoat = () => {
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-
 		if (
 			['sire', 'dam', 'siresSire', 'siresDam', 'damsSire', 'damsDam'].includes(
 				name
@@ -40,73 +39,36 @@ const EditGoat = () => {
 		) {
 			setGoat((prev) => ({
 				...prev,
-				pedigree: {
-					...prev.pedigree,
-					[name]: value,
-				},
+				pedigree: { ...prev.pedigree, [name]: value },
 			}));
 		} else if (type === 'checkbox') {
 			setGoat((prev) => ({ ...prev, [name]: checked }));
+		} else if (name === 'images') {
+			setGoat((prev) => ({ ...prev, images: value }));
 		} else {
 			setGoat((prev) => ({ ...prev, [name]: value }));
 		}
 	};
 
-	const handleAwardsChange = (index, value) => {
-		const updated = [...goat.awards];
-		updated[index] = value;
-		setGoat((prev) => ({ ...prev, awards: updated }));
-	};
-
-	const addAward = () => {
-		setGoat((prev) => ({ ...prev, awards: [...prev.awards, ''] }));
-	};
-
-	const handleImageUpload = (e) => {
-		const files = Array.from(e.target.files);
-		setImageFiles(files);
-	};
-
-	const handleImageUrlChange = (index, value) => {
-		const updated = [...imageUrls];
-		updated[index] = value;
-		setImageUrls(updated);
-	};
-
-	const addImageUrlField = () => {
-		setImageUrls((prev) => [...prev, '']);
-	};
-
-	const removeImage = (urlToRemove) => {
-		console.log('🚨 Trying to remove image:', urlToRemove);
-		if (goat.images.length === 1) {
-			const confirmDelete = window.confirm(
-				'This is the last image. Are you sure you want to remove it?'
-			);
-			if (!confirmDelete) return;
-		}
-		const updated = goat.images.filter((url) => url !== urlToRemove);
-		setGoat((prev) => ({ ...prev, images: updated }));
-		toast.info('Image removed');
+	const removeImage = (index) => {
+		const confirmDelete =
+			goat.images.length === 1
+				? window.confirm('This is the last image. Remove it?')
+				: true;
+		if (!confirmDelete) return;
+		setGoat((prev) => ({
+			...prev,
+			images: prev.images.filter((_, i) => i !== index),
+		}));
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const formData = new FormData();
-
-		imageFiles.forEach((file) => formData.append('images', file));
-
-		// Append image URLs
-		imageUrls.forEach((url) => {
-			if (url.trim().startsWith('http')) {
-				formData.append('imageUrls', url.trim());
-			}
-		});
 
 		try {
 			const updatedGoat = {
 				...goat,
-				images: goat.images, // reordered list
+				images: goat.images,
 			};
 
 			await axiosInstance.put(`/goats/${id}`, updatedGoat);
@@ -128,13 +90,24 @@ const EditGoat = () => {
 			<GoatForm
 				goat={goat}
 				handleChange={handleChange}
-				handleAwardsChange={handleAwardsChange}
-				addAward={addAward}
-				handleImageUpload={handleImageUpload}
+				handleAwardsChange={(i, v) =>
+					setGoat((prev) => ({
+						...prev,
+						awards: prev.awards.map((a, index) => (index === i ? v : a)),
+					}))
+				}
+				addAward={() =>
+					setGoat((prev) => ({ ...prev, awards: [...prev.awards, ''] }))
+				}
+				handleImageUpload={(e) => setImageFiles(Array.from(e.target.files))}
 				imageFiles={imageFiles}
 				imageUrls={imageUrls}
-				handleImageUrlChange={handleImageUrlChange}
-				addImageUrlField={addImageUrlField}
+				handleImageUrlChange={(i, v) =>
+					setImageUrls((prev) =>
+						prev.map((url, index) => (index === i ? v : url))
+					)
+				}
+				addImageUrlField={() => setImageUrls((prev) => [...prev, ''])}
 				removeImage={removeImage}
 				onSubmit={handleSubmit}
 			/>
