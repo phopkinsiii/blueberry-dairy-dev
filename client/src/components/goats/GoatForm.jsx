@@ -6,7 +6,8 @@ import {
 	sectionClass,
 	labelClass,
 	formContainerClass,
-} from '../../utils/formStyles.js';
+	textareaClass,
+} from '../../utils/formStyles';
 
 import {
 	DndContext,
@@ -175,12 +176,12 @@ const GoatForm = ({
 
 					{/* Additional Info */}
 					<div>
-						<label className='block font-medium mb-1'>Additional Info</label>
+						<label className={labelClass}>Additional Info</label>
 						<textarea
 							name='additionalInfo'
 							value={goat.additionalInfo}
 							onChange={handleChange}
-							className='w-full border px-3 py-2 rounded'
+							className={textareaClass}
 							rows={4}
 						/>
 					</div>
@@ -243,9 +244,7 @@ const GoatForm = ({
 
 					{/* Manual Image URLs */}
 					<div>
-						<label className='block font-medium mb-2'>
-							Or Enter Image URLs
-						</label>
+						<label className={labelClass}>Or Enter Image URLs</label>
 						{imageUrls.map((url, index) => (
 							<div key={index} className='mb-2'>
 								<input
