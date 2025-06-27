@@ -111,7 +111,7 @@ const EditGoat = () => {
 
 			const res = await axiosInstance.put(`/goats/${id}`, updatedGoat);
 			toast.success('Goat updated successfully');
-			navigate('/admin/manage-goats');
+			navigate('/manage-goats');
 		} catch (err) {
 			console.error(err);
 			toast.error('Failed to update goat');
