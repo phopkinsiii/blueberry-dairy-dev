@@ -203,7 +203,7 @@ const GoatForm = ({
 										key={`${url}-${index}`}
 										id={url}
 										url={url}
-										onRemove={() => removeImage(index)}
+										onRemove={() => removeImage(url)}
 									/>
 								))}
 							</div>

@@ -77,18 +77,17 @@ const EditGoat = () => {
 		setImageUrls((prev) => [...prev, '']);
 	};
 
-	const removeImage = (index) => {
-		console.log('🚨 Trying to remove image at index:', index);
+	const removeImage = (urlToRemove) => {
+		console.log('🚨 Trying to remove image:', urlToRemove);
 		if (goat.images.length === 1) {
 			const confirmDelete = window.confirm(
 				'This is the last image. Are you sure you want to remove it?'
 			);
 			if (!confirmDelete) return;
 		}
-
-		const updated = [...goat.images];
-		updated.splice(index, 1);
+		const updated = goat.images.filter((url) => url !== urlToRemove);
 		setGoat((prev) => ({ ...prev, images: updated }));
+		toast.info('Image removed');
 	};
 
 	const handleSubmit = async (e) => {
