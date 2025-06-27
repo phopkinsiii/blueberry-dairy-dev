@@ -176,7 +176,7 @@ const GoatForm = ({
 
 					{/* Additional Info */}
 					<div>
-						<label className='block font-medium mb-1'>Additional Info</label>
+						<label className={labelClass}>Additional Info</label>
 						<textarea
 							name='additionalInfo'
 							value={goat.additionalInfo}
@@ -244,9 +244,7 @@ const GoatForm = ({
 
 					{/* Manual Image URLs */}
 					<div>
-						<label className={labelClass}>
-							Or Enter Image URLs
-						</label>
+						<label className={labelClass}>Or Enter Image URLs</label>
 						{imageUrls.map((url, index) => (
 							<div key={index} className='mb-2'>
 								<input

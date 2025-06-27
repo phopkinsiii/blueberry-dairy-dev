@@ -1,4 +1,4 @@
-// src/components/goats/SortableImage.jsx
+// @ts-nocheck
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -17,7 +17,7 @@ const SortableImage = ({ id, url, onRemove }) => {
 			style={style}
 			{...attributes}
 			{...listeners}
-			className='relative group cursor-move'
+			className='relative group w-24 h-24'
 		>
 			<img
 				src={url}
@@ -27,7 +27,7 @@ const SortableImage = ({ id, url, onRemove }) => {
 			<button
 				type='button'
 				onClick={onRemove}
-				className='absolute top-0 right-0 bg-red-600 text-white text-xs px-1 rounded-bl opacity-80 group-hover:opacity-100'
+				className='absolute top-0 right-0 bg-red-600 text-white text-xs px-2 rounded-bl opacity-80 group-hover:opacity-100'
 			>
 				✕
 			</button>
