@@ -78,6 +78,7 @@ const EditGoat = () => {
 	};
 
 	const removeImage = (index) => {
+		console.log('🚨 Trying to remove image at index:', index);
 		if (goat.images.length === 1) {
 			const confirmDelete = window.confirm(
 				'This is the last image. Are you sure you want to remove it?'

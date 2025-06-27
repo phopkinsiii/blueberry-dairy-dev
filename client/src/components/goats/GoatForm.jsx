@@ -45,10 +45,31 @@ const GoatForm = ({
 
 	return (
 		<form onSubmit={onSubmit} className='space-y-4'>
-			<InputField label='Nickname' name='nickname' value={goat.nickname} onChange={handleChange} />
-			<InputField label='Registered Name' name='registeredName' value={goat.registeredName} onChange={handleChange} />
-			<InputField label='Date of Birth' name='dob' type='date' value={goat.dob} onChange={handleChange} />
-			<InputField label='ADGA ID' name='adgaId' value={goat.adgaId} onChange={handleChange} />
+			<InputField
+				label='Nickname'
+				name='nickname'
+				value={goat.nickname}
+				onChange={handleChange}
+			/>
+			<InputField
+				label='Registered Name'
+				name='registeredName'
+				value={goat.registeredName}
+				onChange={handleChange}
+			/>
+			<InputField
+				label='Date of Birth'
+				name='dob'
+				type='date'
+				value={goat.dob}
+				onChange={handleChange}
+			/>
+			<InputField
+				label='ADGA ID'
+				name='adgaId'
+				value={goat.adgaId}
+				onChange={handleChange}
+			/>
 
 			<div>
 				<label className='block mb-1 font-medium'>Gender</label>
@@ -77,27 +98,54 @@ const GoatForm = ({
 						placeholder={`Award ${index + 1}`}
 					/>
 				))}
-				<button type='button' onClick={addAward} className='text-sm text-blue-600 hover:underline'>
+				<button
+					type='button'
+					onClick={addAward}
+					className='text-sm text-blue-600 hover:underline'
+				>
 					+ Add another award
 				</button>
 			</div>
 
 			<h3 className='text-lg font-semibold mt-4'>Pedigree</h3>
-			{['sire', 'dam', 'siresSire', 'siresDam', 'damsSire', 'damsDam'].map((field) => (
+			{['sire', 'dam', 'siresSire', 'siresDam', 'damsSire', 'damsDam'].map(
+				(field) => (
+					<InputField
+						key={field}
+						label={field.replace(/([A-Z])/g, ' $1')}
+						name={field}
+						value={goat.pedigree[field]}
+						onChange={handleChange}
+					/>
+				)
+			)}
+
+			<CheckboxField
+				label='DNA Confirmed'
+				name='dnaConfirmed'
+				checked={goat.dnaConfirmed}
+				onChange={handleChange}
+			/>
+			<CheckboxField
+				label='Disbudded'
+				name='disbudded'
+				checked={goat.disbudded}
+				onChange={handleChange}
+			/>
+			<CheckboxField
+				label='For Sale'
+				name='forSale'
+				checked={goat.forSale}
+				onChange={handleChange}
+			/>
+			{goat.forSale && (
 				<InputField
-					key={field}
-					label={field.replace(/([A-Z])/g, ' $1')}
-					name={field}
-					value={goat.pedigree[field]}
+					label='Price ($)'
+					name='price'
+					type='number'
+					value={goat.price}
 					onChange={handleChange}
 				/>
-			))}
-
-			<CheckboxField label='DNA Confirmed' name='dnaConfirmed' checked={goat.dnaConfirmed} onChange={handleChange} />
-			<CheckboxField label='Disbudded' name='disbudded' checked={goat.disbudded} onChange={handleChange} />
-			<CheckboxField label='For Sale' name='forSale' checked={goat.forSale} onChange={handleChange} />
-			{goat.forSale && (
-				<InputField label='Price ($)' name='price' type='number' value={goat.price} onChange={handleChange} />
 			)}
 
 			<div>
@@ -115,7 +163,13 @@ const GoatForm = ({
 				<label className='block font-medium mb-1'>Upload Images</label>
 				<label className='inline-block bg-indigo-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-indigo-700'>
 					Choose Images
-					<input type='file' accept='image/*' multiple onChange={handleImageUpload} className='hidden' />
+					<input
+						type='file'
+						accept='image/*'
+						multiple
+						onChange={handleImageUpload}
+						className='hidden'
+					/>
 				</label>
 				{imageFiles.length > 0 && (
 					<div className='grid grid-cols-3 gap-2 mt-3'>
@@ -134,11 +188,23 @@ const GoatForm = ({
 			{goat.images?.length > 0 && (
 				<div className='mt-4'>
 					<label className='block font-medium mb-1'>Current Images</label>
-					<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-						<SortableContext items={goat.images} strategy={verticalListSortingStrategy}>
+					<DndContext
+						sensors={sensors}
+						collisionDetection={closestCenter}
+						onDragEnd={handleDragEnd}
+					>
+						<SortableContext
+							items={goat.images}
+							strategy={verticalListSortingStrategy}
+						>
 							<div className='grid grid-cols-3 gap-3'>
 								{goat.images.map((url, index) => (
-									<SortableImage key={url} id={url} url={url} onRemove={() => removeImage(index)} />
+									<SortableImage
+										key={`${url}-${index}`}
+										id={url}
+										url={url}
+										onRemove={() => removeImage(index)}
+									/>
 								))}
 							</div>
 						</SortableContext>
@@ -166,12 +232,19 @@ const GoatForm = ({
 						)}
 					</div>
 				))}
-				<button type='button' onClick={addImageUrlField} className='text-sm text-blue-600 hover:underline'>
+				<button
+					type='button'
+					onClick={addImageUrlField}
+					className='text-sm text-blue-600 hover:underline'
+				>
 					+ Add another image URL
 				</button>
 			</div>
 
-			<button type='submit' className='w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700'>
+			<button
+				type='submit'
+				className='w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700'
+			>
 				{goat._id ? 'Update Goat' : 'Add Goat'}
 			</button>
 		</form>
@@ -196,7 +269,13 @@ const InputField = ({ label, name, value, onChange, type = 'text' }) => (
 
 const CheckboxField = ({ label, name, checked, onChange }) => (
 	<div className='flex items-center space-x-2'>
-		<input type='checkbox' name={name} checked={checked} onChange={onChange} className='w-4 h-4' />
+		<input
+			type='checkbox'
+			name={name}
+			checked={checked}
+			onChange={onChange}
+			className='w-4 h-4'
+		/>
 		<label htmlFor={name} className='font-medium'>
 			{label}
 		</label>
