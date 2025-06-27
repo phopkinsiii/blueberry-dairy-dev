@@ -1,118 +1,70 @@
 // @ts-nocheck
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../api/axios';
-import axios from 'axios';
-import imageCompression from 'browser-image-compression';
-import { useUserContext } from '../../../contexts/UserContext';
+import Spinner from '../../../components/Spinner';
 import GoatForm from '../../../components/goats/GoatForm';
 import { toast } from 'react-toastify';
-import { toInputDateFormat } from '../../../utils/dateHelpers';
-import Spinner from '../../../components/Spinner';
 
 const EditGoat = () => {
 	const { id } = useParams();
-	const { state } = useUserContext();
 	const navigate = useNavigate();
-
 	const [goat, setGoat] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState('');
 	const [imageFiles, setImageFiles] = useState([]);
-	const [imageUrls, setImageUrls] = useState(['']);
-	const [error, setError] = useState(null);
+	const [imageUrls, setImageUrls] = useState([]);
 
 	useEffect(() => {
 		const fetchGoat = async () => {
 			try {
 				const res = await axiosInstance.get(`/goats/${id}`);
-				const fetchedGoat = res.data;
-
-				setGoat({
-					...fetchedGoat,
-					dob: fetchedGoat.dob ? toInputDateFormat(fetchedGoat.dob) : '',
-					awards: fetchedGoat.awards || [''],
-					images: fetchedGoat.images || [],
-					pedigree: {
-						sire: '',
-						dam: '',
-						siresSire: '',
-						siresDam: '',
-						damsSire: '',
-						damsDam: '',
-						...fetchedGoat.pedigree,
-					},
-				});
+				setGoat(res.data);
 			} catch (err) {
 				console.error(err);
 				setError('Failed to load goat data');
+			} finally {
+				setLoading(false);
 			}
 		};
 		fetchGoat();
 	}, [id]);
 
-	useEffect(() => {
-		if (goat) window.scrollTo(0, 0);
-	}, [goat]);
-
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-		if (name in (goat.pedigree || {})) {
-			setGoat({ ...goat, pedigree: { ...goat.pedigree, [name]: value } });
+
+		if (
+			['sire', 'dam', 'siresSire', 'siresDam', 'damsSire', 'damsDam'].includes(
+				name
+			)
+		) {
+			setGoat((prev) => ({
+				...prev,
+				pedigree: {
+					...prev.pedigree,
+					[name]: value,
+				},
+			}));
 		} else if (type === 'checkbox') {
-			setGoat({ ...goat, [name]: checked });
+			setGoat((prev) => ({ ...prev, [name]: checked }));
 		} else {
-			setGoat({ ...goat, [name]: value });
+			setGoat((prev) => ({ ...prev, [name]: value }));
 		}
 	};
 
 	const handleAwardsChange = (index, value) => {
 		const updated = [...goat.awards];
 		updated[index] = value;
-		setGoat({ ...goat, awards: updated });
+		setGoat((prev) => ({ ...prev, awards: updated }));
 	};
 
 	const addAward = () => {
-		setGoat({ ...goat, awards: [...goat.awards, ''] });
+		setGoat((prev) => ({ ...prev, awards: [...prev.awards, ''] }));
 	};
 
-	const removeImage = async (index) => {
-		const imageUrl = goat.images[index];
-
-		if (goat.images.length === 1) {
-			const confirmed = window.confirm('⚠️ This is the last image. Are you sure you want to remove it?');
-			if (!confirmed) return;
-		}
-
-		try {
-			const token = state.user?.token;
-
-			await axiosInstance.delete(`/goats/${id}/images`, {
-				headers: { Authorization: `Bearer ${token}` },
-				data: { imageUrl },
-			});
-
-			setGoat((prev) => ({
-				...prev,
-				images: prev.images.filter((_, i) => i !== index),
-			}));
-
-			toast.success('Image removed');
-		} catch (err) {
-			console.error('Error removing image:', err);
-			toast.error('Failed to remove image');
-		}
-	};
-
-	const handleImageUpload = async (e) => {
+	const handleImageUpload = (e) => {
 		const files = Array.from(e.target.files);
-		if (!files.length) return;
-		try {
-			const options = { maxSizeMB: 1, maxWidthOrHeight: 1200, useWebWorker: true };
-			const compressed = await Promise.all(files.map((f) => imageCompression(f, options)));
-			setImageFiles(compressed);
-		} catch (err) {
-			console.error(err);
-			setError('Image compression failed.');
-		}
+		setImageFiles(files);
 	};
 
 	const handleImageUrlChange = (index, value) => {
@@ -122,68 +74,70 @@ const EditGoat = () => {
 	};
 
 	const addImageUrlField = () => {
-		setImageUrls([...imageUrls, '']);
+		setImageUrls((prev) => [...prev, '']);
+	};
+
+	const removeImage = (index) => {
+		if (goat.images.length === 1) {
+			const confirmDelete = window.confirm(
+				'This is the last image. Are you sure you want to remove it?'
+			);
+			if (!confirmDelete) return;
+		}
+
+		const updated = [...goat.images];
+		updated.splice(index, 1);
+		setGoat((prev) => ({ ...prev, images: updated }));
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const token = state.user?.token;
-			let newImageUrls = [];
+		const formData = new FormData();
 
-			if (imageFiles.length > 0) {
-				const uploads = await Promise.all(
-					imageFiles.map((file) => {
-						const formData = new FormData();
-						formData.append('file', file);
-						formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-						return axios.post(import.meta.env.VITE_CLOUDINARY_UPLOAD_URL, formData);
-					})
-				);
-				newImageUrls = uploads.map((r) => r.data.secure_url);
+		imageFiles.forEach((file) => formData.append('images', file));
+
+		// Append image URLs
+		imageUrls.forEach((url) => {
+			if (url.trim().startsWith('http')) {
+				formData.append('imageUrls', url.trim());
 			}
+		});
 
-			const manualUrls = imageUrls.map((url) => url.trim()).filter(Boolean);
-
+		try {
 			const updatedGoat = {
 				...goat,
-				price: goat.forSale ? Number(goat.price) : null,
-				images: [...(goat.images || []), ...newImageUrls, ...manualUrls],
+				images: goat.images, // reordered list
 			};
 
-			await axiosInstance.put(`/goats/${id}`, updatedGoat, {
-				headers: { Authorization: `Bearer ${token}` },
-			});
-			toast.success(`${goat.nickname} updated successfully!`);
-			navigate('/goats');
+			const res = await axiosInstance.put(`/goats/${id}`, updatedGoat);
+			toast.success('Goat updated successfully');
+			navigate('/admin/manage-goats');
 		} catch (err) {
 			console.error(err);
-			toast.error('Update failed');
+			toast.error('Failed to update goat');
 		}
 	};
 
+	if (loading) return <Spinner />;
+	if (error) return <div className='p-6 text-red-600'>{error}</div>;
+	if (!goat) return null;
+
 	return (
-		<div className='max-w-2xl mx-auto p-6 bg-white shadow-md'>
-			<h2 className='text-2xl font-bold mb-4 text-gray-800'>Edit Goat</h2>
-			{error && <p className='text-red-500 mb-4'>{error}</p>}
-			{goat ? (
-				<GoatForm
-					goat={goat}
-					handleChange={handleChange}
-					handleAwardsChange={handleAwardsChange}
-					addAward={addAward}
-					handleImageUpload={handleImageUpload}
-					removeImage={removeImage}
-					onSubmit={handleSubmit}
-					isEdit
-					imageUrls={imageUrls}
-					handleImageUrlChange={handleImageUrlChange}
-					addImageUrlField={addImageUrlField}
-					imageFiles={imageFiles}
-				/>
-			) : (
-				<Spinner />
-			)}
+		<div className='p-6 max-w-4xl mx-auto'>
+			<h1 className='text-2xl font-bold mb-4'>Edit Goat</h1>
+			<GoatForm
+				goat={goat}
+				handleChange={handleChange}
+				handleAwardsChange={handleAwardsChange}
+				addAward={addAward}
+				handleImageUpload={handleImageUpload}
+				imageFiles={imageFiles}
+				imageUrls={imageUrls}
+				handleImageUrlChange={handleImageUrlChange}
+				addImageUrlField={addImageUrlField}
+				removeImage={removeImage}
+				onSubmit={handleSubmit}
+			/>
 		</div>
 	);
 };
