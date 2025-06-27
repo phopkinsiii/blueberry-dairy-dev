@@ -4,8 +4,15 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, X } from 'lucide-react';
 
-const SortableImage = ({ id, url, onRemove, listeners, attributes }) => {
-	const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
+const SortableImage = ({ id, url, onRemove }) => {
+	const {
+		setNodeRef,
+		attributes,
+		listeners,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
@@ -23,8 +30,12 @@ const SortableImage = ({ id, url, onRemove, listeners, attributes }) => {
 
 			<button
 				type='button'
-				onClick={onRemove}
-				className='absolute top-1 right-1 p-1 bg-white/80 rounded-full text-red-600 hover:bg-white shadow-md'
+				onClick={(e) => {
+					e.stopPropagation(); // Prevent drag conflict
+					console.log('🗑️ Removing image:', id);
+					onRemove();
+				}}
+				className='absolute top-1 right-1 p-1 bg-white/80 rounded-full text-red-600 hover:bg-white shadow-md z-10'
 				title='Remove image'
 			>
 				<X size={16} />

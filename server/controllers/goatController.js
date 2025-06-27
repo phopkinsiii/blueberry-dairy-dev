@@ -37,9 +37,6 @@ export const getDoes = async (req, res) => {
 // @desc    Get all bucks
 // @route   GET /api/goats/bucks
 // @access  Public
-// @desc    Get all bucks
-// @route   GET /api/goats/bucks
-// @access  Public
 export const getBucks = async (req, res) => {
 	try {
 		const bucks = await Goat.find({ gender: 'Buck' });
@@ -49,8 +46,6 @@ export const getBucks = async (req, res) => {
 		res.status(500).json({ message: 'Failed to fetch bucks' });
 	}
 };
-
-
 
 export const getGoatById = async (req, res) => {
 	try {
