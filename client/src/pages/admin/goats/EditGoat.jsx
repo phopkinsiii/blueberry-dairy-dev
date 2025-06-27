@@ -109,7 +109,7 @@ const EditGoat = () => {
 				images: goat.images, // reordered list
 			};
 
-			const res = await axiosInstance.put(`/goats/${id}`, updatedGoat);
+			await axiosInstance.put(`/goats/${id}`, updatedGoat);
 			toast.success('Goat updated successfully');
 			navigate('/manage-goats');
 		} catch (err) {
