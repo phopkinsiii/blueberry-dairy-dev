@@ -1,5 +1,6 @@
 // utils/validators.js
 import validator from 'validator';
+import Goat from '../models/goatModel.js';
 
 // ✅ Validate Email
 export const validateEmail = (email) => {
@@ -150,6 +151,60 @@ export const validateGoatData = (data) => {
 
 	if (data.images && !Array.isArray(data.images)) {
 		errors.push('Images must be an array of image URLs.');
+	}
+
+	return {
+		isValid: errors.length === 0,
+		errors,
+	};
+};
+
+//Milk record validation
+
+export const validateMilkRecord = async (
+	{ goatId, recordedAt, amount },
+	isUpdate = false
+) => {
+	const errors = [];
+
+	if (goatId) {
+		try {
+			const goat = await Goat.findById(goatId);
+			if (!goat) {
+				errors.push('Goat not found.');
+			} else if (goat.gender !== 'Doe') {
+				errors.push(
+					`Milk records can only be entered for does, not ${goat.gender}s.`
+				);
+			}
+		} catch (err) {
+			errors.push('Invalid goat ID format.');
+		}
+	} else if (!isUpdate) {
+		errors.push('Goat ID is required.');
+	}
+
+	if (recordedAt !== undefined) {
+		if (!recordedAt || isNaN(Date.parse(recordedAt))) {
+			errors.push('A valid milking date/time (recordedAt) is required.');
+		}
+	} else if (!isUpdate) {
+		errors.push('Milking date/time is required.');
+	}
+
+	if (amount !== undefined) {
+		if (
+			typeof amount !== 'number' ||
+			isNaN(amount) ||
+			amount < 0 ||
+			amount > 99.9
+		) {
+			errors.push(
+				'Amount must be a number between 0 and 99.9 in tenths of a pound.'
+			);
+		}
+	} else if (!isUpdate) {
+		errors.push('Amount is required.');
 	}
 
 	return {

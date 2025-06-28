@@ -81,9 +81,12 @@ const GoatForm = ({
 						label='Date of Birth'
 						name='dob'
 						type='date'
-						value={goat.dob}
+						value={
+							goat.dob ? new Date(goat.dob).toISOString().split('T')[0] : ''
+						}
 						onChange={handleChange}
 					/>
+
 					<InputField
 						label='ADGA ID'
 						name='adgaId'
@@ -116,7 +119,7 @@ const GoatForm = ({
 								type='text'
 								value={award}
 								onChange={(e) => handleAwardsChange(index, e.target.value)}
-								className='w-full border px-3 py-2 mb-2 rounded'
+								className={inputClass}
 								placeholder={`Award ${index + 1}`}
 							/>
 						))}

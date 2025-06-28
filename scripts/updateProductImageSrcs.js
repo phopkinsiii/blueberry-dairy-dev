@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
-import Product from '../models/productModel.js';
+import Product from '../server/models/productModel.js';
 
 dotenv.config(); // make sure MONGO_URI is in server/.env
 
