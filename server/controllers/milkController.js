@@ -165,3 +165,68 @@ export const getMilkSummary = async (req, res) => {
 		res.status(500).json({ message: 'Error generating milk summary' });
 	}
 };
+
+// @desc    Get summary of milk production for a specific goat
+// @route   GET /api/milk/goat/:goatId/summary
+// @access  Public
+export const getGoatMilkSummary = async (req, res) => {
+	const { goatId } = req.params;
+
+	try {
+		// Fetch all milk records for this goat
+		const records = await MilkRecord.find({ goat: goatId });
+
+		if (!records.length) {
+			return res
+				.status(404)
+				.json({ message: 'No milk records found for this goat' });
+		}
+
+		// Group by year
+		const yearlyData = {};
+
+		for (const record of records) {
+			const year = new Date(record.recordedAt).getFullYear();
+
+			if (!yearlyData[year]) {
+				yearlyData[year] = {
+					total: 0,
+					count: 0,
+					days: new Set(),
+				};
+			}
+
+			yearlyData[year].total += record.amount;
+			yearlyData[year].count += 1;
+			yearlyData[year].days.add(record.recordedAt.toISOString().split('T')[0]); // track unique days
+		}
+
+		// Format summary
+		const summary = Object.entries(yearlyData).map(([year, data]) => ({
+			year: Number(year),
+			total: parseFloat(data.total.toFixed(2)),
+			averagePerDay: parseFloat((data.total / data.days.size).toFixed(3)),
+			daysMilked: data.days.size,
+			entries: data.count,
+		}));
+
+		// Sort descending by year
+		summary.sort((a, b) => b.year - a.year);
+
+		// Lifetime totals
+		const lifetimeTotal = summary.reduce((acc, yr) => acc + yr.total, 0);
+		const lifetimeDays = summary.reduce((acc, yr) => acc + yr.daysMilked, 0);
+
+		res.status(200).json({
+			goatId,
+			lifetimeTotal: parseFloat(lifetimeTotal.toFixed(2)),
+			lifetimeAveragePerDay: parseFloat(
+				(lifetimeTotal / lifetimeDays).toFixed(3)
+			),
+			years: summary,
+		});
+	} catch (error) {
+		console.error('❌ Error generating goat milk summary:', error);
+		res.status(500).json({ message: 'Error generating goat milk summary' });
+	}
+};

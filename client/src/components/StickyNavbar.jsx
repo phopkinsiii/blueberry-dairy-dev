@@ -7,6 +7,7 @@ import UserGreeting from './UserGreeting';
 import AdminDropdown from './AdminDropdown';
 import GoatDropdown from './goats/GoatDropdown';
 import MobileGoatDropdown from './goats/MobileGoatDropdown';
+import FarmDropdown from './farm/FarmDropdown';
 import { useUserContext } from '../contexts/UserContext';
 import { useCartContext } from '../contexts/CartContext';
 import Logo from './Logo';
@@ -31,12 +32,12 @@ const StickyNavbar = () => {
 
 	const navigation = [
 		{ name: 'Home', href: '/' },
-		{ name: 'About', href: '/our-farm' },
+		// { name: 'About', href: '/our-farm' },
 		{ name: 'Our Products', href: '/products' },
 		{ name: 'Blog', href: '/blog' },
 		{ name: 'Forum', href: '/forum' },
 		{ name: 'Contact', href: '/contact' },
-		{ name: 'Our Goats', href: '/goats' }, // handled separately
+		//{ name: 'Our Goats', href: '/goats' }, // handled separately
 	];
 
 	return (
@@ -121,6 +122,10 @@ const StickyNavbar = () => {
 								</li>
 							) : null
 						)}
+						{/* Desktop Farm Dropdown */}
+						<li className='hidden md:block'>
+							<FarmDropdown scrolled={scrolled} />
+						</li>
 
 						{/* Mobile Goat Dropdown */}
 						<MobileGoatDropdown closeMenu={() => setMenuOpen(false)} />
