@@ -135,16 +135,19 @@ const GoatDetails = () => {
 					<p>
 						<span className='font-semibold'>ADGA ID:</span> {adgaId}
 					</p>
-					{awards?.length > 0 && (
+					{Array.isArray(awards) && awards.some((a) => a.trim() !== '') && (
 						<div>
 							<p className='font-semibold'>Awards:</p>
 							<ul className='list-disc list-inside'>
-								{awards.map((award, idx) => (
-									<li key={idx}>{award}</li>
-								))}
+								{awards
+									.filter((award) => award.trim() !== '')
+									.map((award, idx) => (
+										<li key={idx}>{award}</li>
+									))}
 							</ul>
 						</div>
 					)}
+
 					<div>
 						<p className='font-semibold mb-1'>Pedigree:</p>
 						<ul className='list-disc list-inside text-sm'>
