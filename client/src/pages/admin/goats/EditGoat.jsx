@@ -115,7 +115,7 @@ const EditGoat = () => {
 			removeImage={removeImage}
 			updateImageOrder={updateImageOrder}
 			onSubmit={handleSubmit}
-			isEdit
+			isEdit={true}
 		/>
 	);
 };
