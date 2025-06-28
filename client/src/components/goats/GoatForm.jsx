@@ -188,6 +188,7 @@ const GoatForm = ({
 					</div>
 
 					{/* Current Images (Sortable) */}
+					{console.log('🧩 rendering SortableContext block', goat.images)}
 					{isEdit && goat.images?.length > 0 && (
 						<div>
 							<label className='block font-medium mb-2'>Current Images</label>
