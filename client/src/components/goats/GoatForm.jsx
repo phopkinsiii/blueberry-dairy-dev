@@ -40,7 +40,6 @@ const GoatForm = ({
 	onSubmit,
 	isEdit = false,
 }) => {
-	console.log('🐐 goat.images:', goat?.images);
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
