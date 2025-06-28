@@ -81,9 +81,12 @@ const GoatForm = ({
 						label='Date of Birth'
 						name='dob'
 						type='date'
-						value={goat.dob}
+						value={
+							goat.dob ? new Date(goat.dob).toISOString().split('T')[0] : ''
+						}
 						onChange={handleChange}
 					/>
+
 					<InputField
 						label='ADGA ID'
 						name='adgaId'
