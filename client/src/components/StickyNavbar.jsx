@@ -8,6 +8,7 @@ import AdminDropdown from './AdminDropdown';
 import GoatDropdown from './goats/GoatDropdown';
 import MobileGoatDropdown from './goats/MobileGoatDropdown';
 import FarmDropdown from './farm/FarmDropdown';
+import MobileFarmDropdown from './farm/MobileFarmDropdown';
 import { useUserContext } from '../contexts/UserContext';
 import { useCartContext } from '../contexts/CartContext';
 import Logo from './Logo';
@@ -32,12 +33,12 @@ const StickyNavbar = () => {
 
 	const navigation = [
 		{ name: 'Home', href: '/' },
-		// { name: 'About', href: '/our-farm' },
+		// { name: 'About', href: '/our-farm' }, // moved to dropdown
 		{ name: 'Our Products', href: '/products' },
 		{ name: 'Blog', href: '/blog' },
 		{ name: 'Forum', href: '/forum' },
 		{ name: 'Contact', href: '/contact' },
-		{ name: 'Our Goats', href: '/goats' }, // handled separately
+		// { name: 'Our Goats', href: '/goats' }, // handled separately
 	];
 
 	return (
@@ -93,7 +94,10 @@ const StickyNavbar = () => {
 						</button>
 
 						{/* Logo */}
-						<Logo />
+						{/* Logo - visible only on md and up */}
+						<div className='hidden md:block'>
+							<Logo />
+						</div>
 					</div>
 
 					{/* Center: Nav Links */}
@@ -103,35 +107,34 @@ const StickyNavbar = () => {
 						} flex-col md:flex md:flex-row md:gap-10 gap-4 absolute md:static top-full left-0 w-full md:w-auto 
               bg-white md:bg-transparent p-6 md:p-0 z-40 text-center md:text-left text-2xl font-semibold`}
 					>
-						{navigation.map((item) =>
-							item.name !== 'Our Goats' ? (
-								<li key={item.name}>
-									<NavLink
-										to={item.href}
-										onClick={() => setMenuOpen(false)}
-										className={({ isActive }) =>
-											`transition duration-300 ${
-												isActive
-													? 'text-green-600 text-3xl underline'
-													: 'text-gray-800 md:text-white hover:text-amber-600'
-											}`
-										}
-									>
-										{item.name}
-									</NavLink>
-								</li>
-							) : null
-						)}
-
-						{/* Mobile Goat Dropdown */}
-						<MobileGoatDropdown closeMenu={() => setMenuOpen(false)} />
-
-						{/* Desktop Goat Dropdown */}
+						{navigation.map((item) => (
+							<li key={item.name}>
+								<NavLink
+									to={item.href}
+									onClick={() => setMenuOpen(false)}
+									className={({ isActive }) =>
+										`transition duration-300 ${
+											isActive
+												? 'text-green-600 text-3xl underline'
+												: 'text-gray-800 md:text-white hover:text-amber-600'
+										}`
+									}
+								>
+									{item.name}
+								</NavLink>
+							</li>
+						))}
+						{/* ✅ Mobile Dropdowns: render here, but only on mobile */}
+						<li className='md:hidden'>
+							<MobileGoatDropdown closeMenu={() => setMenuOpen(false)} />
+						</li>
+						<li className='md:hidden'>
+							<MobileFarmDropdown closeMenu={() => setMenuOpen(false)} />
+						</li>
+						{/* Desktop Dropdowns */}
 						<li className='hidden md:block'>
 							<GoatDropdown scrolled={scrolled} />
 						</li>
-
-						{/* Desktop Farm Dropdown */}
 						<li className='hidden md:block'>
 							<FarmDropdown scrolled={scrolled} />
 						</li>

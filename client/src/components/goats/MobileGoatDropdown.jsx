@@ -1,33 +1,21 @@
 // @ts-nocheck
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 
 const MobileGoatDropdown = ({ closeMenu }) => {
 	const [open, setOpen] = useState(false);
-
+	const toggle = () => setOpen((prev) => !prev);
 	return (
 		<li className='md:hidden'>
 			<button
-				onClick={() => setOpen((prev) => !prev)}
-				className='flex justify-between items-center w-full text-gray-800 hover:text-amber-600 text-2xl font-semibold'
+				onClick={toggle}
+				className='flex flex-col items-center justify-center w-full text-gray-800 font-semibold py-2 hover:text-amber-600'
 			>
-				<span>Our Goats</span>
-				<svg
-					className={`h-6 w-6 transform transition-transform ${
-						open ? 'rotate-180' : ''
-					}`}
-					fill='none'
-					stroke='currentColor'
-					viewBox='0 0 24 24'
-					xmlns='http://www.w3.org/2000/svg'
-				>
-					<path
-						strokeLinecap='round'
-						strokeLinejoin='round'
-						strokeWidth={2}
-						d='M19 9l-7 7-7-7'
-					/>
-				</svg>
+				<div className='flex items-center gap-2'>
+					<span>Farm Info</span>
+					{open ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}
+				</div>
 			</button>
 
 			<div
