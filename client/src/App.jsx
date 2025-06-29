@@ -48,6 +48,7 @@ import ForSaleGoats from './pages/goats/ForSaleGoats';
 import DoesGoats from './pages/goats/DoesGoats';
 import BuckGoats from './pages/goats/BuckGoats.jsx';
 import NotFound from './pages/NotFound.jsx';
+import MilkRecordsPage from './pages/milk/MilkRecordsPage.jsx';
 
 function App() {
 	return (
@@ -201,6 +202,8 @@ function App() {
 								</AdminRoute>
 							}
 						/>
+
+						<Route path='/milk-records' element={<MilkRecordsPage />} />
 					</Routes>
 				</NavbarLayout>
 			</div>
