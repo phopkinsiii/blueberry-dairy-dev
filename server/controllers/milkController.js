@@ -1,6 +1,5 @@
 // server/controllers/milkController.js
 import MilkRecord from '../models/milkModel.js';
-import Goat from '../models/goatModel.js';
 import { validateMilkRecord } from '../utils/validators.js';
 
 // @desc    Get all milk records (with goat info)
