@@ -1,5 +1,6 @@
 // utils/validators.js
 import validator from 'validator';
+import Goat from '../models/goatModel.js';
 
 // ✅ Validate Email
 export const validateEmail = (email) => {
@@ -159,35 +160,26 @@ export const validateGoatData = (data) => {
 };
 
 // ✅ Validate Milk Record
-import Goat from '../models/goatModel.js';
 
-export const validateMilkRecord = async ({ goatId, recordedAt, amount }, isUpdate = false) => {
+export const validateMilkRecord = async (data, isUpdate = false) => {
 	const errors = [];
 
-	if (!goatId) {
-		errors.push('Goat ID is required.');
-	} else {
-		try {
-			const goat = await Goat.findById(goatId);
-			if (!goat) {
-				errors.push('Goat not found.');
-			} else if (goat.gender !== 'Doe') {
-				errors.push('Milk records can only be associated with does.');
-			}
-		} catch (err) {
-			errors.push('Invalid goat ID format.');
+	// Only require fields if not updating
+	if (!isUpdate || data.goatId !== undefined) {
+		if (!data.goatId || typeof data.goatId !== 'string') {
+			errors.push('Valid goat ID is required.');
 		}
 	}
 
-	if (!isUpdate || recordedAt) {
-		if (!recordedAt || isNaN(Date.parse(recordedAt))) {
-			errors.push('Valid milking date and time is required.');
+	if (!isUpdate || data.recordedAt !== undefined) {
+		if (!data.recordedAt || isNaN(Date.parse(data.recordedAt))) {
+			errors.push('Valid date (recordedAt) is required.');
 		}
 	}
 
-	if (!isUpdate || amount !== undefined) {
-		if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
-			errors.push('Amount must be a positive number.');
+	if (!isUpdate || data.amount !== undefined) {
+		if (typeof data.amount !== 'number' || data.amount <= 0) {
+			errors.push('Milk amount must be a positive number.');
 		}
 	}
 
