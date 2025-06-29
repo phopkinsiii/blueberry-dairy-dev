@@ -84,7 +84,7 @@ app.use(
 
 // ✅ Global JSON parser
 app.use(express.json());
-
+app.set('trust proxy', 1);
 // ✅ Apply global rate limiter to all /api routes
 app.use('/api', globalLimiter);
 
