@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../../api/axios';
+import axiosInstance from '../../api/axios';
 import { toast } from 'react-toastify';
 
 const MilkEntryForm = () => {
