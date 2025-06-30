@@ -16,6 +16,8 @@ import {
 	getBreadcrumbSchema,
 	getGoatListSchema,
 } from '../../utils/schemaGenerators';
+import JsonLd from '../../components/JsonLd';
+
 
 const goatsBreadcrumbItems = [
 	{
