@@ -8,6 +8,7 @@ import JsonLd from '../components/JsonLd';
 import {
 	getWebSiteSchema,
 	getOrganizationSchema,
+	getBreadcrumbSchema,
 } from '../utils/schemaGenerators';
 
 import {
@@ -38,10 +39,15 @@ const Home = () => {
 				)}
 				{...getSeoTimestamps([])}
 			/>
-
-			<JsonLd data={getWebSiteSchema()} />
-			<JsonLd data={getOrganizationSchema()} />
-
+			<>
+				<JsonLd data={getWebSiteSchema()} />
+				<JsonLd data={getOrganizationSchema()} />
+				<JsonLd
+					data={getBreadcrumbSchema([
+						{ name: 'Home', url: 'https://www.blueberrydairy.com' },
+					])}
+				/>
+			</>
 			{/* Hidden on small screens */}
 			<ScrollingBanner />
 

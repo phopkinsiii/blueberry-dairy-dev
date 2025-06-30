@@ -75,9 +75,11 @@ export const getOrganizationSchema = () => ({
 		'Blueberry Dairy is a regenerative farm in Tennessee offering raw goat milk, organic fruit, and sustainable, nourishing food.',
 	address: {
 		'@type': 'PostalAddress',
-		addressLocality: 'East Tennessee',
+		streetAddress: '154 Pressmens Home Road',
+		addressLocality: 'Rogersville',
 		addressRegion: 'TN',
-		addressCountry: 'USA',
+		postalCode: '37857',
+		addressCountry: 'US',
 	},
 	sameAs: [
 		'https://www.facebook.com/blueberrydairy', // Update or remove if unused

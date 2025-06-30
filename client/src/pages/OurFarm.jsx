@@ -2,7 +2,10 @@
 'use client';
 import SeoHead from '../components/SeoHead';
 import JsonLd from '../components/JsonLd';
-import { getOrganizationSchema } from '../utils/schemaGenerators';
+import {
+	getOrganizationSchema,
+	getBreadcrumbSchema,
+} from '../utils/schemaGenerators';
 
 const values = [
 	{
@@ -37,6 +40,17 @@ const values = [
 	},
 ];
 
+const aboutBreadcrumbItems = [
+	{
+		name: 'Home',
+		url: 'https://www.blueberrydairy.com',
+	},
+	{
+		name: 'About the Farm',
+		url: 'https://www.blueberrydairy.com/our-farm',
+	},
+];
+
 export default function OurFarm() {
 	return (
 		<>
@@ -47,9 +61,10 @@ export default function OurFarm() {
 				image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750275064/seo_soil_in_hand_zg3sew.jpg'
 				url='https://www.blueberrydairy.com/our-farm'
 			/>
-
-			<JsonLd data={getOrganizationSchema()} />
-
+			<>
+				<JsonLd data={getOrganizationSchema()} />
+				<JsonLd json={getBreadcrumbSchema(aboutBreadcrumbItems)} />
+			</>
 			<div
 				className='relative min-h-screen bg-cover bg-center bg-fixed'
 				style={{
@@ -291,7 +306,6 @@ export default function OurFarm() {
 						</p>
 					</div>
 				</main>
-
 			</div>
 		</>
 	);

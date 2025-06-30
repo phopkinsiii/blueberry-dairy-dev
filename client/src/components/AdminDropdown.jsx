@@ -58,6 +58,16 @@ const dropdownSections = [
 			{ label: 'Manage Goats', path: '/manage-goats', icon: IconList },
 		],
 	},
+	{
+		title: 'Milk Records',
+		links: [
+			{
+				label: 'Add Milk Entry',
+				path: '/admin/milk-entry',
+				icon: IconPlus,
+			},
+		],
+	},
 ];
 
 const AdminDropdown = ({ scrolled }) => {
