@@ -72,7 +72,7 @@ export const getOrganizationSchema = () => ({
 	url: 'https://www.blueberrydairy.com',
 	logo: 'https://res.cloudinary.com/dzhweqopn/image/upload/v1748887807/goat_logo_3_s898tm.png',
 	description:
-		'Blueberry Dairy is a regenerative farm in Tennessee offering raw goat milk, organic fruit, and sustainable, nourishing food.',
+		'Blueberry Dairy at Hickory Cove Orchards is a regenerative farm in Tennessee offering raw goat milk, organic fruit, and sustainable, nourishing food.',
 	address: {
 		'@type': 'PostalAddress',
 		streetAddress: '154 Pressmens Home Road',
@@ -82,8 +82,7 @@ export const getOrganizationSchema = () => ({
 		addressCountry: 'US',
 	},
 	sameAs: [
-		'https://www.facebook.com/blueberrydairy', // Update or remove if unused
-		'https://www.instagram.com/blueberrydairy',
+		'https://www.facebook.com/profile.php?id=61575926251092', // Update or remove if unused
 	],
 });
 
@@ -130,12 +129,9 @@ export const getContactPageSchema = () => ({
 			addressCountry: 'US',
 		},
 		telephone: '+1-423-293-4487',
-		email: 'hello@blueberrydairy.com',
+		email: 'phopkins1757@gmail.com',
 		url: 'https://www.blueberrydairy.com',
-		sameAs: [
-			'https://www.facebook.com/blueberrydairy', // update or remove as needed
-			'https://www.instagram.com/blueberrydairy', // update or remove as needed
-		],
+		sameAs: ['https://www.facebook.com/profile.php?id=61575926251092'],
 	},
 });
 
@@ -303,4 +299,42 @@ export const getBreadcrumbSchema = (items = []) => ({
 		name: item.name,
 		item: item.url,
 	})),
+});
+
+export const getLocalBusinessSchema = () => ({
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness',
+	name: 'Blueberry Dairy at Hickory Cove Orchards',
+	alternateName: 'Blueberry Dairy',
+	description:
+		'Blueberry Dairy at Hickory Cove Orchards is a family-run organic farm in Rogersville, Tennessee offering raw Nigerian Dwarf goat milk, blueberries, apples, and regenerative farm products.',
+	image:
+		'https://res.cloudinary.com/dzhweqopn/image/upload/v1749237560/blueberrydairy/product_images/xo36pirtbvdqfc6ffznn.png',
+	url: 'https://blueberrydairy.com',
+	telephone: '+1-423-293-4487',
+	email: 'phopkins1757@gmail.com',
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: '154 Pressmens Home Road',
+		addressLocality: 'Rogersville',
+		addressRegion: 'TN',
+		postalCode: '37857',
+		addressCountry: 'US',
+	},
+	openingHoursSpecification: [
+		{
+			'@type': 'OpeningHoursSpecification',
+			dayOfWeek: [
+				'Monday',
+				'Tuesday',
+				'Wednesday',
+				'Thursday',
+				'Friday',
+				'Sunday',
+			],
+			opens: '09:00',
+			closes: '17:00',
+		},
+	],
+	sameAs: ['https://www.facebook.com/profile.php?id=61575926251092'],
 });

@@ -25,7 +25,7 @@ const Home = () => {
 	return (
 		<>
 			<SeoHead
-				title='Welcome to Blueberry Dairy | Regenerative Farm in Tennessee'
+				title='Welcome to Blueberry Dairy at Hickory Cove Orchards | Regenerative Farm in Tennessee'
 				description={truncate(
 					stripHtml(
 						'Welcome to Blueberry Dairy at Hickory Cove Orchards, a regenerative farm in Tennessee producing raw goat milk, organic fruits, and healthy, nourishing food.'

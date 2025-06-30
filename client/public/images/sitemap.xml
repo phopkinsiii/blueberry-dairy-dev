@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Public Static Routes -->
+  <url><loc>https://blueberrydairy.com/</loc></url>
+  <url><loc>https://blueberrydairy.com/products</loc></url>
+  <url><loc>https://blueberrydairy.com/cart</loc></url>
+  <url><loc>https://blueberrydairy.com/our-farm</loc></url>
+  <url><loc>https://blueberrydairy.com/contact</loc></url>
+  <url><loc>https://blueberrydairy.com/login</loc></url>
+  <url><loc>https://blueberrydairy.com/register</loc></url>
+  <url><loc>https://blueberrydairy.com/checkout</loc></url>
+  <url><loc>https://blueberrydairy.com/confirmation</loc></url>
+  <url><loc>https://blueberrydairy.com/blog</loc></url>
+  <url><loc>https://blueberrydairy.com/forum</loc></url>
+  <url><loc>https://blueberrydairy.com/goats</loc></url>
+  <url><loc>https://blueberrydairy.com/goats/for-sale</loc></url>
+  <url><loc>https://blueberrydairy.com/goats/does</loc></url>
+  <url><loc>https://blueberrydairy.com/goats/bucks</loc></url>
+  <url><loc>https://blueberrydairy.com/milk-records</loc></url>
+  <url><loc>https://blueberrydairy.com/accessibility</loc></url>
+
+  <!-- Dynamic Detail Pages -->
+  <!--
+  <url><loc>https://blueberrydairy.com/blog/12345</loc></url>
+  <url><loc>https://blueberrydairy.com/products/12345</loc></url>
+  <url><loc>https://blueberrydairy.com/goats/12345</loc></url>
+  <url><loc>https://blueberrydairy.com/forum/12345</loc></url>
+  -->
+</urlset>
