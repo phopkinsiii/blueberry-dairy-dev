@@ -17,6 +17,8 @@ const milkSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 );
+milkSchema.index({ recordedAt: -1 }); // for sorting by date
+milkSchema.index({ goat: 1 });        // for filtering by goat
 
 const MilkRecord = mongoose.model('MilkRecord', milkSchema);
 
