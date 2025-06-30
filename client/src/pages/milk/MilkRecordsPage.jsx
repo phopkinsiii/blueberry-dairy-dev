@@ -2,18 +2,19 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axios';
 import Spinner from '../../components/Spinner';
-import { formatDate } from '../../utils/dateHelpers';
+import { formatDate, formatTime } from '../../utils/dateHelpers';
 import SeoHead from '../../components/SeoHead';
 import JsonLd from '../../components/JsonLd';
 import { extractKeywords, getSeoTimestamps } from '../../utils/seoUtils';
 import { getMilkRecordsSchema } from '../../utils/schemaGenerators';
-import { getBreadcrumbSchema } from '../../utils/schemaGenerators';
 
 const MilkRecordsPage = () => {
 	const [records, setRecords] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
+	const [use24Hour, setUse24Hour] = useState(true);
+
 	const recordsPerPage = 60;
 
 	useEffect(() => {
@@ -60,35 +61,30 @@ const MilkRecordsPage = () => {
 				/>
 			)}
 
-			{records.length > 0 && (
-				<>
-					<JsonLd data={getMilkRecordsSchema(records)} />
-					<JsonLd
-						data={getBreadcrumbSchema([
-							{ name: 'Home', url: 'https://www.blueberrydairy.com' },
-							{
-								name: 'Farm Info',
-								url: 'https://www.blueberrydairy.com/farm-info',
-							},
-							{
-								name: 'Milk Records',
-								url: 'https://www.blueberrydairy.com/milk-records',
-							},
-						])}
-					/>
-				</>
-			)}
+			{records?.length > 0 && <JsonLd data={getMilkRecordsSchema(records)} />}
 
 			<div className='max-w-6xl mx-auto px-4 py-8'>
 				<h1 className='text-3xl font-bold mb-6 text-center text-blue-800'>
 					All-Time Milk Records
 				</h1>
+				<div className='flex justify-end mb-2 text-sm text-gray-700'>
+					<label className='flex items-center gap-2'>
+						<input
+							type='checkbox'
+							checked={use24Hour}
+							onChange={() => setUse24Hour((prev) => !prev)}
+							className='form-checkbox text-blue-600'
+						/>
+						Use 24-hour time
+					</label>
+				</div>
 
 				<div className='overflow-x-auto shadow rounded-lg border border-gray-300'>
 					<table className='min-w-full divide-y divide-gray-200 text-sm'>
 						<thead className='bg-blue-50 text-left'>
 							<tr>
 								<th className='px-4 py-3 font-semibold text-gray-700'>Date</th>
+								<th className='px-4 py-3 font-semibold text-gray-700'>Time</th>
 								<th className='px-4 py-3 font-semibold text-gray-700'>Goat</th>
 								<th className='px-4 py-3 font-semibold text-gray-700 text-center'>
 									Amount (lbs)
@@ -102,6 +98,10 @@ const MilkRecordsPage = () => {
 									<td className='px-4 py-2 text-gray-800'>
 										{formatDate(record.recordedAt)}
 									</td>
+									<td className='px-4 py-2 text-gray-800'>
+										{formatTime(record.recordedAt, { use24Hour })}
+									</td>
+
 									<td className='px-4 py-2 text-gray-800 font-medium'>
 										{record.goat?.nickname || 'Unknown'}
 									</td>

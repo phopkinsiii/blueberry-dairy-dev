@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../api/axios';
+import axiosInstance from '../../../api/axios';
 import { toast } from 'react-toastify';
 
 const MilkEntryForm = () => {
@@ -103,7 +103,10 @@ const MilkEntryForm = () => {
 					type='datetime-local'
 					name='recordedAt'
 					value={formData.recordedAt}
-					onChange={handleChange}
+					onChange={(e) => {
+						handleChange(e);
+						if (e.target.value) e.target.blur(); // ⬅️ blur input after selection
+					}}
 					required
 					className='w-full border border-gray-300 rounded px-3 py-2'
 				/>
