@@ -6,23 +6,20 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 const MobileGoatDropdown = ({ closeMenu }) => {
 	const [open, setOpen] = useState(false);
 	const toggle = () => setOpen((prev) => !prev);
+
 	return (
-		<li className='md:hidden'>
+		<div className='md:hidden'>
 			<button
 				onClick={toggle}
 				className='flex flex-col items-center justify-center w-full text-gray-800 font-semibold py-2 hover:text-amber-600'
 			>
 				<div className='flex items-center gap-2'>
-					<span>Farm Info</span>
+					<span>Our Goats</span>
 					{open ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}
 				</div>
 			</button>
 
-			<div
-				className={`transition-all duration-300 ease-in-out overflow-hidden ${
-					open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-				}`}
-			>
+			{open && (
 				<ul className='pl-4 mt-2 text-left text-xl space-y-1'>
 					<li>
 						<NavLink
@@ -61,8 +58,8 @@ const MobileGoatDropdown = ({ closeMenu }) => {
 						</NavLink>
 					</li>
 				</ul>
-			</div>
-		</li>
+			)}
+		</div>
 	);
 };
 
