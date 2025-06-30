@@ -10,8 +10,23 @@ import {
 	stripHtml,
 	extractKeywords,
 	getDefaultImage,
-	getSeoTimestamps
+	getSeoTimestamps,
 } from '../../utils/seoUtils';
+import {
+	getBreadcrumbSchema,
+	getGoatListSchema,
+} from '../../utils/schemaGenerators';
+
+const goatsBreadcrumbItems = [
+	{
+		name: 'Home',
+		url: 'https://www.blueberrydairy.com',
+	},
+	{
+		name: 'Our Goats',
+		url: 'https://www.blueberrydairy.com/goats',
+	},
+];
 
 const GoatList = () => {
 	const { state, fetchGoats } = useGoatContext();
@@ -44,7 +59,10 @@ const GoatList = () => {
 				)}
 				{...getSeoTimestamps(goats)} // ← goats must be loaded
 			/>
-
+			<>
+				<JsonLd json={getBreadcrumbSchema(goatsBreadcrumbItems)} />
+				<JsonLd data={getGoatListSchema()} />
+			</>
 			<AnimatedBackgroundWrapper
 				backgroundImageUrl='https://res.cloudinary.com/dzhweqopn/image/upload/v1750104760/pasture_wood_fence_cropped_fulgdk.jpg'
 				blurAmount={8}
