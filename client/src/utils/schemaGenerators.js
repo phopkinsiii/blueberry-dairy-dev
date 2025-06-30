@@ -1,3 +1,4 @@
+// @ts-nocheck
 // src/utils/schemaGenerators.js
 import { stripHtml, getDefaultImage } from './seoUtils';
 
@@ -195,7 +196,7 @@ export const getGoatSchema = (goat) => {
 							name: 'Wethering Option',
 							value: 'Available for $50 extra',
 						},
-					]
+				  ]
 				: []),
 			...pedigree.map((p) => ({
 				'@type': 'PropertyValue',
@@ -207,26 +208,30 @@ export const getGoatSchema = (goat) => {
 };
 
 export const getBlogPageSchema = (posts = []) => ({
-  '@context': 'https://schema.org',
-  '@type': 'Blog',
-  name: 'Blueberry Blog',
-  url: 'https://www.blueberrydairy.com/blog',
-  description:
-    'Explore farm stories, seasonal insights, and goat care wisdom from Blueberry Dairy in East Tennessee.',
-  blogPost: posts.map((post) => ({
-    '@type': 'BlogPosting',
-    headline: post.title,
-    url: `https://www.blueberrydairy.com/blog/${post._id}`,
-    datePublished: post.createdAt,
-    image: post.image || 'https://www.blueberrydairy.com/default-image.jpg',
-    author: {
-      '@type': 'Person',
-      name: post.author?.name || 'Blueberry Dairy',
-    },
-  })),
+	'@context': 'https://schema.org',
+	'@type': 'Blog',
+	name: 'Blueberry Blog',
+	url: 'https://www.blueberrydairy.com/blog',
+	description:
+		'Explore farm stories, seasonal insights, and goat care wisdom from Blueberry Dairy in East Tennessee.',
+	blogPost: posts.map((post) => ({
+		'@type': 'BlogPosting',
+		headline: post.title,
+		url: `https://www.blueberrydairy.com/blog/${post._id}`,
+		datePublished: post.createdAt,
+		image: post.image || 'https://www.blueberrydairy.com/default-image.jpg',
+		author: {
+			'@type': 'Person',
+			name: post.author?.name || 'Blueberry Dairy',
+		},
+	})),
 });
 
-export const getGoatListSchema = (goats = [], pageTitle = 'Our Goats', url = '') => ({
+export const getGoatListSchema = (
+	goats = [],
+	pageTitle = 'Our Goats',
+	url = ''
+) => ({
 	'@context': 'https://schema.org',
 	'@type': 'CollectionPage',
 	name: pageTitle,
@@ -248,3 +253,41 @@ export const getGoatListSchema = (goats = [], pageTitle = 'Our Goats', url = '')
 	})),
 });
 
+// schemaGenerators.js
+
+export const getMilkRecordsSchema = (records = []) => ({
+	'@context': 'https://schema.org',
+	'@type': 'Dataset',
+	name: 'Milk Production Records',
+	description:
+		'Daily milk yield records from Nigerian Dwarf dairy goats at Blueberry Dairy in Tennessee. Data includes production by date and goat.',
+	url: 'https://www.blueberrydairy.com/milk-records',
+	creator: {
+		'@type': 'Organization',
+		name: 'Blueberry Dairy',
+		url: 'https://www.blueberrydairy.com',
+	},
+	license: 'https://www.blueberrydairy.com/terms',
+	datasetTimeInterval: {
+		'@type': 'DateTimeInterval',
+		startDate:
+			records.length > 0
+				? new Date(
+						Math.min(...records.map((r) => new Date(r.recordedAt)))
+				  ).toISOString()
+				: undefined,
+		endDate:
+			records.length > 0
+				? new Date(
+						Math.max(...records.map((r) => new Date(r.recordedAt)))
+				  ).toISOString()
+				: undefined,
+	},
+	variableMeasured: [
+		{
+			'@type': 'PropertyValue',
+			name: 'Milk Weight',
+			unitText: 'lb',
+		},
+	],
+});
