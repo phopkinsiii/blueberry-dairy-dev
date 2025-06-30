@@ -61,7 +61,13 @@ const GoatList = () => {
 			/>
 			<>
 				<JsonLd json={getBreadcrumbSchema(goatsBreadcrumbItems)} />
-				<JsonLd data={getGoatListSchema()} />
+				<JsonLd
+					data={getGoatListSchema(
+						goats,
+						'Our Goats',
+						goatsBreadcrumbItems[1].url
+					)}
+				/>
 			</>
 			<AnimatedBackgroundWrapper
 				backgroundImageUrl='https://res.cloudinary.com/dzhweqopn/image/upload/v1750104760/pasture_wood_fence_cropped_fulgdk.jpg'
