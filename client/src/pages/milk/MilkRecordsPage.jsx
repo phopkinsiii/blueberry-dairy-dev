@@ -7,6 +7,7 @@ import SeoHead from '../../components/SeoHead';
 import JsonLd from '../../components/JsonLd';
 import { extractKeywords, getSeoTimestamps } from '../../utils/seoUtils';
 import { getMilkRecordsSchema } from '../../utils/schemaGenerators';
+import { getBreadcrumbSchema } from '../../utils/schemaGenerators';
 
 const MilkRecordsPage = () => {
 	const [records, setRecords] = useState([]);
@@ -59,7 +60,24 @@ const MilkRecordsPage = () => {
 				/>
 			)}
 
-			{records?.length > 0 && <JsonLd data={getMilkRecordsSchema(records)} />}
+			{records.length > 0 && (
+				<>
+					<JsonLd data={getMilkRecordsSchema(records)} />
+					<JsonLd
+						data={getBreadcrumbSchema([
+							{ name: 'Home', url: 'https://www.blueberrydairy.com' },
+							{
+								name: 'Farm Info',
+								url: 'https://www.blueberrydairy.com/farm-info',
+							},
+							{
+								name: 'Milk Records',
+								url: 'https://www.blueberrydairy.com/milk-records',
+							},
+						])}
+					/>
+				</>
+			)}
 
 			<div className='max-w-6xl mx-auto px-4 py-8'>
 				<h1 className='text-3xl font-bold mb-6 text-center text-blue-800'>
