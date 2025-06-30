@@ -49,6 +49,7 @@ import DoesGoats from './pages/goats/DoesGoats';
 import BuckGoats from './pages/goats/BuckGoats.jsx';
 import NotFound from './pages/NotFound.jsx';
 import MilkRecordsPage from './pages/milk/MilkRecordsPage.jsx';
+import MilkEntryForm from './pages/milk/MilkEntryForm.jsx';
 
 function App() {
 	return (
@@ -204,6 +205,14 @@ function App() {
 						/>
 
 						<Route path='/milk-records' element={<MilkRecordsPage />} />
+						<Route
+							path='/admin/milk-entry'
+							element={
+								<AdminRoute>
+									<MilkEntryForm />
+								</AdminRoute>
+							}
+						/>
 					</Routes>
 				</NavbarLayout>
 			</div>
