@@ -68,3 +68,25 @@ export const toInputDateFormat = (input) => {
 		return '';
 	}
 };
+
+export const formatTime = (input, { use24Hour = false, ...options } = {}) => {
+	if (!input) return 'Unknown time';
+
+	try {
+		const date =
+			typeof input === 'string'
+				? new Date(input)
+				: new Date(input?.$date || input);
+
+		return date.toLocaleTimeString('en-US', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: !use24Hour,
+			...options,
+		});
+	} catch (error) {
+		console.error(error);
+		console.warn('⚠️ Invalid time input:', input);
+		return 'Invalid time';
+	}
+};

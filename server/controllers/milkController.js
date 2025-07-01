@@ -1,3 +1,4 @@
+// @ts-nocheck
 // server/controllers/milkController.js
 import MilkRecord from '../models/milkModel.js';
 import Goat from '../models/goatModel.js';
@@ -23,7 +24,8 @@ export const getAllMilkRecords = async (req, res) => {
 // @access  Admin only
 
 export const createMilkRecord = async (req, res) => {
-	const { goatId, recordedAt, amount, notes } = req.body;
+	const { goatId, recordedAt, amount, notes, testDay } = req.body;
+	console.log('Milk record payload:', req.body);
 
 	const { isValid, errors } = await validateMilkRecord({
 		goatId,
@@ -40,6 +42,7 @@ export const createMilkRecord = async (req, res) => {
 			recordedAt,
 			amount,
 			notes,
+			testDay,
 		});
 
 		await newRecord.save();

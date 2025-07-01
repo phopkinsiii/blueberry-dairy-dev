@@ -306,3 +306,44 @@ export const getBreadcrumbSchema = (items = []) => ({
 		item: item.url,
 	})),
 });
+
+// schemaGenerators.js
+
+export const getLocalBusinessSchema = () => ({
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness',
+	name: 'Blueberry Dairy at Hickory Cove Orchards',
+	alternateName: 'Blueberry Dairy',
+	description:
+		'Blueberry Dairy at Hickory Cove Orchards is a family-run organic farm in Rogersville, Tennessee offering raw Nigerian Dwarf goat milk, blueberries, apples, and regenerative farm products.',
+	image: 'https://blueberrydairy.com/images/blueberry-dairy-logo.png', // Replace with your logo or main photo URL
+	url: 'https://blueberrydairy.com',
+	telephone: '+1-423-293-4487',
+	email: 'contact@blueberrydairy.com',
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: '154 Pressmens Home Road',
+		addressLocality: 'Rogersville',
+		addressRegion: 'TN',
+		postalCode: '37857',
+		addressCountry: 'US',
+	},
+	openingHoursSpecification: [
+		{
+			'@type': 'OpeningHoursSpecification',
+			dayOfWeek: [
+				'Monday',
+				'Tuesday',
+				'Wednesday',
+				'Thursday',
+				'Friday',
+				'Sunday',
+			],
+			opens: '09:00',
+			closes: '17:00',
+		},
+	],
+	sameAs: [
+		'https://www.facebook.com/profile.php?id=61575926251092', // Replace with actual social profile URLs
+	],
+});
