@@ -10,6 +10,7 @@ const MilkEntryForm = () => {
 		recordedAt: '',
 		amount: '',
 		notes: '',
+		testDay: false,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -38,8 +39,11 @@ const MilkEntryForm = () => {
 	}, []);
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		const { name, type, value, checked } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: type === 'checkbox' ? checked : value,
+		}));
 	};
 
 	const handleSubmit = async (e) => {
@@ -55,6 +59,7 @@ const MilkEntryForm = () => {
 				recordedAt: formData.recordedAt,
 				amount: parseFloat(formData.amount),
 				notes: formData.notes,
+				testDay: formData.testDay,
 			});
 
 			toast.success('Milk record saved');
@@ -63,6 +68,7 @@ const MilkEntryForm = () => {
 				recordedAt: '',
 				amount: '',
 				notes: '',
+				testDay: false,
 			});
 		} catch (err) {
 			console.error(err);
@@ -75,7 +81,7 @@ const MilkEntryForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className='max-w-xl mx-auto p-4 bg-white shadow-md rounded space-y-4'
+			className='max-w-xl mx-auto my-8 p-4 bg-white shadow-md rounded space-y-4'
 		>
 			<h2 className='text-xl font-semibold'>Enter Milk Record</h2>
 
@@ -103,10 +109,7 @@ const MilkEntryForm = () => {
 					type='datetime-local'
 					name='recordedAt'
 					value={formData.recordedAt}
-					onChange={(e) => {
-						handleChange(e);
-						if (e.target.value) e.target.blur(); // ⬅️ blur input after selection
-					}}
+					onChange={handleChange}
 					required
 					className='w-full border border-gray-300 rounded px-3 py-2'
 				/>
@@ -124,6 +127,18 @@ const MilkEntryForm = () => {
 					required
 					className='w-full border border-gray-300 rounded px-3 py-2'
 				/>
+			</div>
+			<div className='flex items-center gap-2'>
+				<input
+					type='checkbox'
+					name='testDay'
+					checked={formData.testDay}
+					onChange={(e) =>
+						setFormData((prev) => ({ ...prev, testDay: e.target.checked }))
+					}
+					className='form-checkbox text-blue-600'
+				/>
+				<label className='font-medium'>Mark as Test Day</label>
 			</div>
 
 			<div>

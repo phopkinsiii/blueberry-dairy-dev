@@ -18,6 +18,7 @@ const milkSchema = new mongoose.Schema(
 		notes: {
 			type: String,
 		},
+		testDay: { type: Boolean, default: false },
 	},
 	{ timestamps: true }
 );

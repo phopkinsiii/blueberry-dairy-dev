@@ -21,7 +21,7 @@ export const getAllMilkRecords = async (req, res) => {
 // @route   POST /api/milk
 // @access  Admin only
 export const createMilkRecord = async (req, res) => {
-	const { goatId, recordedAt, amount, notes } = req.body;
+	const { goatId, recordedAt, amount, notes, testDay } = req.body;
 
 	const { isValid, errors } = await validateMilkRecord({
 		goatId,
@@ -38,6 +38,7 @@ export const createMilkRecord = async (req, res) => {
 			recordedAt,
 			amount,
 			notes,
+			testDay,
 		});
 
 		await newRecord.save();

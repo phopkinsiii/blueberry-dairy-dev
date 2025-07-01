@@ -90,6 +90,9 @@ const MilkRecordsPage = () => {
 									Amount (lbs)
 								</th>
 								<th className='px-4 py-3 font-semibold text-gray-700'>Notes</th>
+								<th className='px-4 py-3 font-semibold text-gray-700 text-center'>
+									Test Day
+								</th>
 							</tr>
 						</thead>
 						<tbody className='divide-y divide-gray-100 bg-white'>
@@ -112,6 +115,9 @@ const MilkRecordsPage = () => {
 										{record.notes || (
 											<span className='italic text-gray-400'>—</span>
 										)}
+									</td>
+									<td className='px-4 py-2 text-gray-800 text-center'>
+										{record.testDay ? '✔️' : ''}
 									</td>
 								</tr>
 							))}
