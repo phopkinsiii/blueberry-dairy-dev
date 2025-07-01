@@ -102,7 +102,7 @@ const Checkout = () => {
 								className={inputClass}
 							>
 								<option value='Farm'>Farm</option>
-								<option value='Market Stand'>Market Stand</option>
+								<option value='Knoxville Farmers Market'>Knoxville Farmers Market</option>
 								<option value='Local Delivery'>Local Delivery</option>
 							</select>
 							<label htmlFor='pickupTime' className='text-sm text-stone-700'>

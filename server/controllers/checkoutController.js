@@ -50,6 +50,8 @@ export const createCheckoutSession = async (req, res) => {
 				}))
 			),
 		};
+		console.log('🧾 Received form:', form);
+		console.log('🧺 Received cartItems:', cartItems);
 
 		const session = await stripe.checkout.sessions.create({
 			mode: 'payment',
