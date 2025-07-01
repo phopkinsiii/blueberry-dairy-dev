@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema(
 		pickupName: { type: String, required: true },
 		pickupLocation: {
 			type: String,
-			enum: ['Farm', 'Market', 'Other'],
+			enum: ['Farm', 'Knoxville Farmers Market', 'Local Delivery'],
 			default: 'Farm',
 		},
 		pickupTime: { type: Date },
