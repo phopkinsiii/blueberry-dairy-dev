@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { parseISO, compareAsc, compareDesc } from 'date-fns';
 import axiosInstance from '../../api/axios';
 import Spinner from '../../components/Spinner';
 import { formatDate, formatTime } from '../../utils/dateHelpers';
@@ -14,7 +16,7 @@ const MilkRecordsPage = () => {
 	const [error, setError] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [use24Hour, setUse24Hour] = useState(true);
-
+	const [sortOrder, setSortOrder] = useState('desc'); // 'asc' or 'desc'
 	const recordsPerPage = 60;
 
 	useEffect(() => {
@@ -33,9 +35,21 @@ const MilkRecordsPage = () => {
 		fetchRecords();
 	}, []);
 
+	const toggleSortOrder = () => {
+		setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+	};
+
 	const indexOfLastRecord = currentPage * recordsPerPage;
 	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-	const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
+	const sortedRecords = [...records].sort((a, b) =>
+		sortOrder === 'asc'
+			? compareAsc(parseISO(a.recordedAt), parseISO(b.recordedAt))
+			: compareDesc(parseISO(a.recordedAt), parseISO(b.recordedAt))
+	);
+	const currentRecords = sortedRecords.slice(
+		indexOfFirstRecord,
+		indexOfLastRecord
+	);
 	const totalPages = Math.ceil(records.length / recordsPerPage);
 
 	if (loading) return <Spinner />;
@@ -83,7 +97,16 @@ const MilkRecordsPage = () => {
 					<table className='min-w-full divide-y divide-gray-200 text-sm'>
 						<thead className='bg-blue-50 text-left'>
 							<tr>
-								<th className='px-4 py-3 font-semibold text-gray-700'>Date</th>
+								<th
+									onClick={toggleSortOrder}
+									className={`px-4 py-3 font-semibold ${
+										sortOrder === 'asc' || sortOrder === 'desc'
+											? 'text-blue-800 underline'
+											: 'text-gray-700'
+									} cursor-pointer select-none hover:underline`}
+								>
+									Date {sortOrder === 'asc' ? '▲' : '▼'}
+								</th>
 								<th className='px-4 py-3 font-semibold text-gray-700'>Time</th>
 								<th className='px-4 py-3 font-semibold text-gray-700'>Goat</th>
 								<th className='px-4 py-3 font-semibold text-gray-700 text-center'>
@@ -101,7 +124,10 @@ const MilkRecordsPage = () => {
 									<td className='px-4 py-2 text-gray-800'>
 										{formatDate(record.recordedAt)}
 									</td>
-									<td className='px-4 py-2 text-gray-800'>
+											<td className='px-4 py-2 text-blue-600 underline hover:text-blue-800'>
+										<Link to={`/milk-records/${record._id}/edit`}>
+											{formatTime(record.recordedAt, { use24Hour })}
+										</Link>
 										{formatTime(record.recordedAt, { use24Hour })}
 									</td>
 

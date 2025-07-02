@@ -17,6 +17,19 @@ export const getAllMilkRecords = async (req, res) => {
 	}
 };
 
+export const getMilkRecordById = async (req, res) => {
+	try {
+		const record = await MilkRecord.findById(req.params.id).populate('goat');
+		if (!record) {
+			return res.status(404).json({ message: 'Milk record not found' });
+		}
+		res.json(record);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: 'Server error' });
+	}
+};
+
 // @desc    Create a new milk record
 // @route   POST /api/milk
 // @access  Admin only

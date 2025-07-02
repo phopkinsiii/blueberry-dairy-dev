@@ -50,6 +50,7 @@ import BuckGoats from './pages/goats/BuckGoats.jsx';
 import NotFound from './pages/NotFound.jsx';
 import MilkRecordsPage from './pages/milk/MilkRecordsPage.jsx';
 import MilkEntryForm from './pages/milk/MilkEntryForm.jsx';
+import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 
 function App() {
 	return (
@@ -210,6 +211,14 @@ function App() {
 							element={
 								<AdminRoute>
 									<MilkEntryForm />
+								</AdminRoute>
+							}
+						/>
+						<Route
+							path='/milk-records/:id/edit'
+							element={
+								<AdminRoute>
+									<EditMilkRecord />
 								</AdminRoute>
 							}
 						/>

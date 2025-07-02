@@ -8,9 +8,9 @@ const ScrollingBanner = () => {
 				</span>
 				<span className='px-8'>
 					🫐 Fresh blueberries are here! Find us at the Knoxville Farmers Market
-					on Sat, June 28!
+					on Saturdays, June through September!
 				</span>
-				<span className='px-8'>🥛 We now sell pet milk!</span>
+				<span className='px-8'>🥛 We now sell pet milk! Scroll down for buying options.</span>
 			</div>
 		</div>
 	);
