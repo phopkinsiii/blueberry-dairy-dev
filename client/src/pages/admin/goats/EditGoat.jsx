@@ -90,8 +90,17 @@ const EditGoat = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await axiosInstance.put(`/goats/${id}`, goat);
+			const updatedGoat = {
+				...goat,
+				images: [
+					...goat.images,
+					...imageUrls.filter((url) => url.trim() !== ''),
+				],
+			};
+
+			await axiosInstance.put(`/goats/${id}`, updatedGoat);
 			toast.success('Goat updated');
+			setImageUrls([]); // ✅ Clear the image URL input fields after successful update
 			navigate('/manage-goats');
 		} catch (err) {
 			console.error('❌ Update failed:', err);
