@@ -124,11 +124,10 @@ const MilkRecordsPage = () => {
 									<td className='px-4 py-2 text-gray-800'>
 										{formatDate(record.recordedAt)}
 									</td>
-											<td className='px-4 py-2 text-blue-600 underline hover:text-blue-800'>
+									<td className='px-4 py-2 text-blue-600 underline hover:text-blue-800'>
 										<Link to={`/milk-records/${record._id}/edit`}>
 											{formatTime(record.recordedAt, { use24Hour })}
 										</Link>
-										{formatTime(record.recordedAt, { use24Hour })}
 									</td>
 
 									<td className='px-4 py-2 text-gray-800 font-medium'>
