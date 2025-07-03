@@ -1,5 +1,4 @@
 // @ts-nocheck
-// src/pages/admin/goats/EditGoat.jsx
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../api/axios';
@@ -66,17 +65,22 @@ const EditGoat = () => {
 		setImageUrls((prev) => [...prev, '']);
 	};
 
+	const handleRemoveImageUrlField = (index) => {
+		setImageUrls((prev) => prev.filter((_, i) => i !== index));
+	};
+
 	const removeImage = async (url) => {
 		const confirm = window.confirm('Remove this image?');
 		if (!confirm) return;
 
 		try {
 			await axiosInstance.post(`/goats/${id}/images/remove`, { imageUrl: url });
-			setGoat((prev) => ({
-				...prev,
-				images: prev.images.filter((img) => img !== url),
-			}));
 			toast.success('Image removed');
+
+			const { data } = await axiosInstance.get(`/goats/${id}`);
+			setGoat(data);
+
+			setImageUrls((prev) => prev.filter((img) => img !== url));
 		} catch (err) {
 			console.error('❌ Failed to remove image:', err);
 			toast.error('Failed to remove image');
@@ -90,8 +94,17 @@ const EditGoat = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await axiosInstance.put(`/goats/${id}`, goat);
+			const updatedGoat = {
+				...goat,
+				images: [
+					...goat.images,
+					...imageUrls.filter((url) => url.trim() !== ''),
+				],
+			};
+
+			await axiosInstance.put(`/goats/${id}`, updatedGoat);
 			toast.success('Goat updated');
+			setImageUrls([]);
 			navigate('/manage-goats');
 		} catch (err) {
 			console.error('❌ Update failed:', err);
@@ -112,6 +125,7 @@ const EditGoat = () => {
 			imageUrls={imageUrls}
 			handleImageUrlChange={handleImageUrlChange}
 			addImageUrlField={addImageUrlField}
+			handleRemoveImageUrlField={handleRemoveImageUrlField}
 			removeImage={removeImage}
 			updateImageOrder={updateImageOrder}
 			onSubmit={handleSubmit}
