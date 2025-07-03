@@ -13,6 +13,7 @@ import {
 	IconMessageCircle,
 	IconLayoutGridAdd,
 	IconUserCog,
+	IconQuote,
 } from '@tabler/icons-react';
 
 const dropdownSections = [
@@ -34,6 +35,11 @@ const dropdownSections = [
 		links: [
 			{ label: 'Add Blog Post', path: '/add-blog', icon: IconPlus },
 			{ label: 'Manage Blog Posts', path: '/manage-posts', icon: IconArticle },
+			{
+				label: 'Manage Testimonials',
+				path: '/admin/testimonials',
+				icon: IconQuote,
+			},
 		],
 	},
 	{

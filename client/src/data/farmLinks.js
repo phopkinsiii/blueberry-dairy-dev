@@ -3,10 +3,13 @@ import {
 	IconBook,
 	IconFlask,
 	IconClipboardList,
+	IconQuote,
+	IconHeartHandshake,
 } from '@tabler/icons-react';
 
 export const farmLinks = [
 	{ label: 'About the Farm', path: '/our-farm', icon: IconInfoCircle },
+	{ label: 'Testimonials', path: '/testimonials', icon: IconHeartHandshake },
 	{
 		label: 'Farm Records',
 		children: [
