@@ -52,7 +52,7 @@ import MilkRecordsPage from './pages/milk/MilkRecordsPage.jsx';
 import MilkEntryForm from './pages/milk/MilkEntryForm.jsx';
 import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 import TestimonialsPage from './pages/TestimonialsPage.jsx';
-import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialsPage.jsx';
+import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialPage.jsx';
 
 function App() {
 	return (
