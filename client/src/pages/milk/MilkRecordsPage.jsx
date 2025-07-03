@@ -32,6 +32,7 @@ const MilkRecordsPage = () => {
 
 		fetchRecords();
 	}, []);
+	};
 
 	const indexOfLastRecord = currentPage * recordsPerPage;
 	const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
