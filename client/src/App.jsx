@@ -49,6 +49,7 @@ import DoesGoats from './pages/goats/DoesGoats';
 import BuckGoats from './pages/goats/BuckGoats.jsx';
 import MilkRecordsPage from './pages/milk/MilkRecordsPage.jsx';
 import MilkEntryForm from './pages/admin/milk/MilkEntryForm';
+import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 
 function App() {
 	return (
@@ -208,6 +209,14 @@ function App() {
 							element={
 								<AdminRoute>
 									<MilkEntryForm />
+								</AdminRoute>
+							}
+						/>
+						<Route
+							path='/milk-records/:id/edit'
+							element={
+								<AdminRoute>
+									<EditMilkRecord />
 								</AdminRoute>
 							}
 						/>

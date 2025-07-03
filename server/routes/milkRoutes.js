@@ -7,16 +7,18 @@ import {
 	createMilkRecord,
 	updateMilkRecord,
 	deleteMilkRecord,
-    getGoatMilkSummary,
+	getGoatMilkSummary,
+	getMilkRecordById,
 } from '../controllers/milkController.js';
 import { protect, adminProtect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 router.get('/', getAllMilkRecords);
-router.get('/summary', getMilkSummary); // summary totals
-router.get('/goat/:goatId', getMilkRecordsByGoat); // per-goat view
-router.get('/goat/:goatId/summary', getGoatMilkSummary);
+router.get('/summary', getMilkSummary);
+router.get('/goat/:goatId/summary', getGoatMilkSummary); // more specific route FIRST
+router.get('/goat/:goatId', getMilkRecordsByGoat);       // more general route SECOND
+router.get('/:id', getMilkRecordById);                   // wildcard route LAST
 
 
 //Admin only routes
