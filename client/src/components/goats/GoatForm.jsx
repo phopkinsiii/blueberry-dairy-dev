@@ -203,7 +203,7 @@ const GoatForm = ({
 									items={goat.images}
 									strategy={rectSortingStrategy}
 								>
-									<div className='grid grid-cols-3 gap-2'>
+									<div className='flex flex-wrap gap-3' p-2 m-2>
 										{goat.images.map((url) => (
 											<SortableImage
 												key={url}

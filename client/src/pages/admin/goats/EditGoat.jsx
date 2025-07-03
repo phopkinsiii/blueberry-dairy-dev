@@ -66,6 +66,10 @@ const EditGoat = () => {
 		setImageUrls((prev) => [...prev, '']);
 	};
 
+	const handleRemoveImageUrlField = (index) => {
+		setImageUrls((prev) => prev.filter((_, i) => i !== index));
+	};
+
 	const removeImage = async (url) => {
 		const confirm = window.confirm('Remove this image?');
 		if (!confirm) return;
@@ -100,7 +104,7 @@ const EditGoat = () => {
 
 			await axiosInstance.put(`/goats/${id}`, updatedGoat);
 			toast.success('Goat updated');
-			setImageUrls([]); // ✅ Clear the image URL input fields after successful update
+			setImageUrls([]);
 			navigate('/manage-goats');
 		} catch (err) {
 			console.error('❌ Update failed:', err);
@@ -121,6 +125,7 @@ const EditGoat = () => {
 			imageUrls={imageUrls}
 			handleImageUrlChange={handleImageUrlChange}
 			addImageUrlField={addImageUrlField}
+			handleRemoveImageUrlField={handleRemoveImageUrlField}
 			removeImage={removeImage}
 			updateImageOrder={updateImageOrder}
 			onSubmit={handleSubmit}
