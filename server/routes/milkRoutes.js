@@ -1,7 +1,7 @@
 // server/routes/milkRoutes.js
 import express from 'express';
 import {
-	getAllMilkRecords,
+	getFilteredMilkRecords,
 	getMilkRecordsByGoat,
 	getMilkSummary,
 	getGoatMilkSummary,
@@ -16,7 +16,7 @@ import { protect, adminProtect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // ✅ Public routes
-router.get('/', getAllMilkRecords);
+router.get('/', getFilteredMilkRecords);
 router.get('/summary', getMilkSummary);
 router.get('/goat/:goatId/summary', getGoatMilkSummary); // more specific route FIRST
 router.get('/goat/:goatId', getMilkRecordsByGoat); // more general route SECOND

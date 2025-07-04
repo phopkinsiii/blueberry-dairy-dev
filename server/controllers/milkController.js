@@ -1,18 +1,41 @@
 // server/controllers/milkController.js
 import MilkRecord from '../models/milkModel.js';
 import { validateMilkRecord } from '../utils/validators.js';
+import mongoose from 'mongoose';
 
 // @desc    Get all milk records (with goat info)
 // @route   GET /api/milk
 // @access  Public
-export const getAllMilkRecords = async (req, res) => {
+export const getFilteredMilkRecords = async (req, res) => {
 	try {
-		const records = await MilkRecord.find()
+		const { goatId, startDate, endDate, testDay } = req.query;
+
+		const query = {};
+		if (goatId) {
+			if (mongoose.Types.ObjectId.isValid(goatId)) {
+				query.goat = goatId;
+			} else {
+				return res.status(400).json({ message: 'Invalid goatId' });
+			}
+		}
+
+		if (startDate || endDate) {
+			query.recordedAt = {};
+			if (startDate) query.recordedAt.$gte = new Date(startDate);
+			if (endDate) query.recordedAt.$lte = new Date(endDate);
+		}
+
+		if (testDay !== undefined) {
+			query.testDay = testDay === 'true';
+		}
+
+		const records = await MilkRecord.find(query)
 			.populate('goat', 'nickname registeredName gender dob')
 			.sort({ recordedAt: -1 });
+
 		res.status(200).json(records);
 	} catch (error) {
-		console.error('❌ Error fetching milk records:', error);
+		console.error('❌ Error fetching filtered milk records:', error);
 		res.status(500).json({ message: 'Server error fetching milk records' });
 	}
 };
