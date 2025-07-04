@@ -54,9 +54,13 @@ const MilkEntryForm = () => {
 
 		try {
 			setLoading(true);
+
+			// ✅ Correct conversion from local to UTC before sending to backend:
+			const utcRecordedAt = new Date(formData.recordedAt).toISOString();
+
 			await axiosInstance.post('/milk', {
-				goatId: formData.goat, // ✅ renamed
-				recordedAt: formData.recordedAt,
+				goatId: formData.goat,
+				recordedAt: utcRecordedAt, // Send UTC
 				amount: parseFloat(formData.amount),
 				notes: formData.notes,
 				testDay: formData.testDay,
