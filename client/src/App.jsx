@@ -50,6 +50,8 @@ import BuckGoats from './pages/goats/BuckGoats.jsx';
 import MilkRecordsPage from './pages/milk/MilkRecordsPage.jsx';
 import MilkEntryForm from './pages/admin/milk/MilkEntryForm';
 import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
+import TestimonialsPage from './pages/TestimonialsPage.jsx';
+import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialsPage.jsx';
 
 function App() {
 	return (
@@ -76,6 +78,7 @@ function App() {
 						<Route path='/products/:id' element={<ProductDetails />} />
 						<Route path='/cart' element={<Cart />} />
 						<Route path='/our-farm' element={<OurFarm />} />
+						<Route path='/testimonials' element={<TestimonialsPage />} />
 						<Route path='/contact' element={<Contact />} />
 						<Route path='/login' element={<Login />} />
 						<Route path='/register' element={<Register />} />
@@ -217,6 +220,14 @@ function App() {
 							element={
 								<AdminRoute>
 									<EditMilkRecord />
+								</AdminRoute>
+							}
+						/>
+						<Route
+							path='/admin/testimonials'
+							element={
+								<AdminRoute>
+									<AdminTestimonialsPage />
 								</AdminRoute>
 							}
 						/>

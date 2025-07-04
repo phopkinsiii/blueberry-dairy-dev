@@ -13,23 +13,6 @@ export default function Contact() {
 	const { state } = useContactContext();
 	const { loading } = state;
 
-	// const handleChange = (e) => {
-	// 	const { name, value } = e.target;
-	// 	dispatch({ type: 'UPDATE_FIELD', field: name, value });
-	// };
-
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
-	// 	const formData = { firstName, lastName, email, company, subject, message };
-
-	// 	const error = validateContactForm(formData);
-	// 	if (error) {
-	// 		dispatch({ type: 'SUBMIT_FAILURE', payload: error });
-	// 		return;
-	// 	}
-
-	// 	await submitContactForm(formData);
-	// };
 
 	if (loading) return <Spinner />;
 

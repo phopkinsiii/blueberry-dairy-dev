@@ -35,6 +35,7 @@ import webhookRoutes from './routes/webhookRoutes.js';
 import forumRoutes from './routes/forumRoutes.js';
 import goatRoutes from './routes/goatRoutes.js';
 import milkRoutes from './routes/milkRoutes.js';
+import testimonialRoutes from './routes/testimonialRoutes.js';
 
 import {
 	uploadsMiddleware,
@@ -107,6 +108,7 @@ app.use('/api/uploads', uploadRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/goats', goatRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 
 app.use('/api/milk', milkRoutes);
 

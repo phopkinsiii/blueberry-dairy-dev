@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../../api/axios';
+import axiosInstance from '../../../api/axios.js';
 import { toast } from 'react-toastify';
 
 const MilkEntryForm = () => {
@@ -54,9 +54,13 @@ const MilkEntryForm = () => {
 
 		try {
 			setLoading(true);
+
+			// ✅ Correct conversion from local to UTC before sending to backend:
+			const utcRecordedAt = new Date(formData.recordedAt).toISOString();
+			console.log('Time sent to Mongo:', utcRecordedAt);
 			await axiosInstance.post('/milk', {
-				goatId: formData.goat, // ✅ renamed
-				recordedAt: formData.recordedAt,
+				goatId: formData.goat,
+				recordedAt: utcRecordedAt, // Send UTC
 				amount: parseFloat(formData.amount),
 				notes: formData.notes,
 				testDay: formData.testDay,
@@ -109,7 +113,7 @@ const MilkEntryForm = () => {
 					type='datetime-local'
 					name='recordedAt'
 					value={formData.recordedAt}
-					onChange={						handleChange}
+					onChange={handleChange}
 					required
 					className='w-full border border-gray-300 rounded px-3 py-2'
 				/>

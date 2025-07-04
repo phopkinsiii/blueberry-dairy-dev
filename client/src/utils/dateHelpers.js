@@ -33,13 +33,33 @@ export const formatDate = (input, pattern = 'MMMM d, yyyy') => {
  * Returns time formatted as 'HH:mm' (24h) or 'hh:mm a' (12h).
  * Set use24Hour = true for 24h time.
  */
+// export const formatTime = (input, { use24Hour = false } = {}) => {
+// 	if (!input) return 'Unknown time';
+
+// 	try {
+// 		const date =
+// 			typeof input === 'string'
+// 				? parseISO(input)
+// 				: new Date(input?.$date || input);
+
+// 		if (!isValid(date)) throw new Error('Invalid date');
+
+// 		const pattern = use24Hour ? 'HH:mm' : 'hh:mm a';
+// 		return format(date, pattern);
+// 	} catch (error) {
+// 		console.error(error);
+// 		console.warn('⚠️ Invalid time input:', input);
+// 		return 'Invalid time';
+// 	}
+// };
+
 export const formatTime = (input, { use24Hour = false } = {}) => {
 	if (!input) return 'Unknown time';
 
 	try {
 		const date =
 			typeof input === 'string'
-				? parseISO(input)
+				? new Date(input) // ← Use Date constructor here for full time zone parsing
 				: new Date(input?.$date || input);
 
 		if (!isValid(date)) throw new Error('Invalid date');
