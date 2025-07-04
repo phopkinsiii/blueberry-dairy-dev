@@ -3,18 +3,38 @@
 import MilkRecord from '../models/milkModel.js';
 import Goat from '../models/goatModel.js';
 import { validateMilkRecord } from '../utils/validators.js';
+import mongoose from 'mongoose';
 
-// @desc    Get all milk records
-// @route   GET /api/milk
-// @access  Public
-export const getAllMilkRecords = async (req, res) => {
+export const getFilteredMilkRecords = async (req, res) => {
 	try {
-		const records = await MilkRecord.find()
+		const { goatId, startDate, endDate, testDay } = req.query;
+
+		const query = {};
+		if (goatId) {
+			if (mongoose.Types.ObjectId.isValid(goatId)) {
+				query.goat = goatId;
+			} else {
+				return res.status(400).json({ message: 'Invalid goatId' });
+			}
+		}
+
+		if (startDate || endDate) {
+			query.recordedAt = {};
+			if (startDate) query.recordedAt.$gte = new Date(startDate);
+			if (endDate) query.recordedAt.$lte = new Date(endDate);
+		}
+
+		if (testDay !== undefined) {
+			query.testDay = testDay === 'true';
+		}
+
+		const records = await MilkRecord.find(query)
 			.populate('goat', 'nickname registeredName gender dob')
 			.sort({ recordedAt: -1 });
+
 		res.status(200).json(records);
 	} catch (error) {
-		console.error('❌ Error fetching milk records:', error);
+		console.error('❌ Error fetching filtered milk records:', error);
 		res.status(500).json({ message: 'Server error fetching milk records' });
 	}
 };
@@ -31,7 +51,6 @@ export const getMilkRecordById = async (req, res) => {
 		res.status(500).json({ message: 'Server error' });
 	}
 };
-
 
 // @desc    Create a new milk record
 // @route   POST /api/milk
@@ -76,7 +95,7 @@ export const createMilkRecord = async (req, res) => {
 // @route   PUT /api/milk/:id
 // @access  Admin only
 export const updateMilkRecord = async (req, res) => {
-	const { goatId, recordedAt, amount, notes } = req.body;
+	const { goatId, recordedAt, amount, notes, testDay } = req.body;
 
 	const { isValid, errors } = await validateMilkRecord(
 		{ goatId, recordedAt, amount },
@@ -96,6 +115,7 @@ export const updateMilkRecord = async (req, res) => {
 		if (recordedAt) record.recordedAt = recordedAt;
 		if (amount !== undefined) record.amount = amount;
 		if (notes !== undefined) record.notes = notes;
+		if (testDay !== undefined) record.testDay = testDay; // ✅ THIS LINE FIXES IT
 
 		await record.save();
 		const updated = await record.populate(
