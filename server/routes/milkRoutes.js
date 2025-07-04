@@ -14,12 +14,12 @@ import { protect, adminProtect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', getFilteredMilkRecords); // Replaces getAllMilkRecords
+router.get('/', protect, getFilteredMilkRecords); // Replaces getAllMilkRecords
 
-router.get('/summary', getMilkSummary);
-router.get('/goat/:goatId/summary', getGoatMilkSummary); // more specific route FIRST
-router.get('/goat/:goatId', getMilkRecordsByGoat);       // more general route SECOND
-router.get('/:id', getMilkRecordById);                   // wildcard route LAST
+router.get('/summary', protect, getMilkSummary);
+router.get('/goat/:goatId/summary', protect, getGoatMilkSummary); // more specific route FIRST
+router.get('/goat/:goatId', protect, getMilkRecordsByGoat);       // more general route SECOND
+router.get('/:id', protect, getMilkRecordById);                   // wildcard route LAST
 
 
 //Admin only routes

@@ -173,7 +173,14 @@ function App() {
 								</PrivateRoute>
 							}
 						/>
-						<Route path='/admin-orders' element={<AdminOrders />} />
+						<Route
+							path='/admin-orders'
+							element={
+								<AdminRoute>
+									<AdminOrders />
+								</AdminRoute>
+							}
+						/>
 						<Route path='access-denied' element={<AccessDenied />} />
 
 						<Route path='/goats' element={<GoatList />} />
@@ -206,7 +213,14 @@ function App() {
 							}
 						/>
 
-						<Route path='/milk-records' element={<MilkRecordsPage />} />
+						<Route
+							path='/milk-records'
+							element={
+								<PrivateRoute>
+									<MilkRecordsPage />
+								</PrivateRoute>
+							}
+						/>
 						<Route
 							path='/admin/milk-entry'
 							element={
