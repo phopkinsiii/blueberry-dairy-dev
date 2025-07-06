@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axios.js';
 import { toast } from 'react-toastify';
-import { filterDoesOverOneYear } from '../../../utils/goatUtils.js';
+import { filterDoesOverOneYear } from '../../utils/goatUtils.js';
 
 const MilkEntryForm = () => {
 	const [goats, setGoats] = useState([]);
