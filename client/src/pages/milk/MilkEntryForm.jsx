@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../../api/axios.js';
+import axiosInstance from '../../api/axios.js';
 import { toast } from 'react-toastify';
 import { filterDoesOverOneYear } from '../../../utils/goatUtils.js';
 
@@ -21,7 +21,7 @@ const MilkEntryForm = () => {
 				const { data } = await axiosInstance.get('/goats');
 				const doesOverOneYear = filterDoesOverOneYear(data);
 
-				setGoats(doesOverOneYearOld);
+				setGoats(doesOverOneYear);
 			} catch (err) {
 				console.error('Error fetching goats:', err);
 				toast.error('Failed to load goats');
