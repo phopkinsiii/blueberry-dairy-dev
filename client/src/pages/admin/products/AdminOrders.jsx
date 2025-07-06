@@ -1,7 +1,13 @@
 // @ts-nocheck
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { FunnelIcon } from '@heroicons/react/24/outline';
 import axiosInstance from '../../../api/axios';
 import { format } from 'date-fns';
+import { useProductContext } from '../../../contexts/ProductContext';
+import FilteredOrders from '../../../components/products/FilteredOrders';
+import OrderFiltersModal from '../../../components/products/OrderFiltersModal';
+import TooltipIconButton from '../../../components/common/TooltipIconButton';
 
 export default function AdminOrders() {
 	const [orders, setOrders] = useState([]);
@@ -10,6 +16,16 @@ export default function AdminOrders() {
 	const [showFulfilled, setShowFulfilled] = useState(true);
 	const [sortKey, setSortKey] = useState('');
 	const [sortOrder, setSortOrder] = useState('asc');
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const [filters, setFilters] = useState({
+		product: '',
+		day: '',
+		month: '',
+		year: '',
+	});
+
+	const { state: productState, fetchProducts } = useProductContext();
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -25,7 +41,8 @@ export default function AdminOrders() {
 		};
 
 		fetchOrders();
-	}, []);
+		fetchProducts();
+	}, [fetchProducts]);
 
 	const toggleFulfilled = async (orderId, currentStatus) => {
 		try {
@@ -34,12 +51,7 @@ export default function AdminOrders() {
 			});
 			setOrders((prev) =>
 				prev.map((o) =>
-					o._id === orderId
-						? {
-								...o,
-								fulfilled: res.data.isFulfilled, // map backend field to UI field
-						  }
-						: o
+					o._id === orderId ? { ...o, fulfilled: res.data.isFulfilled } : o
 				)
 			);
 		} catch (err) {
@@ -47,12 +59,27 @@ export default function AdminOrders() {
 		}
 	};
 
-	if (loading) return <p className='p-6'>Loading orders...</p>;
-	if (error) return <p className='p-6 text-red-600'>{error}</p>;
+	const productOptions = productState.products.map((p) => p.name);
 
-	const sortedOrders = [...orders]
+	const filteredOrders = orders.filter((order) => {
+		const orderDate = new Date(order.pickupTime);
+		const matchesProduct = filters.product
+			? order.cartItems.some((item) => item.name === filters.product)
+			: true;
+		const matchesDay = filters.day
+			? orderDate.getDate() === parseInt(filters.day)
+			: true;
+		const matchesMonth = filters.month
+			? orderDate.getMonth() + 1 === parseInt(filters.month)
+			: true;
+		const matchesYear = filters.year
+			? orderDate.getFullYear() === parseInt(filters.year)
+			: true;
+		return matchesProduct && matchesDay && matchesMonth && matchesYear;
+	});
+
+	const sortedOrders = [...filteredOrders]
 		.filter((order) => showFulfilled || !order.fulfilled)
-
 		.sort((a, b) => {
 			if (!sortKey) return 0;
 
@@ -72,17 +99,45 @@ export default function AdminOrders() {
 			return 0;
 		});
 
-	return (
-		<div className='max-w-6xl mx-auto px-4 py-10'>
-			<h1 className='text-3xl font-bold mb-6'>Order Summary</h1>
+	const totalSales = filteredOrders.reduce((acc, order) => {
+		return (
+			acc +
+			order.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+		);
+	}, 0);
 
-			<div className='flex justify-end mb-4'>
-				<button
-					onClick={() => setShowFulfilled((prev) => !prev)}
-					className='px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition'
-				>
-					{showFulfilled ? 'Hide Fulfilled Orders' : 'Show Fulfilled Orders'}
+	if (loading) return <p className='p-6'>Loading orders...</p>;
+	if (error) return <p className='p-6 text-red-600'>{error}</p>;
+
+	return (
+		<div className='max-w-6xl mx-auto px-4 pt-4 pb-10'>
+			<h1 className='text-3xl text-center font-bold mb-10 p-10'>
+				Order Summary
+			</h1>
+
+			<div className='mb-0 py-2'>
+				<OrderFiltersModal
+					isOpen={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+					productOptions={productOptions}
+					filters={filters}
+					setFilters={setFilters}
+				/>
+			</div>
+			<div className='flex justify-between items-center mb-4'>
+				<button>
+					onClick={() => setIsModalOpen(true)}
+					icon={FunnelIcon}
 				</button>
+
+				<div>
+					<button
+						onClick={() => setShowFulfilled((prev) => !prev)}
+						className='px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition'
+					>
+						{showFulfilled ? 'Hide Fulfilled Orders' : 'Show Fulfilled Orders'}
+					</button>
+				</div>
 			</div>
 
 			<div className='overflow-x-auto'>
@@ -164,6 +219,10 @@ export default function AdminOrders() {
 					</tbody>
 				</table>
 			</div>
+
+			<p className='mt-4 font-semibold'>
+				Total Sales for Filtered Orders: ${totalSales.toFixed(2)}
+			</p>
 		</div>
 	);
 }

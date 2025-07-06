@@ -9,7 +9,7 @@ import {
 	deleteGoat,
 	getForSaleGoats,
 	getDoes,
-	getBucks
+	getBucks,
 } from '../services/goatService';
 
 const GoatContext = createContext();
@@ -21,7 +21,7 @@ const initialState = {
 	error: null,
 };
 
-const goatReducer = (state, action) => {
+export const goatReducer = (state, action) => {
 	switch (action.type) {
 		case 'SET_LOADING':
 			return { ...state, loading: true, error: null };
