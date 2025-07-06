@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../api/axios';
+import axiosInstance from '../../../api/axios.js';
 import { toast } from 'react-toastify';
+import { filterDoesOverOneYear } from '../../../utils/goatUtils.js';
 
 const MilkEntryForm = () => {
 	const [goats, setGoats] = useState([]);
@@ -18,16 +19,7 @@ const MilkEntryForm = () => {
 		const fetchGoats = async () => {
 			try {
 				const { data } = await axiosInstance.get('/goats');
-				const today = new Date();
-				const oneYearAgo = new Date(today);
-				oneYearAgo.setFullYear(today.getFullYear() - 1);
-
-				const doesOverOneYearOld = data.filter((goat) => {
-					const isDoe = goat.gender?.toLowerCase() === 'doe';
-					const dob = new Date(goat.dob);
-					const isOverOneYear = dob <= oneYearAgo;
-					return isDoe && isOverOneYear;
-				});
+				const doesOverOneYear = filterDoesOverOneYear(data);
 
 				setGoats(doesOverOneYearOld);
 			} catch (err) {
@@ -55,16 +47,12 @@ const MilkEntryForm = () => {
 		try {
 			setLoading(true);
 
-			// ✅ Manually parse datetime-local as local time to avoid browser inconsistencies:
-			const [datePart, timePart] = formData.recordedAt.split('T');
-			const [year, month, day] = datePart.split('-').map(Number);
-			const [hour, minute] = timePart.split(':').map(Number);
-			const localDate = new Date(year, month - 1, day, hour, minute);
-			const utcISOString = localDate.toISOString();
-
+			// ✅ Correct conversion from local to UTC before sending to backend:
+			const utcRecordedAt = new Date(formData.recordedAt).toISOString();
+			console.log('Time sent to Mongo:', utcRecordedAt);
 			await axiosInstance.post('/milk', {
 				goatId: formData.goat,
-				recordedAt: utcISOString, // Now correct UTC date
+				recordedAt: utcRecordedAt, // Send UTC
 				amount: parseFloat(formData.amount),
 				notes: formData.notes,
 				testDay: formData.testDay,
