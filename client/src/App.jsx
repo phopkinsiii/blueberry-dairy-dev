@@ -53,7 +53,8 @@ import MilkEntryForm from './pages/milk/MilkEntryForm.jsx';
 import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 import TestimonialsPage from './pages/TestimonialsPage.jsx';
 import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialPage.jsx';
-import FilteredOrders from './components/products/FilteredOrders.jsx';
+
+
 
 function App() {
 	return (
@@ -185,14 +186,6 @@ function App() {
 							}
 						/>
 
-						<Route
-							path='/admin-orders/filtered'
-							element={
-								<AdminRoute>
-									<FilteredOrders />
-								</AdminRoute>
-							}
-						/>
 
 						<Route path='access-denied' element={<AccessDenied />} />
 

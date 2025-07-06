@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FunnelIcon } from '@heroicons/react/24/outline';
 import axiosInstance from '../../../api/axios';
 import { format } from 'date-fns';
 import { useProductContext } from '../../../contexts/ProductContext';
-import FilteredOrders from '../../../components/products/FilteredOrders';
 import OrderFiltersModal from '../../../components/products/OrderFiltersModal';
 import TooltipIconButton from '../../../components/common/TooltipIconButton';
 
