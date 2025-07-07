@@ -7,7 +7,6 @@ import { format } from 'date-fns';
 import { useProductContext } from '../../../contexts/ProductContext';
 import OrderFiltersModal from '../../../components/products/OrderFiltersModal';
 
-
 export default function AdminOrders() {
 	const [orders, setOrders] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -124,9 +123,14 @@ export default function AdminOrders() {
 				/>
 			</div>
 			<div className='flex justify-between items-center mb-4'>
-				<button>
+				<button
 					onClick={() => setIsModalOpen(true)}
-					icon={FunnelIcon}
+					className='flex items-center border border-black text-black bg-white text-sm p-2 rounded hover:bg-black hover:text-white transition'
+					title='Filter Orders'
+					aria-label='Filter Orders'
+					aria-hidden='true'
+				>
+					<FunnelIcon className='w-4 h-4' />
 				</button>
 
 				<div>
