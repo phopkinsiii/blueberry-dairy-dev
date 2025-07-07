@@ -77,7 +77,7 @@ export default function AdminOrders() {
 	});
 
 	const sortedOrders = [...filteredOrders]
-		.filter((order) => showFulfilled || !order.fulfilled)
+		.filter((order) => showFulfilled || !order.isFulfilled)
 		.sort((a, b) => {
 			if (!sortKey) return 0;
 
@@ -128,7 +128,6 @@ export default function AdminOrders() {
 					className='flex items-center border border-black text-black bg-white text-sm p-2 rounded hover:bg-black hover:text-white transition'
 					title='Filter Orders'
 					aria-label='Filter Orders'
-					aria-hidden='true'
 				>
 					<FunnelIcon className='w-4 h-4' />
 				</button>
@@ -205,15 +204,15 @@ export default function AdminOrders() {
 									<td className='px-4 py-3'>
 										<button
 											onClick={() =>
-												toggleFulfilled(order._id, order.fulfilled)
+												toggleFulfilled(order._id, order.isFulfilled)
 											}
 											className={`px-3 py-1 rounded-full text-sm font-medium ${
-												order.fulfilled
+												order.isFulfilled
 													? 'bg-green-200 text-green-900'
 													: 'bg-yellow-100 text-yellow-800'
 											}`}
 										>
-											{order.fulfilled ? 'Fulfilled' : 'Pending'}
+											{order.isFulfilled ? 'Fulfilled' : 'Pending'}
 										</button>
 									</td>
 								</tr>
