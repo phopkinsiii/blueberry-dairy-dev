@@ -49,7 +49,7 @@ export default function AdminOrders() {
 			});
 			setOrders((prev) =>
 				prev.map((o) =>
-					o._id === orderId ? { ...o, fulfilled: res.data.isFulfilled } : o
+					o._id === orderId ? { ...o, isFulfilled: res.data.isFulfilled } : o
 				)
 			);
 		} catch (err) {
