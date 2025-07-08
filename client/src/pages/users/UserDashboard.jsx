@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axios';
 import TotalMilkCard from '../../components/users/milk/TotalMilkCard';
 import YearlyMilkBarChart from '../../components/users/milk/YearlyMilkBarChart';
-import MilkSummaryByGoat from '../../components/users/milk/MilkSummaryByGoat';
+import MilkSummaryByGoat from '../../components/users/milk/MIlkSummaryByGoat';
 import Spinner from '../../components/Spinner';
 import { toast } from 'react-toastify';
 
