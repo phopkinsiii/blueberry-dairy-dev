@@ -52,6 +52,7 @@ import MilkEntryForm from './pages/admin/milk/MilkEntryForm';
 import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 import TestimonialsPage from './pages/TestimonialsPage.jsx';
 import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialsPage.jsx';
+import AdminDashboard from './pages/users/AdminDashboard.jsx';
 
 import { OverlayProvider } from '@react-aria/overlays';
 
@@ -221,6 +222,15 @@ function App() {
 								element={
 									<PrivateRoute>
 										<MilkRecordsPage />
+									</PrivateRoute>
+								}
+							/>
+
+							<Route
+								path='/dashboard'
+								element={
+									<PrivateRoute>
+										<AdminDashboard />
 									</PrivateRoute>
 								}
 							/>
