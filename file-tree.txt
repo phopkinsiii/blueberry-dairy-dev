@@ -1,4 +1,26 @@
 .
+├── backups
+│   └── mongo_backup_20250708_143330
+│       └── test
+│           ├── blogs.bson
+│           ├── blogs.metadata.json
+│           ├── contacts.bson
+│           ├── contacts.metadata.json
+│           ├── forumposts.bson
+│           ├── forumposts.metadata.json
+│           ├── goats.bson
+│           ├── goats.metadata.json
+│           ├── milkrecords.bson
+│           ├── milkrecords.metadata.json
+│           ├── orders.bson
+│           ├── orders.metadata.json
+│           ├── prelude.json
+│           ├── products.bson
+│           ├── products.metadata.json
+│           ├── testimonials.bson
+│           ├── testimonials.metadata.json
+│           ├── users.bson
+│           └── users.metadata.json
 ├── client
 │   ├── assets
 │   │   ├── index-D_ryMEPs.js
@@ -92,6 +114,7 @@
 │   │   │   │   ├── linda_judy_blueberries.jpg
 │   │   │   │   ├── midnight_tennessee.jpg
 │   │   │   │   ├── milk_and_glass_tall.jpg
+│   │   │   │   ├── Mongo_Blueberries_Backup
 │   │   │   │   ├── mountain_in_clouds.jpeg
 │   │   │   │   ├── myLogo.png
 │   │   │   │   ├── navbar-bg.png
@@ -198,7 +221,9 @@
 │   │   │   ├── StickyNavbar.jsx
 │   │   │   ├── TestimonialForm.jsx
 │   │   │   ├── ThemeToggleButton.jsx
-│   │   │   └── UserGreeting.jsx
+│   │   │   ├── UserGreeting.jsx
+│   │   │   └── users
+│   │   │       └── milk
 │   │   ├── config
 │   │   │   └── navigation.js
 │   │   ├── content
@@ -258,7 +283,9 @@
 │   │   │   │   └── ProductList.jsx
 │   │   │   ├── PurchaseOptionsCard.jsx
 │   │   │   ├── Register.jsx
-│   │   │   └── TestimonialsPage.jsx
+│   │   │   ├── TestimonialsPage.jsx
+│   │   │   └── users
+│   │   │       └── UserDashboard.jsx
 │   │   ├── reducers
 │   │   │   └── forumReducer.js
 │   │   ├── services
@@ -270,6 +297,7 @@
 │   │   └── utils
 │   │       ├── dateHelpers.js
 │   │       ├── formStyles.js
+│   │       ├── goatUtils.js
 │   │       ├── schemaGenerators.js
 │   │       ├── seo.js
 │   │       ├── seoUtils.js
@@ -281,7 +309,9 @@
 │   │   ├── contexts
 │   │   │   ├── CartContext.test.jsx
 │   │   │   ├── GoatContext.test.js
-│   │   │   └── goatReducer.test.js
+│   │   │   ├── goatReducer.test.js
+│   │   │   ├── ProductContext.test.jsx
+│   │   │   └── productReducer.test.js
 │   │   └── utils
 │   │       ├── dateHelpers.test.js
 │   │       └── validators.test.js
@@ -291,12 +321,55 @@
 │   └── vitest.config.js
 ├── Codesnippets.md
 ├── dump
-│   └── test
+│   ├── production
+│   │   ├── blogs.bson
+│   │   ├── blogs.metadata.json
+│   │   ├── contacts.bson
+│   │   ├── contacts.metadata.json
+│   │   ├── forumposts.bson
+│   │   ├── forumposts.metadata.json
+│   │   ├── goats.bson
+│   │   ├── goats.metadata.json
+│   │   ├── milkrecords.bson
+│   │   ├── milkrecords.metadata.json
+│   │   ├── orders.bson
+│   │   ├── orders.metadata.json
+│   │   ├── prelude.json
+│   │   ├── products.bson
+│   │   ├── products.metadata.json
+│   │   ├── testimonials.bson
+│   │   ├── testimonials.metadata.json
+│   │   ├── users.bson
+│   │   └── users.metadata.json
+│   ├── test
+│   │   ├── milkrecords.bson
+│   │   ├── milkrecords.metadata.json
+│   │   └── prelude.json
+│   └── test_clone_2
+│       ├── blogs.bson
+│       ├── blogs.metadata.json
+│       ├── contacts.bson
+│       ├── contacts.metadata.json
+│       ├── forumposts.bson
+│       ├── forumposts.metadata.json
+│       ├── goats.bson
+│       ├── goats.metadata.json
 │       ├── milkrecords.bson
 │       ├── milkrecords.metadata.json
-│       └── prelude.json
+│       ├── orders.bson
+│       ├── orders.metadata.json
+│       ├── prelude.json
+│       ├── products.bson
+│       ├── products.metadata.json
+│       ├── testimonials.bson
+│       ├── testimonials.metadata.json
+│       ├── users.bson
+│       └── users.metadata.json
 ├── file-tree.txt
 ├── folder-structure.txt
+├── get-mongo-uri.js
+├── mongo_backup.sh
+├── mongo_restore.sh
 ├── package-lock.json
 ├── package.json
 ├── Readme.md
@@ -341,7 +414,6 @@
 │   │   ├── goatModel.js
 │   │   ├── milkModel.js
 │   │   ├── orderModel.js
-│   │   ├── orderModel.old.js
 │   │   ├── productModel.js
 │   │   ├── testimonialModel.js
 │   │   └── userModel.js
@@ -362,6 +434,11 @@
 │   │   ├── userRoutes.js
 │   │   └── webhookRoutes.js
 │   ├── server.js
+│   ├── tests
+│   │   ├── milk
+│   │   │   └── milkSummary.test.js
+│   │   └── utils
+│   │       └── testAuth.js
 │   ├── uploads
 │   │   ├── 1746617396860-Ad Picture.jpg
 │   │   ├── 1746621698015-Banner 4 Best.png
@@ -394,8 +471,7 @@
 │       │   ├── sendOrderEmail.js
 │       │   └── sendPasswordResetEmail.js
 │       ├── generateToken.js
-│       ├── sendEmail.js.old
 │       └── validators.js
 └── stripe-testing-readme.md
 
-62 directories, 337 files
+74 directories, 401 files

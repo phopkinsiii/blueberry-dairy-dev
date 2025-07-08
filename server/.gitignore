@@ -33,3 +33,5 @@ dist/
 
 # Coverage reports
 coverage
+
+/backups/
