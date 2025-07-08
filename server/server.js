@@ -121,9 +121,14 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ✅ Start server
-connectDB();
 
-const port = process.env.PORT || 5050;
-app.listen(port, () => {
-	console.log(`✅ Server listening on port ${port}`);
-});
+// ✅ At bottom of server.js:
+if (process.env.NODE_ENV !== 'test') {
+	await connectDB();
+	const port = process.env.PORT || 5050;
+	app.listen(port, () => {
+		console.log(`✅ Server listening on port ${port}`);
+	});
+}
+
+export default app; // 👈 EXPORT app for Vitest

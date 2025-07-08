@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"recordedAt":{"$numberInt":"-1"}},"name":"recordedAt_-1","background":true},{"v":{"$numberInt":"2"},"key":{"goat":{"$numberInt":"1"}},"name":"goat_1","background":true}],"uuid":"55bd0af3c9914b3b9b0c3743f98ab357","collectionName":"milkrecords","type":"collection"}

@@ -9,7 +9,7 @@ import {
 	deleteGoat,
 	getForSaleGoats,
 	getDoes,
-	getBucks
+	getBucks,
 } from '../services/goatService';
 
 const GoatContext = createContext();
@@ -21,7 +21,7 @@ const initialState = {
 	error: null,
 };
 
-const goatReducer = (state, action) => {
+export const goatReducer = (state, action) => {
 	switch (action.type) {
 		case 'SET_LOADING':
 			return { ...state, loading: true, error: null };
@@ -82,15 +82,14 @@ export const GoatProvider = ({ children }) => {
 	}, []);
 
 	const fetchBucks = useCallback(async () => {
-	dispatch({ type: 'SET_LOADING' });
-	try {
-		const data = await getBucks();
-		dispatch({ type: 'SET_GOATS', payload: data });
-	} catch (err) {
-		dispatch({ type: 'SET_ERROR', payload: err.message });
-	}
-}, []);
-
+		dispatch({ type: 'SET_LOADING' });
+		try {
+			const data = await getBucks();
+			dispatch({ type: 'SET_GOATS', payload: data });
+		} catch (err) {
+			dispatch({ type: 'SET_ERROR', payload: err.message });
+		}
+	}, []);
 
 	return (
 		<GoatContext.Provider

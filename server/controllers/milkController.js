@@ -267,3 +267,63 @@ export const getGoatMilkSummary = async (req, res) => {
 		res.status(500).json({ message: 'Error generating goat milk summary' });
 	}
 };
+
+export const getAllTimeSummary = async (req, res) => {
+	try {
+		const allTimeSummary = await MilkRecord.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalMilk: { $sum: '$amount' },
+				},
+			},
+		]);
+
+		const totalMilk = allTimeSummary[0]?.totalMilk || 0;
+
+		res.status(200).json({
+			totalMilk,
+			summary: [{ label: 'All Time', totalMilk }],
+			labels: ['All Time'],
+			data: [totalMilk],
+		});
+	} catch (error) {
+		console.error('❌ Error fetching all-time summary:', error);
+		res.status(500).json({ message: 'Error fetching all-time summary' });
+	}
+};
+
+// @desc Get Yearly Milk Production Summary
+// @route GET /api/milk/summary/by-year
+// @access Protected
+export const getYearlySummary = async (req, res) => {
+	try {
+		const yearlySummary = await MilkRecord.aggregate([
+			{
+				$group: {
+					_id: { year: { $year: '$recordedAt' } },
+					totalMilk: { $sum: '$amount' },
+				},
+			},
+			{ $sort: { '_id.year': 1 } },
+		]);
+
+		const summary = yearlySummary.map((item) => ({
+			year: item._id.year,
+			totalMilk: item.totalMilk,
+		}));
+
+		const labels = summary.map((item) => `${item.year}`);
+		const data = summary.map((item) => item.totalMilk);
+
+		res.status(200).json({
+			summary, // tabular data
+			total: summary.reduce((acc, curr) => acc + curr.totalMilk, 0),
+			labels, // for charts
+			data,   // for charts
+		});
+	} catch (error) {
+		console.error('❌ Error fetching yearly summary:', error);
+		res.status(500).json({ message: 'Error fetching yearly summary' });
+	}
+};

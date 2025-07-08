@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../../api/axios.js';
 import { toast } from 'react-toastify';
+import { filterDoesOverOneYear } from '../../../utils/goatUtils.js';
 
 const MilkEntryForm = () => {
 	const [goats, setGoats] = useState([]);
@@ -18,18 +19,9 @@ const MilkEntryForm = () => {
 		const fetchGoats = async () => {
 			try {
 				const { data } = await axiosInstance.get('/goats');
-				const today = new Date();
-				const oneYearAgo = new Date(today);
-				oneYearAgo.setFullYear(today.getFullYear() - 1);
+				const doesOverOneYear = filterDoesOverOneYear(data);
 
-				const doesOverOneYearOld = data.filter((goat) => {
-					const isDoe = goat.gender?.toLowerCase() === 'doe';
-					const dob = new Date(goat.dob);
-					const isOverOneYear = dob <= oneYearAgo;
-					return isDoe && isOverOneYear;
-				});
-
-				setGoats(doesOverOneYearOld);
+				setGoats(doesOverOneYear);
 			} catch (err) {
 				console.error('Error fetching goats:', err);
 				toast.error('Failed to load goats');

@@ -8,7 +8,10 @@
 		"client": "npm --prefix client run dev",
 		"server": "npm --prefix server run dev",
 		"stripe:listen": "stripe listen --forward-to localhost:5050/api/stripe/webhook",
-		"import:milk": "node scripts/importMilkRecords.js"
+		"import:milk": "node scripts/importMilkRecords.js",
+		"test": "NODE_ENV=test vitest run",
+		"back": "./mongo_backup.sh",
+		"restore": "./mongo_restore.sh"
 	},
 	"repository": {
 		"type": "git",

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// src/api/axios.js
+// client/src/api/axios.js
 import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;

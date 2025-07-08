@@ -3,6 +3,7 @@
 import { Dialog } from '@headlessui/react';
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axios';
+import { filterDoesOverOneYear } from '../../utils/goatUtils';
 
 const MilkRecordsFilterModal = ({ isOpen, onClose, onResults }) => {
 	const [goats, setGoats] = useState([]);
@@ -18,11 +19,13 @@ const MilkRecordsFilterModal = ({ isOpen, onClose, onResults }) => {
 		const fetchGoats = async () => {
 			try {
 				const { data } = await axiosInstance.get('/goats');
-				setGoats(data);
+				const doesOverOneYear = filterDoesOverOneYear(data);
+				setGoats(doesOverOneYear);
 			} catch (err) {
 				console.error('Failed to load goats:', err);
 			}
 		};
+
 		if (isOpen) fetchGoats();
 	}, [isOpen]);
 

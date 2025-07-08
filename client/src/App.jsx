@@ -53,206 +53,210 @@ import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 import TestimonialsPage from './pages/TestimonialsPage.jsx';
 import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialsPage.jsx';
 
+import { OverlayProvider } from '@react-aria/overlays';
+
 function App() {
 	return (
-		<div className='flex flex-col min-h-screen'>
-			<ToastContainer
-				position='top-right'
-				autoClose={3000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				className='p-4'
-			/>
-			{/* 🔼 Scroll to top on route change */}
-			<ScrollToTop />
-			{/* Header + Page Content */}
-			<div className='flex-grow'>
-				<NavbarLayout>
-					<Routes>
-						<Route path='/' element={<Home />} />
-						<Route path='/products' element={<ProductList />} />
-						<Route path='/products/:id' element={<ProductDetails />} />
-						<Route path='/cart' element={<Cart />} />
-						<Route path='/our-farm' element={<OurFarm />} />
-						<Route path='/testimonials' element={<TestimonialsPage />} />
-						<Route path='/contact' element={<Contact />} />
-						<Route path='/login' element={<Login />} />
-						<Route path='/register' element={<Register />} />
-						<Route
-							path='/manage-products'
-							element={
-								<AdminRoute adminOnly>
-									<ManageProducts />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/add-product'
-							element={
-								<AdminRoute>
-									<AddProduct />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/admin/edit-product/:id'
-							element={
-								<AdminRoute>
-									<EditProduct />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/add-blog'
-							element={
-								<AdminRoute>
-									<AddBlogPost />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/admin/inventory'
-							element={
-								<AdminRoute>
-									<ManageInventory />
-								</AdminRoute>
-							}
-						/>
-						<Route path='/checkout' element={<Checkout />} />
-						<Route path='/confirmation' element={<Confirmation />} />
-						<Route path='/blog/:id' element={<BlogPost />} />
-						<Route path='reset-password' element={<ResetPassword />} />
-						<Route path='forgot-password' element={<ForgotPassword />} />
-						<Route path='/accessibility' element={<Accessibility />} />
+		<OverlayProvider>
+			<div className='flex flex-col min-h-screen'>
+				<ToastContainer
+					position='top-right'
+					autoClose={3000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					className='p-4'
+				/>
+				{/* 🔼 Scroll to top on route change */}
+				<ScrollToTop />
+				{/* Header + Page Content */}
+				<div className='flex-grow'>
+					<NavbarLayout>
+						<Routes>
+							<Route path='/' element={<Home />} />
+							<Route path='/products' element={<ProductList />} />
+							<Route path='/products/:id' element={<ProductDetails />} />
+							<Route path='/cart' element={<Cart />} />
+							<Route path='/our-farm' element={<OurFarm />} />
+							<Route path='/testimonials' element={<TestimonialsPage />} />
+							<Route path='/contact' element={<Contact />} />
+							<Route path='/login' element={<Login />} />
+							<Route path='/register' element={<Register />} />
+							<Route
+								path='/manage-products'
+								element={
+									<AdminRoute adminOnly>
+										<ManageProducts />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/add-product'
+								element={
+									<AdminRoute>
+										<AddProduct />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/admin/edit-product/:id'
+								element={
+									<AdminRoute>
+										<EditProduct />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/add-blog'
+								element={
+									<AdminRoute>
+										<AddBlogPost />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/admin/inventory'
+								element={
+									<AdminRoute>
+										<ManageInventory />
+									</AdminRoute>
+								}
+							/>
+							<Route path='/checkout' element={<Checkout />} />
+							<Route path='/confirmation' element={<Confirmation />} />
+							<Route path='/blog/:id' element={<BlogPost />} />
+							<Route path='reset-password' element={<ResetPassword />} />
+							<Route path='forgot-password' element={<ForgotPassword />} />
+							<Route path='/accessibility' element={<Accessibility />} />
 
-						<Route path='/blog' element={<BlogPage />} />
-						<Route
-							path='/manage-posts'
-							element={
-								<AdminRoute>
-									<ManagePosts />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/admin/edit-blog/:id'
-							element={
-								<AdminRoute>
-									<UpdateBlog />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/admin/users'
-							element={
-								<AdminRoute>
-									<ManageUsers />
-								</AdminRoute>
-							}
-						/>
-						<Route path='/forum' element={<ForumPage />} />
-						<Route path='/forum/:id' element={<ForumPost />} />
-						<Route
-							path='/admin/forum'
-							element={
-								<AdminRoute>
-									<ManageForum />
-								</AdminRoute>
-							}
-						/>
+							<Route path='/blog' element={<BlogPage />} />
+							<Route
+								path='/manage-posts'
+								element={
+									<AdminRoute>
+										<ManagePosts />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/admin/edit-blog/:id'
+								element={
+									<AdminRoute>
+										<UpdateBlog />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/admin/users'
+								element={
+									<AdminRoute>
+										<ManageUsers />
+									</AdminRoute>
+								}
+							/>
+							<Route path='/forum' element={<ForumPage />} />
+							<Route path='/forum/:id' element={<ForumPost />} />
+							<Route
+								path='/admin/forum'
+								element={
+									<AdminRoute>
+										<ManageForum />
+									</AdminRoute>
+								}
+							/>
 
-						<Route
-							path='/forum/new'
-							element={
-								<PrivateRoute>
-									<AddForumPost />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path='/admin-orders'
-							element={
-								<AdminRoute>
-									<AdminOrders />
-								</AdminRoute>
-							}
-						/>
-						<Route path='access-denied' element={<AccessDenied />} />
+							<Route
+								path='/forum/new'
+								element={
+									<PrivateRoute>
+										<AddForumPost />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path='/admin-orders'
+								element={
+									<AdminRoute>
+										<AdminOrders />
+									</AdminRoute>
+								}
+							/>
+							<Route path='access-denied' element={<AccessDenied />} />
 
-						<Route path='/goats' element={<GoatList />} />
-						<Route path='/goats/for-sale' element={<ForSaleGoats />} />
-						<Route path='/goats/does' element={<DoesGoats />} />
-						<Route path='/goats/bucks' element={<BuckGoats />} />
-						<Route
-							path='/admin/goats/add'
-							element={
-								<AdminRoute>
-									<AddGoat />
-								</AdminRoute>
-							}
-						/>
-						<Route path='/goats/:id' element={<GoatDetails />} />
-						<Route
-							path='/admin/edit-goat/:id'
-							element={
-								<AdminRoute>
-									<EditGoat />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/manage-goats'
-							element={
-								<AdminRoute>
-									<ManageGoats />
-								</AdminRoute>
-							}
-						/>
+							<Route path='/goats' element={<GoatList />} />
+							<Route path='/goats/for-sale' element={<ForSaleGoats />} />
+							<Route path='/goats/does' element={<DoesGoats />} />
+							<Route path='/goats/bucks' element={<BuckGoats />} />
+							<Route
+								path='/admin/goats/add'
+								element={
+									<AdminRoute>
+										<AddGoat />
+									</AdminRoute>
+								}
+							/>
+							<Route path='/goats/:id' element={<GoatDetails />} />
+							<Route
+								path='/admin/edit-goat/:id'
+								element={
+									<AdminRoute>
+										<EditGoat />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/manage-goats'
+								element={
+									<AdminRoute>
+										<ManageGoats />
+									</AdminRoute>
+								}
+							/>
 
-						<Route
-							path='/milk-records'
-							element={
-								<PrivateRoute>
-									<MilkRecordsPage />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path='/admin/milk-entry'
-							element={
-								<AdminRoute>
-									<MilkEntryForm />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/milk-records/:id/edit'
-							element={
-								<AdminRoute>
-									<EditMilkRecord />
-								</AdminRoute>
-							}
-						/>
-						<Route
-							path='/admin/testimonials'
-							element={
-								<AdminRoute>
-									<AdminTestimonialsPage />
-								</AdminRoute>
-							}
-						/>
-					</Routes>
-				</NavbarLayout>
+							<Route
+								path='/milk-records'
+								element={
+									<PrivateRoute>
+										<MilkRecordsPage />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path='/admin/milk-entry'
+								element={
+									<AdminRoute>
+										<MilkEntryForm />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/milk-records/:id/edit'
+								element={
+									<AdminRoute>
+										<EditMilkRecord />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path='/admin/testimonials'
+								element={
+									<AdminRoute>
+										<AdminTestimonialsPage />
+									</AdminRoute>
+								}
+							/>
+						</Routes>
+					</NavbarLayout>
+				</div>
+				<ScrollToTop />
+
+				{/* Footer always at bottom */}
+				<Footer />
 			</div>
-			<ScrollToTop />
-
-			{/* Footer always at bottom */}
-			<Footer />
-		</div>
+		</OverlayProvider>
 	);
 }
 

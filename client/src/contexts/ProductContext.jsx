@@ -15,7 +15,7 @@ const initialProductState = {
 	error: null,
 };
 
-const productReducer = (state, action) => {
+export const productReducer = (state, action) => {
 	switch (action.type) {
 		case 'SET_LOADING':
 			return { ...state, loading: action.payload };
