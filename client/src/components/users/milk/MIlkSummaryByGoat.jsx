@@ -1,4 +1,3 @@
-
 //client/src/components/users/milk/MilkSummaryByGoat.jsx
 
 const MilkSummaryByGoat = ({ data }) => {
