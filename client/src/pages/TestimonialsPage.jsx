@@ -16,6 +16,7 @@ export default function TestimonialsPage() {
 				const data = await fetchTestimonials();
 				setTestimonials(data);
 			} catch (err) {
+				console.error(err);
 				setError('Failed to load testimonials.');
 			} finally {
 				setLoading(false);
@@ -41,7 +42,7 @@ export default function TestimonialsPage() {
 			>
 				<div className='grid md:grid-cols-[1fr] gap-10 max-w-3xl mx-auto'>
 					<div className='glass-effect p-6 rounded-lg shadow-lg'>
-						<h1 className='text-5xl font-bold text-gray-200 mb-6 text-center'>
+						<h1 className='text-5xl font-bold text-amber-900 mb-6 text-center'>
 							Share Your Story
 						</h1>
 						<TestimonialForm setTestimonials={setTestimonials} />

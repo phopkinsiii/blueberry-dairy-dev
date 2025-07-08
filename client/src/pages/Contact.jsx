@@ -13,7 +13,6 @@ export default function Contact() {
 	const { state } = useContactContext();
 	const { loading } = state;
 
-
 	if (loading) return <Spinner />;
 
 	return (
@@ -59,7 +58,7 @@ export default function Contact() {
 							</svg>
 							(423) 293-4487
 						</p>
-						<p>✉️ hello@blueberrydairy.com</p>
+						<p>phopkins1757@gmail.com</p>
 
 						{/* Badge */}
 						<div className='mt-18'>
@@ -70,7 +69,6 @@ export default function Contact() {
 							/>
 						</div>
 					</div>
-
 				</div>
 			</AnimatedBackgroundWrapper>
 		</>

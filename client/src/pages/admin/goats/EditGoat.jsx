@@ -1,4 +1,5 @@
 // @ts-nocheck
+// src/pages/admin/goats/EditGoat.jsx
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../api/axios';
@@ -75,12 +76,11 @@ const EditGoat = () => {
 
 		try {
 			await axiosInstance.post(`/goats/${id}/images/remove`, { imageUrl: url });
+			setGoat((prev) => ({
+				...prev,
+				images: prev.images.filter((img) => img !== url),
+			}));
 			toast.success('Image removed');
-
-			const { data } = await axiosInstance.get(`/goats/${id}`);
-			setGoat(data);
-
-			setImageUrls((prev) => prev.filter((img) => img !== url));
 		} catch (err) {
 			console.error('❌ Failed to remove image:', err);
 			toast.error('Failed to remove image');

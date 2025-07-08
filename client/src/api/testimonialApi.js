@@ -13,22 +13,17 @@ export const submitTestimonial = async (testimonial) => {
 
 // Admin: Update testimonial
 export const updateTestimonial = async (id, testimonial, token) => {
-  console.log('Calling API to update testimonial...');
-  console.log('Testimonial ID:', id);
-  console.log('Payload:', testimonial);
-  console.log('Token:', token);
-  const { data } = await axiosInstance.put(
-    `/testimonials/${id}`,
-    testimonial,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return data;
+	console.log('Calling API to update testimonial...');
+	console.log('Testimonial ID:', id);
+	console.log('Payload:', testimonial);
+	console.log('Token:', token);
+	const { data } = await axiosInstance.put(`/testimonials/${id}`, testimonial, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	return data;
 };
-
 
 // Admin: Delete testimonial
 export const deleteTestimonial = async (id, token) => {

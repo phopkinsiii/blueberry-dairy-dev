@@ -2,12 +2,15 @@
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import Order from '../models/orderModel.js';
-// import { sendOrderConfirmationEmail } from '../utils/sendOrderEmail.js';
 import { sendOrderConfirmationEmail } from '../utils/email/sendOrderEmail.js';
+
 dotenv.config();
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 const truncate = (str, maxLength = 150) =>
 	str?.length > maxLength ? str.slice(0, maxLength - 3) + '...' : str;
+
 export const createCheckoutSession = async (req, res) => {
 	try {
 		const { form, cartItems } = req.body;
@@ -18,7 +21,7 @@ export const createCheckoutSession = async (req, res) => {
 
 		console.log('💬 Received payload:', { form, cartItems });
 
-		// Build line items for Stripe session (optional: more detail)
+		// Build line items for Stripe session
 		const line_items = cartItems.map((item) => ({
 			price_data: {
 				currency: 'usd',
@@ -42,7 +45,7 @@ export const createCheckoutSession = async (req, res) => {
 			pickupTime: form.pickupTime,
 			cart: JSON.stringify(
 				cartItems.map((item) => ({
-					productId: item._id, // ✅ Required for Order schema
+					productId: item._id,
 					name: item.name,
 					quantity: item.quantity,
 					price: item.price,
@@ -50,28 +53,27 @@ export const createCheckoutSession = async (req, res) => {
 				}))
 			),
 		};
-		console.log('🧾 Received form:', form);
-		console.log('🧺 Received cartItems:', cartItems);
+
+		const successUrl = `${process.env.FRONTEND_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`;
+
+		const cancelUrl = `${process.env.FRONTEND_URL}/checkout?canceled=true`;
+
+		console.log('🔁 success_url:', successUrl);
+		console.log('🔁 cancel_url:', cancelUrl);
 
 		const session = await stripe.checkout.sessions.create({
-			mode: 'payment',
 			payment_method_types: ['card'],
+			mode: 'payment',
 			line_items,
-			metadata, // ✅ This adds metadata to the *session*
-			payment_intent_data: {
-				metadata, // ✅ This adds metadata to the *PaymentIntent*
-			},
-			success_url: `${process.env.CLIENT_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-			cancel_url: `${process.env.CLIENT_URL}/checkout?canceled=true`,
+			metadata,
+			success_url: successUrl,
+			cancel_url: cancelUrl,
 		});
 
 		console.log('✅ Stripe session created:', session.id);
 		res.status(200).json({ id: session.id });
 	} catch (error) {
-		console.error('🔥 Stripe error:', error);
-		res.status(500).json({
-			message: 'Failed to create checkout session',
-			error: error.message,
-		});
+		console.error('❌ Error creating checkout session:', error);
+		res.status(500).json({ message: 'Failed to create checkout session' });
 	}
 };

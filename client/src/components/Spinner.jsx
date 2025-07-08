@@ -1,4 +1,4 @@
-//client/src/components/Spinner.jsx
+// components/Spinner.jsx
 const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-screen">

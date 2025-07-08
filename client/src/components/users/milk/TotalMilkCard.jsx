@@ -1,3 +1,4 @@
+//client/src/components/users/milk/TotalMilkCard.jsx
 const TotalMilkCard = ({ totalMilk }) => {
 	return (
 		<div className='bg-white rounded shadow p-4'>

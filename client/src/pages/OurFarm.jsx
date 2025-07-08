@@ -61,10 +61,12 @@ export default function OurFarm() {
 				image='https://res.cloudinary.com/dzhweqopn/image/upload/v1750275064/seo_soil_in_hand_zg3sew.jpg'
 				url='https://www.blueberrydairy.com/our-farm'
 			/>
+
 			<>
 				<JsonLd data={getOrganizationSchema()} />
 				<JsonLd json={getBreadcrumbSchema(aboutBreadcrumbItems)} />
 			</>
+
 			<div
 				className='relative min-h-screen bg-cover bg-center bg-fixed'
 				style={{
@@ -87,10 +89,10 @@ export default function OurFarm() {
 										<p className='mt-8 text-3xl font-medium  text-white sm:max-w-md sm:text-xl/8 lg:max-w-none'>
 											Health-conscious consumers often struggle to find fresh,
 											organic food. Blueberry Dairy provides fresh, organic
-											fruits and raw dairy products. so you can enjoy
-											nutritious, chemical-free foods that boost your immune
-											system. We believe in producing wholesome food the way
-											nature intended. From our organically grown apples and
+											fruits and raw dairy products so you can enjoy nutritious,
+											chemical-free foods that boost your immune system. We
+											believe in producing wholesome food the way nature
+											intended. From our organically grown apples and
 											blueberries to our pasture-raised Nigerian Dwarf dairy
 											goats, everything we do is centered on sustainability,
 											integrity, and your family's health.
@@ -118,8 +120,8 @@ export default function OurFarm() {
 											</div>
 											<div className='relative'>
 												<img
-													alt='Pond and Farm Gate'
-													src='https://res.cloudinary.com/dzhweqopn/image/upload/v1749290453/pond_and_gate_qqmtbu.jpg'
+													alt='Healthy Soil in Hand'
+													src='https://res.cloudinary.com/dzhweqopn/image/upload/v1750272279/soil_in_hand_hqbdnb.jpg'
 													className='aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg'
 												/>
 												<div className='pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset' />
@@ -246,18 +248,19 @@ export default function OurFarm() {
 								/>
 								<span className='sr-only'>Click to view full-size image</span>
 							</a>
-							The deer in the photo to the right are beautiful, frequent
-							visitors on our farm, but when they chewed all the branches from
-							our two-year-old apple trees, we had to add the wire cages to keep
-							them off. A year or two later, when the trees were large enough to
-							survive the deer browsing, and finally produce their first crop,
-							bears broke several large branches to get the few half-ripe
-							apples. Because they had no respect whatsoever for the wire cages,
-							we installed an electric fence around the orchard. That worked
-							well until a storm blew a tree down across the fence-line and
-							flattened a whole row of fence. Any farmer knows that stories like
-							this are common and just part of the business. It's been a wild,
-							fascinating learning experience, which is part of the fun!
+							The deer in the photo at the bottom of the page are beautiful,
+							frequent visitors on our farm, but when they chewed all the
+							branches from our two-year-old apple trees, we had to add the wire
+							cages to keep them off. A year or two later, when the trees were
+							large enough to survive the deer browsing, and finally produce
+							their first crop, bears broke several large branches to get the
+							few half-ripe apples. Because they had no respect whatsoever for
+							the wire cages, we installed an electric fence around the orchard.
+							That worked well until a storm blew a tree down across the
+							fence-line and flattened a whole row of fence. Any farmer knows
+							that stories like this are common and just part of the business.
+							It's been a wild, fascinating learning experience, which is part
+							of the fun!
 						</p>
 
 						<p className='text-white text-xl leading-relaxed mb-6'>
@@ -287,7 +290,7 @@ export default function OurFarm() {
 
 					{/* Inspiration Section */}
 					{/* Inspiration Section */}
-					<div className='mx-auto mt-32 max-w-4xl px-6 pb-6 sm:mt-40 lg:px-8 text-center relative z-10'>
+					<div className='mx-auto mt-32 max-w-4xl px-6 sm:mt-40 lg:px-8 text-center relative z-10'>
 						<blockquote className='text-2xl sm:text-3xl md:text-4xl italic font-light leading-relaxed text-white'>
 							“&nbsp;We don’t inherit the earth from our ancestors — we borrow
 							it from our children.&nbsp;”
@@ -299,7 +302,7 @@ export default function OurFarm() {
 						<p className='mt-4 text-gray-400 text-base italic'>
 							— Native American Proverbs
 						</p>
-						<p className='mt-6 pt-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto'>
+						<p className='mt-6 pb-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto'>
 							At Blueberry Dairy and Hickory Cove Orchards, we believe farming
 							is an act of hope — a way to leave the world better than we found
 							it.

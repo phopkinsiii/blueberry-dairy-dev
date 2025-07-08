@@ -1,10 +1,11 @@
-// @ts-nocheck
 // server/controllers/milkController.js
 import MilkRecord from '../models/milkModel.js';
-import Goat from '../models/goatModel.js';
 import { validateMilkRecord } from '../utils/validators.js';
 import mongoose from 'mongoose';
 
+// @desc    Get all milk records (with goat info)
+// @route   GET /api/milk
+// @access  Public
 export const getFilteredMilkRecords = async (req, res) => {
 	try {
 		const { goatId, startDate, endDate, testDay } = req.query;
@@ -55,10 +56,8 @@ export const getMilkRecordById = async (req, res) => {
 // @desc    Create a new milk record
 // @route   POST /api/milk
 // @access  Admin only
-
 export const createMilkRecord = async (req, res) => {
 	const { goatId, recordedAt, amount, notes, testDay } = req.body;
-	console.log('Milk record payload:', req.body);
 
 	const { isValid, errors } = await validateMilkRecord({
 		goatId,
@@ -95,7 +94,7 @@ export const createMilkRecord = async (req, res) => {
 // @route   PUT /api/milk/:id
 // @access  Admin only
 export const updateMilkRecord = async (req, res) => {
-	const { goatId, recordedAt, amount, notes, testDay } = req.body;
+	const { goatId, recordedAt, amount, notes } = req.body;
 
 	const { isValid, errors } = await validateMilkRecord(
 		{ goatId, recordedAt, amount },
@@ -115,7 +114,6 @@ export const updateMilkRecord = async (req, res) => {
 		if (recordedAt) record.recordedAt = recordedAt;
 		if (amount !== undefined) record.amount = amount;
 		if (notes !== undefined) record.notes = notes;
-		if (testDay !== undefined) record.testDay = testDay; // ✅ THIS LINE FIXES IT
 
 		await record.save();
 		const updated = await record.populate(
@@ -210,7 +208,6 @@ export const getGoatMilkSummary = async (req, res) => {
 	const { goatId } = req.params;
 
 	try {
-		// Fetch all milk records for this goat
 		const records = await MilkRecord.find({ goat: goatId });
 
 		if (!records.length) {
@@ -219,7 +216,6 @@ export const getGoatMilkSummary = async (req, res) => {
 				.json({ message: 'No milk records found for this goat' });
 		}
 
-		// Group by year
 		const yearlyData = {};
 
 		for (const record of records) {
@@ -235,10 +231,9 @@ export const getGoatMilkSummary = async (req, res) => {
 
 			yearlyData[year].total += record.amount;
 			yearlyData[year].count += 1;
-			yearlyData[year].days.add(record.recordedAt.toISOString().split('T')[0]); // track unique days
+			yearlyData[year].days.add(record.recordedAt.toISOString().split('T')[0]);
 		}
 
-		// Format summary
 		const summary = Object.entries(yearlyData).map(([year, data]) => ({
 			year: Number(year),
 			total: parseFloat(data.total.toFixed(2)),
@@ -247,10 +242,8 @@ export const getGoatMilkSummary = async (req, res) => {
 			entries: data.count,
 		}));
 
-		// Sort descending by year
 		summary.sort((a, b) => b.year - a.year);
 
-		// Lifetime totals
 		const lifetimeTotal = summary.reduce((acc, yr) => acc + yr.total, 0);
 		const lifetimeDays = summary.reduce((acc, yr) => acc + yr.daysMilked, 0);
 
@@ -265,65 +258,5 @@ export const getGoatMilkSummary = async (req, res) => {
 	} catch (error) {
 		console.error('❌ Error generating goat milk summary:', error);
 		res.status(500).json({ message: 'Error generating goat milk summary' });
-	}
-};
-
-export const getAllTimeSummary = async (req, res) => {
-	try {
-		const allTimeSummary = await MilkRecord.aggregate([
-			{
-				$group: {
-					_id: null,
-					totalMilk: { $sum: '$amount' },
-				},
-			},
-		]);
-
-		const totalMilk = allTimeSummary[0]?.totalMilk || 0;
-
-		res.status(200).json({
-			totalMilk,
-			summary: [{ label: 'All Time', totalMilk }],
-			labels: ['All Time'],
-			data: [totalMilk],
-		});
-	} catch (error) {
-		console.error('❌ Error fetching all-time summary:', error);
-		res.status(500).json({ message: 'Error fetching all-time summary' });
-	}
-};
-
-// @desc Get Yearly Milk Production Summary
-// @route GET /api/milk/summary/by-year
-// @access Protected
-export const getYearlySummary = async (req, res) => {
-	try {
-		const yearlySummary = await MilkRecord.aggregate([
-			{
-				$group: {
-					_id: { year: { $year: '$recordedAt' } },
-					totalMilk: { $sum: '$amount' },
-				},
-			},
-			{ $sort: { '_id.year': 1 } },
-		]);
-
-		const summary = yearlySummary.map((item) => ({
-			year: item._id.year,
-			totalMilk: item.totalMilk,
-		}));
-
-		const labels = summary.map((item) => `${item.year}`);
-		const data = summary.map((item) => item.totalMilk);
-
-		res.status(200).json({
-			summary, // tabular data
-			total: summary.reduce((acc, curr) => acc + curr.totalMilk, 0),
-			labels, // for charts
-			data,   // for charts
-		});
-	} catch (error) {
-		console.error('❌ Error fetching yearly summary:', error);
-		res.status(500).json({ message: 'Error fetching yearly summary' });
 	}
 };

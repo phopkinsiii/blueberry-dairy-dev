@@ -7,9 +7,10 @@ const ScrollingBanner = () => {
 					organic fruits, and more!
 				</span>
 				<span className='px-8'>
-					🫐 Our First Market Day in Knoxville is June 21!
+					🫐 Fresh blueberries are here! Find us at the Knoxville Farmers Market
+					on Saturdays, June through September!
 				</span>
-				<span className='px-8'>🥛 We now sell pet milk!</span>
+				<span className='px-8'>🥛 We now sell pet milk! Scroll down for buying options.</span>
 			</div>
 		</div>
 	);

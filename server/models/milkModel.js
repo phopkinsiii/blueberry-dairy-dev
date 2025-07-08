@@ -1,4 +1,3 @@
-// server/models/milkModel.js
 import mongoose from 'mongoose';
 
 const milkSchema = new mongoose.Schema(
@@ -12,15 +11,21 @@ const milkSchema = new mongoose.Schema(
 			type: Date,
 			required: [true, 'Date and time of milking is required'],
 		},
-		amount: { type: Number, required: true }, // e.g., in ounces or liters
-		notes: { type: String },
+		amount: {
+			type: Number,
+			required: true,
+		},
+		notes: {
+			type: String,
+		},
 		testDay: { type: Boolean, default: false },
 	},
-
 	{ timestamps: true }
 );
-milkSchema.index({ recordedAt: -1 }); // for sorting by date
-milkSchema.index({ goat: 1 }); // for filtering by goat
+
+// ✅ Indexes for performance
+milkSchema.index({ recordedAt: -1 });
+milkSchema.index({ goat: 1 });
 
 const MilkRecord = mongoose.model('MilkRecord', milkSchema);
 

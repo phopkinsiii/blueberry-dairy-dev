@@ -119,7 +119,7 @@ const GoatForm = ({
 								type='text'
 								value={award}
 								onChange={(e) => handleAwardsChange(index, e.target.value)}
-								className={inputClass}
+								className='w-full border px-3 py-2 mb-2 rounded'
 								placeholder={`Award ${index + 1}`}
 							/>
 						))}
@@ -250,7 +250,7 @@ const GoatForm = ({
 					<div>
 						<label className={labelClass}>Or Enter Image URLs</label>
 						{imageUrls.map((url, index) => (
-							<div key={index} className='mb-2 border border-white border-rounded'>
+							<div key={index} className='mb-2'>
 								<input
 									type='text'
 									value={url}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // client/src/pages/admin/goats/ManageGoats.jsx
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,22 +17,21 @@ const ManageGoats = () => {
 		navigate(`/admin/edit-goat/${goatId}`);
 	};
 
-const handleDelete = async (goatId) => {
-	const confirmDelete = window.confirm(
-		'Are you sure you want to delete this goat?'
-	);
-	if (confirmDelete) {
-		try {
-			const user = JSON.parse(localStorage.getItem('user'));
-			const token = user?.token;
-			await deleteGoat(goatId, token);
-			await fetchGoats(); // 🔁 Refresh the goat list
-		} catch (err) {
-			console.error('Failed to delete goat:', err);
+	const handleDelete = async (goatId) => {
+		const confirmDelete = window.confirm(
+			'Are you sure you want to delete this goat?'
+		);
+		if (confirmDelete) {
+			try {
+				const user = JSON.parse(localStorage.getItem('user'));
+				const token = user?.token;
+				await deleteGoat(goatId, token);
+				await fetchGoats(); // 🔁 Refresh the goat list
+			} catch (err) {
+				console.error('Failed to delete goat:', err);
+			}
 		}
-	}
-};
-
+	};
 
 	return (
 		<div className='max-w-6xl mx-auto px-4 py-8'>
@@ -47,7 +47,7 @@ const handleDelete = async (goatId) => {
 						<img
 							src={goat.images?.[0]}
 							alt={goat.nickname}
-							className="w-full object-cover aspect-[4/3]rounded shadow-lg"
+							className='w-full object-cover aspect-[4/3]rounded shadow-lg'
 						/>
 						<h3 className='text-xl font-semibold text-gray-900'>
 							{goat.nickname}

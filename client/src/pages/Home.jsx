@@ -19,13 +19,13 @@ import {
 } from '../utils/seoUtils.js';
 import FarmMap from '../components/FarmMap.jsx';
 import Footer from '../components/Footer.jsx';
-import PurchaseOptionsCard from './PurchaseOptionsCard.jsx';
+import PurchaseOptionsCard from '../components/PurchaseOptionsCard.jsx';
 
 const Home = () => {
 	return (
 		<>
 			<SeoHead
-				title='Welcome to Blueberry Dairy at Hickory Cove Orchards| Regenerative Farm in Tennessee'
+				title='Welcome to Blueberry Dairy at Hickory Cove Orchards | Regenerative Farm in Tennessee'
 				description={truncate(
 					stripHtml(
 						'Welcome to Blueberry Dairy at Hickory Cove Orchards, a regenerative farm in Tennessee producing raw goat milk, organic fruits, and healthy, nourishing food.'
@@ -39,6 +39,7 @@ const Home = () => {
 				)}
 				{...getSeoTimestamps([])}
 			/>
+
 			<>
 				<JsonLd data={getWebSiteSchema()} />
 				<JsonLd data={getOrganizationSchema()} />
@@ -48,6 +49,7 @@ const Home = () => {
 					])}
 				/>
 			</>
+
 			{/* Hidden on small screens */}
 			<ScrollingBanner />
 

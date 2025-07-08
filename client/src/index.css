@@ -369,7 +369,6 @@ img.blog-image.resizable {
 	object-fit: cover;
 	border-radius: 0.5rem;
 	display: block;
-	color: white;
 }
 
 .delete-btn {

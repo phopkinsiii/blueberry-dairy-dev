@@ -4,12 +4,6 @@
 
 import dotenv from 'dotenv-flow';
 dotenv.config({ node_env: process.env.NODE_ENV }); // 👈 force load
-// console.log('🧪 NODE_ENV:', process.env.NODE_ENV);
-// console.log('🔐 STRIPE_SECRET_KEY starts with:', process.env.STRIPE_SECRET_KEY?.slice(0, 10));
-// console.log('📬 STRIPE_WEBHOOK_SECRET starts with:', process.env.STRIPE_WEBHOOK_SECRET?.slice(0, 10));
-
-// Debug check
-// console.log('🔑 STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY);
 
 import { validateEnv } from './config/validateEnv.js';
 validateEnv(); // ✅ Ensure all env variables are defined
@@ -91,7 +85,7 @@ app.use(
 
 // ✅ Global JSON parser
 app.use(express.json());
-
+app.set('trust proxy', 1);
 // ✅ Apply global rate limiter to all /api routes
 app.use('/api', globalLimiter);
 
@@ -108,9 +102,9 @@ app.use('/api/uploads', uploadRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/goats', goatRoutes);
-app.use('/api/testimonials', testimonialRoutes);
 
 app.use('/api/milk', milkRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 
 // ✅ Fallback for unknown API routes
 app.use((req, res) => {
@@ -121,14 +115,9 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ✅ Start server
+connectDB();
 
-// ✅ At bottom of server.js:
-if (process.env.NODE_ENV !== 'test') {
-	await connectDB();
-	const port = process.env.PORT || 5050;
-	app.listen(port, () => {
-		console.log(`✅ Server listening on port ${port}`);
-	});
-}
-
-export default app; // 👈 EXPORT app for Vitest
+const port = process.env.PORT || 5050;
+app.listen(port, () => {
+	console.log(`✅ Server listening on port ${port}`);
+});

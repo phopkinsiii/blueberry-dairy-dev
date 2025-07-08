@@ -1,19 +1,17 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*
+*.env
+
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Runtime data
-pids
 *.pid
-*.seed
-*.pid.lock
-
-# Dependency directories
-node_modules/
-jspm_packages/
 
 # Optional npm cache directory
 .npm
@@ -24,14 +22,17 @@ jspm_packages/
 # Optional REPL history
 .node_repl_history
 
-# Environment variables
-.env*
+# Mac specific files
+.DS_Store
 
-# Build output
+# Vscode
+.vscode/
+
+# Coverage
+coverage/
+
+# Build
 dist/
-.next/
+build/
 
-# Coverage reports
-coverage
-
-/backups/
+*.zip

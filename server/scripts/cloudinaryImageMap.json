@@ -1,0 +1,10 @@
+[
+	{
+		"file": "product_images/milk1.jpg",
+		"url": "https://res.cloudinary.com/yourcloud/image/upload/v123456/product_images/milk1.jpg"
+	},
+	{
+		"file": "product_images/blueberries.jpg",
+		"url": "https://res.cloudinary.com/yourcloud/image/upload/v123456/product_images/blueberries.jpg"
+	}
+]

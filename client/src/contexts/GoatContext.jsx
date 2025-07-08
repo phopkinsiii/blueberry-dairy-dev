@@ -82,14 +82,15 @@ export const GoatProvider = ({ children }) => {
 	}, []);
 
 	const fetchBucks = useCallback(async () => {
-		dispatch({ type: 'SET_LOADING' });
-		try {
-			const data = await getBucks();
-			dispatch({ type: 'SET_GOATS', payload: data });
-		} catch (err) {
-			dispatch({ type: 'SET_ERROR', payload: err.message });
-		}
-	}, []);
+	dispatch({ type: 'SET_LOADING' });
+	try {
+		const data = await getBucks();
+		dispatch({ type: 'SET_GOATS', payload: data });
+	} catch (err) {
+		dispatch({ type: 'SET_ERROR', payload: err.message });
+	}
+}, []);
+
 
 	return (
 		<GoatContext.Provider

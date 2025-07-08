@@ -12,11 +12,12 @@ import {
 	getDefaultImage,
 	getSeoTimestamps,
 } from '../../utils/seoUtils';
-import JsonLd from '../../components/JsonLd';
 import {
 	getBreadcrumbSchema,
 	getGoatListSchema,
 } from '../../utils/schemaGenerators';
+import JsonLd from '../../components/JsonLd';
+
 
 const goatsBreadcrumbItems = [
 	{
@@ -70,7 +71,6 @@ const GoatList = () => {
 					)}
 				/>
 			</>
-
 			<AnimatedBackgroundWrapper
 				backgroundImageUrl='https://res.cloudinary.com/dzhweqopn/image/upload/v1750104760/pasture_wood_fence_cropped_fulgdk.jpg'
 				blurAmount={8}

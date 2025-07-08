@@ -1,14 +1,11 @@
 // @ts-nocheck
-//client/src/pages/admin/products/AdminOrders.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FunnelIcon } from '@heroicons/react/24/outline';
 import axiosInstance from '../../../api/axios';
 import { format } from 'date-fns';
 import { useProductContext } from '../../../contexts/ProductContext';
-
 import OrderFiltersModal from '../../../components/products/OrderFiltersModal';
-import TooltipIconButton from '../../../components/common/TooltipIconButton';
 
 export default function AdminOrders() {
 	const [orders, setOrders] = useState([]);
@@ -52,7 +49,7 @@ export default function AdminOrders() {
 			});
 			setOrders((prev) =>
 				prev.map((o) =>
-					o._id === orderId ? { ...o, fulfilled: res.data.isFulfilled } : o
+					o._id === orderId ? { ...o, isFulfilled: res.data.isFulfilled } : o
 				)
 			);
 		} catch (err) {
@@ -80,7 +77,7 @@ export default function AdminOrders() {
 	});
 
 	const sortedOrders = [...filteredOrders]
-		.filter((order) => showFulfilled || !order.fulfilled)
+		.filter((order) => showFulfilled || !order.isFulfilled)
 		.sort((a, b) => {
 			if (!sortKey) return 0;
 
@@ -126,12 +123,14 @@ export default function AdminOrders() {
 				/>
 			</div>
 			<div className='flex justify-between items-center mb-4'>
-				<TooltipIconButton
+				<button
 					onClick={() => setIsModalOpen(true)}
-					icon={FunnelIcon}
-					tooltipText='Filter Orders'
-					aria-label="Filter Orders"
-				/>
+					className='flex items-center border border-black text-black bg-white text-sm p-2 rounded hover:bg-black hover:text-white transition'
+					title='Filter Orders'
+					aria-label='Filter Orders'
+				>
+					<FunnelIcon className='w-4 h-4' />
+				</button>
 
 				<div>
 					<button
@@ -205,15 +204,15 @@ export default function AdminOrders() {
 									<td className='px-4 py-3'>
 										<button
 											onClick={() =>
-												toggleFulfilled(order._id, order.fulfilled)
+												toggleFulfilled(order._id, order.isFulfilled)
 											}
 											className={`px-3 py-1 rounded-full text-sm font-medium ${
-												order.fulfilled
+												order.isFulfilled
 													? 'bg-green-200 text-green-900'
 													: 'bg-yellow-100 text-yellow-800'
 											}`}
 										>
-											{order.fulfilled ? 'Fulfilled' : 'Pending'}
+											{order.isFulfilled ? 'Fulfilled' : 'Pending'}
 										</button>
 									</td>
 								</tr>

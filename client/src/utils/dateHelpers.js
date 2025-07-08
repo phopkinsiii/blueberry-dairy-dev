@@ -112,7 +112,7 @@ export const getAgeInYearsAndMonths = (dob) => {
 		let years = differenceInYears(now, birthDate);
 		let months = differenceInMonths(now, birthDate) % 12;
 
-		if (birthDate > now) return 'Invalid age';
+		if (years < 0) return 'Invalid age';
 
 		const parts = [];
 		if (years > 0) parts.push(`${years} year${years > 1 ? 's' : ''}`);

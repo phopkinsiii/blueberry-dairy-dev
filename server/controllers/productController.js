@@ -156,7 +156,9 @@ export const updateProductStock = async (req, res) => {
 		} else if (typeof amountToAdd === 'number' && !isNaN(amountToAdd)) {
 			product.stock += amountToAdd;
 		} else {
-			return res.status(400).json({ message: 'No valid stock update value provided' });
+			return res
+				.status(400)
+				.json({ message: 'No valid stock update value provided' });
 		}
 
 		await product.save();
@@ -166,5 +168,3 @@ export const updateProductStock = async (req, res) => {
 		res.status(500).json({ message: err.message });
 	}
 };
-
-
