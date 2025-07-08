@@ -53,8 +53,7 @@ import MilkEntryForm from './pages/milk/MilkEntryForm.jsx';
 import EditMilkRecord from './pages/admin/milk/EditMilkRecord';
 import TestimonialsPage from './pages/TestimonialsPage.jsx';
 import AdminTestimonialsPage from './pages/admin/blog/AdminTestimonialPage.jsx';
-
-
+import UserDashboard from './pages/users/UserDashboard.jsx';
 
 function App() {
 	return (
@@ -186,7 +185,6 @@ function App() {
 							}
 						/>
 
-
 						<Route path='access-denied' element={<AccessDenied />} />
 
 						<Route path='/goats' element={<GoatList />} />
@@ -224,6 +222,14 @@ function App() {
 							element={
 								<PrivateRoute>
 									<MilkRecordsPage />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							path='/user-dashboard'
+							element={
+								<PrivateRoute>
+									<UserDashboard />
 								</PrivateRoute>
 							}
 						/>
