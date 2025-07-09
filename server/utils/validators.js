@@ -159,27 +159,23 @@ export const validateGoatData = (data) => {
 	};
 };
 
-// ✅ Validate Milk Record
-
 export const validateMilkRecord = async (data, isUpdate = false) => {
 	const errors = [];
 
-	// Only require fields if not updating
-	if (!isUpdate || data.goatId !== undefined) {
-		if (!data.goatId || typeof data.goatId !== 'string') {
-			errors.push('Valid goat ID is required.');
-		}
-	}
-
-	if (!isUpdate || data.recordedAt !== undefined) {
-		if (!data.recordedAt || isNaN(Date.parse(data.recordedAt))) {
-			errors.push('Valid date (recordedAt) is required.');
-		}
-	}
-
 	if (!isUpdate || data.amount !== undefined) {
-		if (typeof data.amount !== 'number' || data.amount <= 0) {
-			errors.push('Milk amount must be a positive number.');
+		if (
+			typeof data.amount !== 'number' ||
+			data.amount <= 0 ||
+			data.amount > 10
+		) {
+			errors.push(
+				'Milk amount must be a positive number and no more than 10 pounds.'
+			);
+		} else {
+			const tenthsPrecision = /^\d+(\.\d)?$/;
+			if (!tenthsPrecision.test(data.amount.toString())) {
+				errors.push('Milk amount must be in tenths of a pound (e.g., 6.3).');
+			}
 		}
 	}
 

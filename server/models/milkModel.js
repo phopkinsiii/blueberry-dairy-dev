@@ -26,6 +26,7 @@ const milkSchema = new mongoose.Schema(
 // ✅ Indexes for performance
 milkSchema.index({ recordedAt: -1 });
 milkSchema.index({ goat: 1 });
+milkSchema.index({ goat: 1, recordedAt: -1 }); 
 
 const MilkRecord = mongoose.model('MilkRecord', milkSchema);
 

@@ -1,5 +1,7 @@
+// @ts-nocheck
 // server/controllers/milkController.js
 import MilkRecord from '../models/milkModel.js';
+import Goat from '../models/goatModel.js';
 import { validateMilkRecord } from '../utils/validators.js';
 import mongoose from 'mongoose';
 
@@ -59,6 +61,7 @@ export const getMilkRecordById = async (req, res) => {
 export const createMilkRecord = async (req, res) => {
 	const { goatId, recordedAt, amount, notes, testDay } = req.body;
 
+	// Validate milk record data (basic structure + amount limits)
 	const { isValid, errors } = await validateMilkRecord({
 		goatId,
 		recordedAt,
@@ -69,6 +72,15 @@ export const createMilkRecord = async (req, res) => {
 	}
 
 	try {
+		// ✅ Check if goat exists before creating record
+		const goat = await Goat.findById(goatId);
+		if (!goat) {
+			return res
+				.status(400)
+				.json({ message: 'Goat not found with provided ID' });
+		}
+
+		// ✅ Create and save the milk record after all validations pass
 		const newRecord = new MilkRecord({
 			goat: goatId,
 			recordedAt,
@@ -77,13 +89,15 @@ export const createMilkRecord = async (req, res) => {
 			testDay,
 		});
 
-		await newRecord.save();
-		const populated = await newRecord.populate(
+		const savedRecord = await newRecord.save();
+
+		// ✅ Populate the goat info for the response
+		const populatedRecord = await MilkRecord.findById(savedRecord._id).populate(
 			'goat',
 			'nickname registeredName gender dob'
 		);
 
-		res.status(201).json(populated);
+		res.status(201).json(populatedRecord);
 	} catch (error) {
 		console.error('❌ Error creating milk record:', error);
 		res.status(500).json({ message: 'Error creating milk record' });
@@ -94,10 +108,10 @@ export const createMilkRecord = async (req, res) => {
 // @route   PUT /api/milk/:id
 // @access  Admin only
 export const updateMilkRecord = async (req, res) => {
-	const { goatId, recordedAt, amount, notes } = req.body;
+	const { goatId, recordedAt, amount, notes, testDay } = req.body;
 
 	const { isValid, errors } = await validateMilkRecord(
-		{ goatId, recordedAt, amount },
+		{ goatId, recordedAt, amount, testDay },
 		true
 	);
 	if (!isValid) {
@@ -211,9 +225,7 @@ export const getGoatMilkSummary = async (req, res) => {
 		const records = await MilkRecord.find({ goat: goatId });
 
 		if (!records.length) {
-			return res
-				.status(404)
-				.json({ message: 'No milk records found for this goat' });
+			return res.status(200).json({ records: [], message: 'No records found' });
 		}
 
 		const yearlyData = {};
@@ -258,5 +270,62 @@ export const getGoatMilkSummary = async (req, res) => {
 	} catch (error) {
 		console.error('❌ Error generating goat milk summary:', error);
 		res.status(500).json({ message: 'Error generating goat milk summary' });
+	}
+};
+
+export const getAllTimeSummary = async (req, res) => {
+	try {
+		const allTimeSummary = await MilkRecord.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalMilk: { $sum: '$amount' },
+				},
+			},
+		]);
+
+		const totalMilk = allTimeSummary[0]?.totalMilk || 0;
+
+		res.status(200).json({
+			totalMilk,
+			summary: [{ label: 'All Time', totalMilk }],
+			labels: ['All Time'],
+			data: [totalMilk],
+		});
+	} catch (error) {
+		console.error('❌ Error fetching all-time summary:', error);
+		res.status(500).json({ message: 'Error fetching all-time summary' });
+	}
+};
+
+export const getYearlySummary = async (req, res) => {
+	try {
+		const yearlySummary = await MilkRecord.aggregate([
+			{
+				$group: {
+					_id: { year: { $year: '$recordedAt' } },
+					totalMilk: { $sum: '$amount' },
+				},
+			},
+			{ $sort: { '_id.year': 1 } },
+		]);
+
+		const summary = yearlySummary.map((item) => ({
+			year: item._id.year,
+			totalMilk: item.totalMilk,
+		}));
+
+		const labels = summary.map((item) => `${item.year}`);
+		const data = summary.map((item) => item.totalMilk);
+
+		res.status(200).json({
+			summary, // tabular data
+			total: summary.reduce((acc, curr) => acc + curr.totalMilk, 0),
+			labels, // for charts
+			data, // for charts
+		});
+	} catch (error) {
+		console.error('❌ Error fetching yearly summary:', error);
+		res.status(500).json({ message: 'Error fetching yearly summary' });
 	}
 };

@@ -8,7 +8,7 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "NODE_ENV=production node server.js",
-		"dev": "NODE_ENV=development node server.js",
+		"dev": "NODE_ENV=development nodemon server.js",
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"tree": "npx tree -I 'node_modules|.next|dist|.git|.cache' -L 4"
