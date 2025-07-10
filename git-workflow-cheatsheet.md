@@ -48,6 +48,8 @@ git checkout feature/your-feature-branch
 
 1. Make sure you're on your feature branch:
 ```bash
+git branch --show current
+If NOT feature/your-feature-branch change to it.
 git checkout feature/your-feature-branch
 ```
 
