@@ -38,7 +38,7 @@ const UserDashboard = () => {
 
 	return (
 		<div className='p-6 space-y-8'>
-			<h1 className='text-3xl text-center font-bold py-16'>Farm Dashboard</h1>
+			<h1 className='text-3xl text-center font-bold py-2'>Farming Dashboard</h1>
 
 			{loading && <Spinner />}
 
