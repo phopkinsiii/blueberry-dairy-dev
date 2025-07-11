@@ -182,7 +182,9 @@ git checkout feature/user-dashboard
 git pull origin feature/user-dashboard
 git checkout main
 git merge feature/user-dashboard
-git push origin main
+git push origin main  # Pushes back to dev repo (for backup / syncing)
+git push live main    # Pushes to production repo (triggers deploy)
+
 ```
 
 ---
