@@ -57,7 +57,7 @@ const GoatDropdown = ({ scrolled }) => {
 				aria-expanded={open}
 				aria-controls='goat-dropdown'
 			>
-				<span>Our Goats</span>
+				<span>Goats</span>
 				{open ? <IconChevronUp size={20} /> : <IconChevronDown size={20} />}
 			</button>
 

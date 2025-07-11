@@ -4,6 +4,7 @@ import axiosInstance from '../../api/axios';
 import TotalMilkCard from '../../components/users/milk/TotalMilkCard';
 import YearlyMilkBarChart from '../../components/users/milk/YearlyMilkBarChart';
 import MilkSummaryByGoat from '../../components/users/milk/MilkSummaryByGoat';
+import MilkSummaryByYear from '../../components/users/milk/MilkSummaryByYear';
 import Spinner from '../../components/Spinner';
 import { toast } from 'react-toastify';
 
@@ -12,6 +13,7 @@ const UserDashboard = () => {
 	const [yearlyData, setYearlyData] = useState([]);
 	const [allTimeTotal, setAllTimeTotal] = useState(null);
 	const [milkByGoatData, setMilkByGoatData] = useState([]);
+	const [selectedYear, setSelectedYear] = useState('all'); // ✅ Shared state
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -24,7 +26,7 @@ const UserDashboard = () => {
 
 				setYearlyData(yearRes.data.summary);
 				setAllTimeTotal(allTimeRes.data.totalMilk);
-				setMilkByGoatData(goatRes.data); // ✅ Set goat summary data
+				setMilkByGoatData(goatRes.data);
 			} catch (error) {
 				console.error(error);
 				toast.error('Failed to fetch dashboard data');
@@ -45,8 +47,22 @@ const UserDashboard = () => {
 			{!loading && (
 				<>
 					<TotalMilkCard totalMilk={allTimeTotal} />
-					<YearlyMilkBarChart data={yearlyData} />
-					<MilkSummaryByGoat data={milkByGoatData} />
+					<YearlyMilkBarChart
+						data={yearlyData}
+						selectedYear={selectedYear}
+						onYearChange={setSelectedYear}
+					/>
+
+					<MilkSummaryByYear
+						data={yearlyData}
+						selectedYear={selectedYear}
+						onYearChange={setSelectedYear}
+					/>
+					<MilkSummaryByGoat
+						data={milkByGoatData}
+						selectedYear={selectedYear}
+						onYearChange={setSelectedYear}
+					/>
 				</>
 			)}
 		</div>

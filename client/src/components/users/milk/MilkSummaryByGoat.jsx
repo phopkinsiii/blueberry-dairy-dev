@@ -1,22 +1,26 @@
-import { useState } from 'react';
+import YearDropdown from "../../YearDropdown";
 
-const MilkSummaryByGoat = ({ data }) => {
-	const [selectedYear, setSelectedYear] = useState('all');
+const MilkSummaryByGoat = ({ data, selectedYear, onYearChange }) => {
+	console.log('MilkSummaryByGoat data:', data); // ✅ Debug log
 
 	if (!data?.length) {
 		return <p className='italic text-gray-500'>No data available for goats.</p>;
 	}
 
-	// Get unique years from data
-	const uniqueYears = [...new Set(data.map((item) => item._id.year))].sort(
-		(a, b) => b - a
-	);
+	// Safely extract unique years (with defensive check)
+	const uniqueYears = [
+		...new Set(
+			data
+				.map((item) => item._id?.year)
+				.filter((year) => year !== undefined && year !== null)
+		),
+	].sort((a, b) => b - a);
 
-	// Filtered data based on selected year
+	// Filter data based on selected year
 	const filteredData =
 		selectedYear === 'all'
 			? data
-			: data.filter((item) => item._id.year === parseInt(selectedYear));
+			: data.filter((item) => item._id?.year === parseInt(selectedYear));
 
 	return (
 		<div className='bg-white rounded shadow p-4'>
@@ -24,24 +28,11 @@ const MilkSummaryByGoat = ({ data }) => {
 				Milk Production by Goat (Yearly)
 			</h2>
 
-			<div className='mb-4'>
-				<label htmlFor='yearFilter' className='mr-2 font-medium'>
-					Select Year:
-				</label>
-				<select
-					id='yearFilter'
-					value={selectedYear}
-					onChange={(e) => setSelectedYear(e.target.value)}
-					className='border rounded px-2 py-1'
-				>
-					<option value='all'>All Years</option>
-					{uniqueYears.map((year) => (
-						<option key={year} value={year}>
-							{year}
-						</option>
-					))}
-				</select>
-			</div>
+			<YearDropdown
+				years={uniqueYears}
+				selectedYear={selectedYear}
+				onChange={onYearChange}
+			/>
 
 			<div className='overflow-x-auto'>
 				<table className='w-full border'>
@@ -55,9 +46,11 @@ const MilkSummaryByGoat = ({ data }) => {
 					<tbody>
 						{filteredData.map((item, idx) => (
 							<tr key={idx}>
-								<td className='border p-2'>{item._id.year}</td>
+								<td className='border p-2'>{item._id?.year || 'N/A'}</td>
 								<td className='border p-2'>{item.goatNickname}</td>
-								<td className='border p-2'>{item.total.toFixed(2)}</td>
+								<td className='border p-2'>
+									{item.total?.toFixed(2) ?? '0.00'}
+								</td>
 							</tr>
 						))}
 					</tbody>

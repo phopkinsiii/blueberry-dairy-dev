@@ -5,6 +5,7 @@ import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import AuthButton from './AuthButton';
 import UserGreeting from './UserGreeting';
 import AdminDropdown from './AdminDropdown';
+import UserDropdown from './users/UserDropdown';
 import GoatDropdown from './goats/GoatDropdown';
 import MobileGoatDropdown from './goats/MobileGoatDropdown';
 import FarmDropdown from './farm/FarmDropdown';
@@ -21,6 +22,7 @@ const StickyNavbar = () => {
 		0
 	);
 	const isAdmin = userState.user?.role === 'admin';
+	const isUser = userState.user?.role === 'user' || isAdmin;
 
 	const [scrolled, setScrolled] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +36,7 @@ const StickyNavbar = () => {
 	const navigation = [
 		{ name: 'Home', href: '/' },
 		// { name: 'About', href: '/our-farm' }, // moved to dropdown
-		{ name: 'Our Products', href: '/products' },
+		{ name: 'Products', href: '/products' },
 		{ name: 'Blog', href: '/blog' },
 		{ name: 'Forum', href: '/forum' },
 		{ name: 'Contact', href: '/contact' },
@@ -145,6 +147,11 @@ const StickyNavbar = () => {
 						{isAdmin && (
 							<div className='hidden md:block'>
 								<AdminDropdown scrolled={scrolled} />
+							</div>
+						)}
+						{isUser && (
+							<div className='hidden md:block'>
+								<UserDropdown />
 							</div>
 						)}
 						<div className='hidden md:block'>
