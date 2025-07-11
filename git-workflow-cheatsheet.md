@@ -81,7 +81,7 @@ git push origin feature/your-feature-branch
 
 ---
 
-### ✅ Step 2 — Push Feature Branch to Live Repo
+### ✅ Step 2 — Push Feature Branch to Live Repo-still in Dev feature branch.
 
 **Terminal Location:** Still in Dev app (`blueberry-dairy-dev` folder)
 
@@ -128,7 +128,8 @@ git checkout main
 5. Merge your feature branch into `main`:
 
 ```bash
-git merge feature/your-feature-branch
+git merge feature/your-feature-branch --no-edit
+
 ```
 
 6. Push the updated `main` branch to GitHub (this triggers Render deployment):
