@@ -52,10 +52,10 @@ export default function Accessibility() {
 								href='mailto:info@blueberrydairy.com'
 								className='text-indigo-400 hover:underline'
 							>
-								info@blueberrydairy.com
+								phopkins1757@gmail.com
 							</a>
 						</li>
-						<li>Phone: (123) 456-7890</li>
+						<li>Phone: (423) 293-4487</li>
 					</ul>
 
 					<p className='text-gray-400 text-sm'>Last updated: May 2025</p>
